@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Identity;
 
 namespace TheBugTrucker.Models
 {
+    /// <summary>
+    /// BTUser == Bug Trucker User
+    /// </summary>
     public class BTUser : IdentityUser
     {
         [Required]
