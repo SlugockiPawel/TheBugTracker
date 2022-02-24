@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using Humanizer;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -79,6 +80,20 @@ namespace TheBugTrucker.Areas.Identity.Pages.Account
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
+
+
+            /// <summary>
+            ///     Below is a custom code to accomodate properties from custom application user => BTUser class
+            /// </summary>
+
+            [Required]
+            [Display(Name = "First Name")]
+            public string FirstName { get; set; }
+
+            [Required]
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
+
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -159,7 +174,13 @@ namespace TheBugTrucker.Areas.Identity.Pages.Account
         {
             try
             {
-                return Activator.CreateInstance<BTUser>();
+                // return Activator.CreateInstance<BTUser>();
+                var user = Activator.CreateInstance<BTUser>();
+
+                user.FirstName = Input.FirstName;
+                user.LastName = Input.LastName;
+
+                return user;
             }
             catch
             {
