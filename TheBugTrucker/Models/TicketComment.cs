@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace TheBugTrucker.Models
 {
@@ -8,14 +9,16 @@ namespace TheBugTrucker.Models
 
         [DisplayName("Member Comment")] public string Comment { get; set; } = default!;
 
-        [DisplayName("Date")] public DateTimeOffset Created { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayName("Date")] 
+        public DateTimeOffset Created { get; set; }
 
         [DisplayName("Ticket")] public int TicketId { get; set; }
 
         [DisplayName("Team Member")] public string UserId { get; set; } = default!;
 
         // Navigation properties
-        public virtual Ticket Ticket { get; set; }
+        public virtual Ticket Ticket { get; set; } = default!;
         public virtual BTUser User { get; set; } = default!;
     }
 }

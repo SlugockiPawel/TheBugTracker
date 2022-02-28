@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace TheBugTrucker.Models
 {
@@ -14,14 +15,16 @@ namespace TheBugTrucker.Models
 
         [DisplayName("Current")] public int NewValue { get; set; } = default!;
 
-        [DisplayName("Date Modified")] public DateTimeOffset Created { get; set; }
+        [DisplayName("Date Modified")]
+        [DataType(DataType.Date)]
+        public DateTimeOffset Created { get; set; }
         [DisplayName("Description of Change")] public string Description { get; set; } = default!;
 
         [DisplayName("Team Member")] public string UserId { get; set; } = default!;
 
 
         // Navigation Properties
-        public virtual Ticket Ticket { get; set; }
+        public virtual Ticket Ticket { get; set; } = default!;
         public virtual BTUser User { get; set; } = default!;
     }
 }

@@ -11,7 +11,9 @@ namespace TheBugTrucker.Models
 
         [DisplayName("Ticket")] public int TicketId { get; set; }
 
-        [DisplayName("File Date")] public DateTimeOffset Created { get; set; }
+        [DataType(DataType.Date)]
+        [DisplayName("File Date")] 
+        public DateTimeOffset Created { get; set; }
 
         [DisplayName("Team Member")] public string UserId { get; set; } = default!;
         [DisplayName("File Description")] public string Description { get; set; } = default!;
@@ -23,11 +25,11 @@ namespace TheBugTrucker.Models
         [DisplayName("File Name")] public string FileName { get; set; } = default!;
         public byte[] FileData { get; set; } = default!;
 
-        [DisplayName("FIle Extension")] public string FileContentType { get; set; } = default!;
+        [DisplayName("File Extension")] public string FileContentType { get; set; } = default!;
 
 
-// Navigation Properties
-        public virtual Ticket Ticket { get; set; }
+        // Navigation Properties
+        public virtual Ticket Ticket { get; set; } = default!;
         public virtual BTUser User { get; set; } = default!;
     }
 }
