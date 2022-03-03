@@ -39,7 +39,6 @@ namespace TheBugTrucker.Models
         public virtual BTUser OwnerUser { get; set; } = default!;
         public virtual BTUser DeveloperUser { get; set; } = default!;
 
-        // one-to-many relationships
         public virtual ICollection<TicketComment> Comments { get; set; } = new HashSet<TicketComment>();
         public virtual ICollection<TicketAttachment> TicketAttachments { get; set; } = new HashSet<TicketAttachment>();
         public virtual ICollection<Notification> Notifications { get; set; } = new HashSet<Notification>();
