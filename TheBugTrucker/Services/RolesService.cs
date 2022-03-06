@@ -35,9 +35,9 @@ namespace TheBugTrucker.Services
             return (await _userManager.AddToRoleAsync(user, roleName)).Succeeded;
         }
 
-        public Task<bool> RemoveUserFromRoleAsync(BTUser user, string roleName)
+        public async Task<bool> RemoveUserFromRoleAsync(BTUser user, string roleName)
         {
-            throw new NotImplementedException();
+            return (await _userManager.RemoveFromRoleAsync(user, roleName)).Succeeded;
         }
 
         public Task<bool> RemoveUserFromRolesAsync(BTUser user, IEnumerable<string> roles)
