@@ -53,9 +53,10 @@ namespace TheBugTrucker.Services
             throw new NotImplementedException();
         }
 
-        public Task<string> GetRoleNameByIdAsync(string roleId)
+        public async Task<string> GetRoleNameByIdAsync(string roleId)
         {
-            throw new NotImplementedException();
+            IdentityRole? role = await _context.Roles.FindAsync(roleId);
+            return await _roleManager.GetRoleNameAsync(role!);
         }
     }
 }
