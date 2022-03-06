@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using TheBugTrucker.Data;
 using TheBugTrucker.Models;
 using TheBugTrucker.Services.Interfaces;
@@ -51,9 +52,14 @@ namespace TheBugTrucker.Services
                 .ToList();
         }
 
-        public Task<List<BTUser>> GetUsersNotInRoleAsync(string roleName, int companyId)
+        public async Task<List<BTUser>> GetUsersNotInRoleAsync(string roleName, int companyId)
         {
-            throw new NotImplementedException();
+            List<string> userIds = (await _userManager.GetUsersInRoleAsync(roleName))
+                .Select(u => u.Id).ToList();
+
+            return await _context.Users
+                .Where(u => !userIds.Contains(u.Id) && u.CompanyId == companyId)
+                .ToListAsync();
         }
 
         public async Task<string> GetRoleNameByIdAsync(string roleId)
