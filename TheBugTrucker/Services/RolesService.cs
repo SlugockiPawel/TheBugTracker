@@ -44,9 +44,11 @@ namespace TheBugTrucker.Services
             throw new NotImplementedException();
         }
 
-        public Task<List<BTUser>> GetUsersInRoleAsync(string roleName, int companyId)
+        public async Task<List<BTUser>> GetUsersInRoleAsync(string roleName, int companyId)
         {
-            throw new NotImplementedException();
+            return (await _userManager.GetUsersInRoleAsync(roleName))
+                .Where(u => u.CompanyId == companyId)
+                .ToList();
         }
 
         public Task<List<BTUser>> GetUsersNotInRoleAsync(string roleName, int companyId)
