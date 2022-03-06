@@ -20,9 +20,9 @@ namespace TheBugTrucker.Services
             _userManager = userManager;
         }
 
-        public Task<bool> IsUserInRoleAsync(BTUser user, string roleName)
+        public async Task<bool> IsUserInRoleAsync(BTUser user, string roleName)
         {
-            throw new NotImplementedException();
+            return await _userManager.IsInRoleAsync(user, roleName);
         }
 
         public async Task<IEnumerable<string>> GetUserRolesAsync(BTUser user)
