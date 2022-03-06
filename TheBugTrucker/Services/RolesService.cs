@@ -11,7 +11,8 @@ namespace TheBugTrucker.Services
         private readonly ApplicationDbContext _context;
         private readonly UserManager<BTUser> _userManager;
 
-        public RolesService(RoleManager<IdentityRole> roleManager, ApplicationDbContext context, UserManager<BTUser> userManager)
+        public RolesService(RoleManager<IdentityRole> roleManager, ApplicationDbContext context,
+            UserManager<BTUser> userManager)
         {
             _roleManager = roleManager;
             _context = context;
