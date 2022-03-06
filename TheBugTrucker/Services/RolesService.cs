@@ -28,9 +28,9 @@ namespace TheBugTrucker.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> AddUserToRoleAsync(BTUser user, string roleName)
+        public async Task<bool> AddUserToRoleAsync(BTUser user, string roleName)
         {
-            throw new NotImplementedException();
+            return (await _userManager.AddToRoleAsync(user, roleName)).Succeeded;
         }
 
         public Task<bool> RemoveUserFromRoleAsync(BTUser user, string roleName)
