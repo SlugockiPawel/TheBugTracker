@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TheBugTrucker.Data;
 using TheBugTrucker.Models;
+using TheBugTrucker.Services;
+using TheBugTrucker.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,8 @@ builder.Services.AddIdentity<BTUser, IdentityRole>(options => options.SignIn.Req
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultUI()
     .AddDefaultTokenProviders();
+
+builder.Services.AddScoped<IRolesService, RolesService>();
 
 builder.Services.AddControllersWithViews();
 
