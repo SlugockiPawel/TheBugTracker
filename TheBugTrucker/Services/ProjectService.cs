@@ -1,4 +1,5 @@
-﻿using TheBugTrucker.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using TheBugTrucker.Data;
 using TheBugTrucker.Models;
 using TheBugTrucker.Services.Interfaces;
 
@@ -69,9 +70,13 @@ namespace TheBugTrucker.Services
             throw new NotImplementedException();
         }
 
-        public Task<Project> GetProjectByIdAsync(int projectId, int companyId)
+        public async Task<Project> GetProjectByIdAsync(int projectId, int companyId)
         {
-            throw new NotImplementedException();
+            return (await _context.Projects
+                .Include(p => p.Tickets)
+                .Include(p => p.Members)
+                .Include(p => p.ProjectPriority)
+                .FirstOrDefaultAsync(p => p.Id == projectId && p.CompanyId == companyId))!;
         }
 
         public Task<List<BTUser>> GetSubmittersOnProjectAsync(int projectId)
