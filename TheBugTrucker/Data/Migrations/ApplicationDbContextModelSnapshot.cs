@@ -34,7 +34,7 @@ namespace TheBugTrucker.Data.Migrations
 
                     b.HasIndex("ProjectsId");
 
-                    b.ToTable("BTUserProject");
+                    b.ToTable("BTUserProject", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -276,7 +276,7 @@ namespace TheBugTrucker.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Companies");
+                    b.ToTable("Companies", (string)null);
                 });
 
             modelBuilder.Entity("TheBugTrucker.Models.Invite", b =>
@@ -335,7 +335,7 @@ namespace TheBugTrucker.Data.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("Invites");
+                    b.ToTable("Invites", (string)null);
                 });
 
             modelBuilder.Entity("TheBugTrucker.Models.Notification", b =>
@@ -379,7 +379,7 @@ namespace TheBugTrucker.Data.Migrations
 
                     b.HasIndex("TicketId");
 
-                    b.ToTable("Notifications");
+                    b.ToTable("Notifications", (string)null);
                 });
 
             modelBuilder.Entity("TheBugTrucker.Models.Project", b =>
@@ -432,7 +432,7 @@ namespace TheBugTrucker.Data.Migrations
 
                     b.HasIndex("ProjectPriorityId");
 
-                    b.ToTable("Projects");
+                    b.ToTable("Projects", (string)null);
                 });
 
             modelBuilder.Entity("TheBugTrucker.Models.ProjectPriority", b =>
@@ -449,7 +449,7 @@ namespace TheBugTrucker.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProjectPriorities");
+                    b.ToTable("ProjectPriorities", (string)null);
                 });
 
             modelBuilder.Entity("TheBugTrucker.Models.Ticket", b =>
@@ -512,7 +512,7 @@ namespace TheBugTrucker.Data.Migrations
 
                     b.HasIndex("TicketTypeId");
 
-                    b.ToTable("Tickets");
+                    b.ToTable("Tickets", (string)null);
                 });
 
             modelBuilder.Entity("TheBugTrucker.Models.TicketAttachment", b =>
@@ -555,7 +555,7 @@ namespace TheBugTrucker.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("TicketAttachments");
+                    b.ToTable("TicketAttachments", (string)null);
                 });
 
             modelBuilder.Entity("TheBugTrucker.Models.TicketComment", b =>
@@ -586,7 +586,7 @@ namespace TheBugTrucker.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("TicketComments");
+                    b.ToTable("TicketComments", (string)null);
                 });
 
             modelBuilder.Entity("TheBugTrucker.Models.TicketHistory", b =>
@@ -626,7 +626,7 @@ namespace TheBugTrucker.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("TicketHistories");
+                    b.ToTable("TicketHistories", (string)null);
                 });
 
             modelBuilder.Entity("TheBugTrucker.Models.TicketPriority", b =>
@@ -643,7 +643,7 @@ namespace TheBugTrucker.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TicketPriorities");
+                    b.ToTable("TicketPriorities", (string)null);
                 });
 
             modelBuilder.Entity("TheBugTrucker.Models.TicketStatus", b =>
@@ -660,7 +660,7 @@ namespace TheBugTrucker.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TicketStatuses");
+                    b.ToTable("TicketStatuses", (string)null);
                 });
 
             modelBuilder.Entity("TheBugTrucker.Models.TicketType", b =>
@@ -677,7 +677,7 @@ namespace TheBugTrucker.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TicketTypes");
+                    b.ToTable("TicketTypes", (string)null);
                 });
 
             modelBuilder.Entity("BTUserProject", b =>
