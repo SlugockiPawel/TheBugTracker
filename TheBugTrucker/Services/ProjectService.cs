@@ -74,9 +74,11 @@ namespace TheBugTrucker.Services
             throw new NotImplementedException();
         }
 
-        public Task<List<Project>> GetArchivedProjectsByCompany(int companyId)
+        public async Task<List<Project>> GetArchivedProjectsByCompany(int companyId)
         {
-            throw new NotImplementedException();
+            return (await GetAllProjectsByCompany(companyId))
+                .Where(p => p.Archived)
+                .ToList();
         }
 
         public Task<List<BTUser>> GetDevelopersOnProjectAsync(int projectId)
