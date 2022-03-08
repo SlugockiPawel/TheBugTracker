@@ -64,7 +64,7 @@ namespace TheBugTrucker.Services
                 .ToListAsync();
         }
 
-        public async Task<List<Project>> GetAllProjectsByPriority(int companyId, string priorityName)
+        public async Task<List<Project>> GetAllProjectsByPriorityAsync(int companyId, string priorityName)
         {
             return (await GetAllProjectsByCompanyAsync(companyId))
                 .Where(p => p.ProjectPriority.Name == priorityName)
