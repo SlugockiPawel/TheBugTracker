@@ -64,9 +64,11 @@ namespace TheBugTrucker.Services
                 .ToListAsync();
         }
 
-        public Task<List<Project>> GetAllProjectsByPriority(int companyId, string priorityName)
+        public async Task<List<Project>> GetAllProjectsByPriority(int companyId, string priorityName)
         {
-            throw new NotImplementedException();
+            return (await GetAllProjectsByCompanyAsync(companyId))
+                .Where(p => p.ProjectPriority.Name == priorityName)
+                .ToList();
         }
 
         public Task<List<BTUser>> GetAllProjectMembersExceptPMAsync(int projectId)
