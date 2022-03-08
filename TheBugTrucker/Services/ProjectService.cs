@@ -125,9 +125,9 @@ namespace TheBugTrucker.Services
             throw new NotImplementedException();
         }
 
-        public Task<int> LookupProjectPriorityId(string priorityName)
+        public async Task<int> LookupProjectPriorityIdAsync(string priorityName)
         {
-            throw new NotImplementedException();
+            return (await _context.ProjectPriorities.FirstOrDefaultAsync(pp => pp.Name == priorityName))!.Id;
         }
 
         public Task RemoveProjectManagerAsync(int projectId)

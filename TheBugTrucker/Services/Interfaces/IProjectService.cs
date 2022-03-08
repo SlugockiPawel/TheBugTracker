@@ -20,7 +20,7 @@ namespace TheBugTrucker.Services.Interfaces
         public Task<List<BTUser>> GetUsersNotOnProjectAsync(int projectId, int companyId);
         public Task<List<Project>> GetUserProjectsAsync(string userId);
         public Task<bool> IsUserOnProject(string userId, int projectId);
-        public Task<int> LookupProjectPriorityId(string priorityName);
+        public Task<int> LookupProjectPriorityIdAsync(string priorityName);
         public Task RemoveProjectManagerAsync(int projectId);
         public Task RemoveUsersFromProjectByRoleAsync(string role, int projectId);
         public Task RemoveUserFromProjectAsync(string userId, int projectId);
