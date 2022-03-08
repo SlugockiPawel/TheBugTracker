@@ -37,9 +37,31 @@ namespace TheBugTrucker.Services
             await _context.SaveChangesAsync();
         }
 
-        public Task<List<Project>> GetAllProjectsByCompany(int companyId)
+        public async Task<List<Project>> GetAllProjectsByCompany(int companyId)
         {
-            throw new NotImplementedException();
+            return await _context.Projects
+                .Where(p => p.CompanyId == companyId)
+                .Include(p => p.Members)
+                .Include(p => p.Tickets)
+                .ThenInclude(t => t.Comments)
+                .Include(p => p.Tickets)
+                .ThenInclude(t => t.TicketStatus)
+                .Include(p => p.Tickets)
+                .ThenInclude(t => t.TicketPriority)
+                .Include(p => p.Tickets)
+                .ThenInclude(t => t.TicketType)
+                .Include(p => p.ProjectPriority)
+                .Include(p => p.Tickets)
+                .ThenInclude(t => t.TicketAttachments)
+                .Include(p => p.Tickets)
+                .ThenInclude(t => t.History)
+                .Include(p => p.Tickets)
+                .ThenInclude(t => t.DeveloperUser)
+                .Include(p => p.Tickets)
+                .ThenInclude(t => t.OwnerUser)
+                .Include(p => p.Tickets)
+                .ThenInclude(t => t.Notifications)
+                .ToListAsync();
         }
 
         public Task<List<Project>> GetAllProjectsByPriority(int companyId, string priorityName)
