@@ -37,7 +37,7 @@ namespace TheBugTrucker.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Project>> GetAllProjectsByCompany(int companyId)
+        public async Task<List<Project>> GetAllProjectsByCompanyAsync(int companyId)
         {
             return await _context.Projects
                 .Where(p => p.CompanyId == companyId)
@@ -76,7 +76,7 @@ namespace TheBugTrucker.Services
 
         public async Task<List<Project>> GetArchivedProjectsByCompany(int companyId)
         {
-            return (await GetAllProjectsByCompany(companyId))
+            return (await GetAllProjectsByCompanyAsync(companyId))
                 .Where(p => p.Archived)
                 .ToList();
         }

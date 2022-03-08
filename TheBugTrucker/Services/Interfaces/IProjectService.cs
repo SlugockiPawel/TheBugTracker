@@ -8,7 +8,7 @@ namespace TheBugTrucker.Services.Interfaces
         public Task<bool> AddProjectManagerAsync(string userId, int projectId);
         public Task<bool> AddUserToProjectAsync(string userId, int projectId);
         public Task ArchiveProjectAsync(Project project);
-        public Task<List<Project>> GetAllProjectsByCompany(int companyId);
+        public Task<List<Project>> GetAllProjectsByCompanyAsync(int companyId);
         public Task<List<Project>> GetAllProjectsByPriority(int companyId, string priorityName);
         public Task<List<BTUser>> GetAllProjectMembersExceptPMAsync(int projectId);
         public Task<List<Project>> GetArchivedProjectsByCompany(int companyId);
