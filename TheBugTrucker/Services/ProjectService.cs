@@ -40,7 +40,7 @@ namespace TheBugTrucker.Services
         public async Task<List<Project>> GetAllProjectsByCompanyAsync(int companyId)
         {
             return await _context.Projects
-                .Where(p => p.CompanyId == companyId)
+                .Where(p => p.CompanyId == companyId && !p.Archived)
                 .Include(p => p.Members)
                 .Include(p => p.Tickets)
                 .ThenInclude(t => t.Comments)
