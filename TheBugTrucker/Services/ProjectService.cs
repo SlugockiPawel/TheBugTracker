@@ -122,9 +122,12 @@ namespace TheBugTrucker.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> IsUserOnProject(string userId, int projectId)
+        public async Task<bool> IsUserOnProjectAsync(string userId, int projectId)
         {
-            throw new NotImplementedException();
+            return (await _context.Projects
+                    .Include(p => p.Members)
+                    .FirstOrDefaultAsync(p => p.Id == projectId))!
+                .Members.Any(m => m.Id == userId);
         }
 
         public async Task<int> LookupProjectPriorityIdAsync(string priorityName)
