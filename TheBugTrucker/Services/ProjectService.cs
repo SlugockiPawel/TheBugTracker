@@ -138,9 +138,39 @@ namespace TheBugTrucker.Services
             throw new NotImplementedException();
         }
 
-        public Task<List<Project>> GetUserProjectsAsync(string userId)
+        public async Task<List<Project>> GetUserProjectsAsync(string userId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return (await _context.Users
+                    .Include(u => u.Projects)
+                    .ThenInclude(p => p.Company)
+                    .Include(u => u.Projects)
+                    .ThenInclude(p => p.Members)
+                    .Include(u => u.Projects)
+                    .ThenInclude(p => p.Tickets)
+                    .Include(u => u.Projects)
+                    .ThenInclude(p => p.Tickets)
+                    .ThenInclude(t => t.DeveloperUser)
+                    .Include(u => u.Projects)
+                    .ThenInclude(p => p.Tickets)
+                    .ThenInclude(t => t.OwnerUser)
+                    .Include(u => u.Projects)
+                    .ThenInclude(p => p.Tickets)
+                    .ThenInclude(t => t.TicketPriority)
+                    .Include(u => u.Projects)
+                    .ThenInclude(p => p.Tickets)
+                    .ThenInclude(t => t.TicketStatus)
+                    .Include(u => u.Projects)
+                    .ThenInclude(p => p.Tickets)
+                    .ThenInclude(t => t.TicketType)
+                    .FirstOrDefaultAsync(u => u.Id == userId))!.Projects.ToList();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error getting user projects list: {e}, message: {e.Message}");
+                throw;
+            }
         }
 
         public async Task<bool> IsUserOnProjectAsync(string userId, int projectId)
@@ -174,7 +204,7 @@ namespace TheBugTrucker.Services
 
             if (await IsUserOnProjectAsync(userId, projectId))
             {
-                Project project =  (await _context.Projects.FirstOrDefaultAsync(p => p.Id == projectId))!;
+                Project project = (await _context.Projects.FirstOrDefaultAsync(p => p.Id == projectId))!;
 
                 try
                 {
