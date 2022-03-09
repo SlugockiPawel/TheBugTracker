@@ -207,9 +207,24 @@ namespace TheBugTrucker.Services
             throw new NotImplementedException();
         }
 
-        public Task RemoveUsersFromProjectByRoleAsync(string role, int projectId)
+        public async Task RemoveUsersFromProjectByRoleAsync(string role, int projectId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                List<BTUser> members = await GetProjectMembersByRoleAsync(projectId, role);
+                Project project = (await _context.Projects.FirstOrDefaultAsync(p => p.Id == projectId))!;
+
+                foreach (BTUser user in members)
+                {
+                    project.Members.Remove(user);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error removing user from the project: {e}, message: {e.Message}");
+                throw;
+            }
         }
 
         public async Task RemoveUserFromProjectAsync(string userId, int projectId)
