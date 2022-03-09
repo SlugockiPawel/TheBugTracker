@@ -8,10 +8,12 @@ namespace TheBugTrucker.Services
     public class ProjectService : IProjectService
     {
         private readonly ApplicationDbContext _context;
+        private readonly IRolesService _rolesService;
 
-        public ProjectService(ApplicationDbContext context)
+        public ProjectService(ApplicationDbContext context, IRolesService rolesService)
         {
             _context = context;
+            _rolesService = rolesService;
         }
 
         public async Task AddNewProjectAsync(Project project)
@@ -114,9 +116,23 @@ namespace TheBugTrucker.Services
             throw new NotImplementedException();
         }
 
-        public Task<List<BTUser>> GetProjectMembersByRoleAsync(int projectId, string role)
+        public async Task<List<BTUser>> GetProjectMembersByRoleAsync(int projectId, string role)
         {
-            throw new NotImplementedException();
+            Project project = (await _context.Projects
+                .Include(p => p.Members)
+                .FirstOrDefaultAsync(p => p.Id == projectId))!;
+
+            List<BTUser> members = new();
+
+            foreach (BTUser member in project.Members)
+            {
+                if (await _rolesService.IsUserInRoleAsync(member, role))
+                {
+                    members.Add(member);
+                }
+            }
+
+            return members;
         }
 
         public async Task<Project> GetProjectByIdAsync(int projectId, int companyId)
