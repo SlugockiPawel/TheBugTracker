@@ -162,9 +162,11 @@ namespace TheBugTrucker.Services
             throw new NotImplementedException();
         }
 
-        public Task<List<BTUser>> GetUsersNotOnProjectAsync(int projectId, int companyId)
+        public async Task<List<BTUser>> GetUsersNotOnProjectAsync(int projectId, int companyId)
         {
-            throw new NotImplementedException();
+            return await _context.Users
+                .Where(u => u.Projects.All(p => p.Id != projectId) && u.CompanyId == companyId)
+                .ToListAsync();
         }
 
         public async Task<List<Project>> GetUserProjectsAsync(string userId)
