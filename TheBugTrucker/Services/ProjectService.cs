@@ -1,6 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Collections.ObjectModel;
+using Microsoft.EntityFrameworkCore;
 using TheBugTrucker.Data;
 using TheBugTrucker.Models;
+using TheBugTrucker.Models.Enums;
 using TheBugTrucker.Services.Interfaces;
 
 namespace TheBugTrucker.Services
@@ -94,9 +96,20 @@ namespace TheBugTrucker.Services
                 .ToList();
         }
 
-        public Task<List<BTUser>> GetAllProjectMembersExceptPMAsync(int projectId)
+        public async Task<List<BTUser>> GetAllProjectMembersExceptPMAsync(int projectId)
         {
-            throw new NotImplementedException();
+            IEnumerable<BTUser> teamMembers = new Collection<BTUser>();
+
+            foreach (string name in Enum.GetNames(typeof(Roles)))
+            {
+                if (name != Roles.ProjectManager.ToString())
+                {
+                    List<BTUser> list = await GetProjectMembersByRoleAsync(projectId, name);
+                    teamMembers = teamMembers.Concat(list);
+                }
+            }
+
+            return teamMembers.ToList();
         }
 
         public async Task<List<Project>> GetArchivedProjectsByCompany(int companyId)
