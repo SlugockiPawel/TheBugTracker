@@ -29,23 +29,22 @@ namespace TheBugTrucker.Services
         {
             BTUser user = (await _context.Users.FirstOrDefaultAsync(u => u.Id == userId))!;
 
-            if (user is not null)
-            {
-                var project = await _context.Projects.FirstOrDefaultAsync(p => p.Id == projectId);
+            if (user is null) return false;
 
-                if (!await IsUserOnProjectAsync(userId, projectId))
+            Project project = (await _context.Projects.FirstOrDefaultAsync(p => p.Id == projectId))!;
+
+            if (!await IsUserOnProjectAsync(userId, projectId))
+            {
+                try
                 {
-                    try
-                    {
-                        project!.Members.Add(user);
-                        await _context.SaveChangesAsync();
-                        return true;
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e);
-                        throw;
-                    }
+                    project.Members.Add(user);
+                    await _context.SaveChangesAsync();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($"Error during adding user to project: {e}, message: {e.Message}");
+                    throw;
                 }
             }
 
