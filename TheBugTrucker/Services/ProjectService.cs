@@ -25,9 +25,31 @@ namespace TheBugTrucker.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> AddUserToProjectAsync(string userId, int projectId)
+        public async Task<bool> AddUserToProjectAsync(string userId, int projectId)
         {
-            throw new NotImplementedException();
+            BTUser user = (await _context.Users.FirstOrDefaultAsync(u => u.Id == userId))!;
+
+            if (user is not null)
+            {
+                var project = await _context.Projects.FirstOrDefaultAsync(p => p.Id == projectId);
+
+                if (!await IsUserOnProjectAsync(userId, projectId))
+                {
+                    try
+                    {
+                        project!.Members.Add(user);
+                        await _context.SaveChangesAsync();
+                        return true;
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
+                }
+            }
+
+            return false;
         }
 
         public async Task ArchiveProjectAsync(Project project)
