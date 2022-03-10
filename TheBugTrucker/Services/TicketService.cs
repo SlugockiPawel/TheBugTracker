@@ -20,9 +20,10 @@ namespace TheBugTrucker.Services
             await _context.SaveChangesAsync();
         }
 
-        public Task UpdateTicketAsync(Ticket ticket)
+        public async Task UpdateTicketAsync(Ticket ticket)
         {
-            throw new NotImplementedException();
+            _context.Update(ticket);
+            await _context.SaveChangesAsync();
         }
 
         public Task<Ticket> GetTicketByIdAsync(int ticketId)
