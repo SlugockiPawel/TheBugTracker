@@ -32,9 +32,10 @@ namespace TheBugTrucker.Services
             return await _context.Tickets.FirstOrDefaultAsync(t => t.Id == ticketId);
         }
 
-        public Task ArchiveTicketAsync(Ticket ticket)
+        public async Task ArchiveTicketAsync(Ticket ticket)
         {
-            throw new NotImplementedException();
+            ticket.Archived = true;
+            await UpdateTicketAsync(ticket);
         }
 
         public Task AssignTicketAsync(int ticketId, string userId)
