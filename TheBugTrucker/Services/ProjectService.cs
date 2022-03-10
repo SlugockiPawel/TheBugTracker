@@ -124,9 +124,21 @@ namespace TheBugTrucker.Services
             throw new NotImplementedException();
         }
 
-        public Task<BTUser> GetProjectManagerAsync(int projectId)
+        public async Task<BTUser> GetProjectManagerAsync(int projectId)
         {
-            throw new NotImplementedException();
+            Project project = await _context.Projects
+                .Include(p => p.Members)
+                .FirstOrDefaultAsync(p => p.Id == projectId);
+
+            foreach (BTUser member in project?.Members)
+            {
+                if (await _rolesService.IsUserInRoleAsync(member, Roles.ProjectManager.ToString()))
+                {
+                    return member;
+                }
+            }
+
+            return null;
         }
 
         public async Task<List<BTUser>> GetProjectMembersByRoleAsync(int projectId, string role)
