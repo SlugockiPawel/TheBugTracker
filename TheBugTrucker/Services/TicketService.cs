@@ -1,4 +1,5 @@
-﻿using TheBugTrucker.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using TheBugTrucker.Data;
 using TheBugTrucker.Models;
 using TheBugTrucker.Services.Interfaces;
 
@@ -26,9 +27,9 @@ namespace TheBugTrucker.Services
             await _context.SaveChangesAsync();
         }
 
-        public Task<Ticket> GetTicketByIdAsync(int ticketId)
+        public async Task<Ticket> GetTicketByIdAsync(int ticketId)
         {
-            throw new NotImplementedException();
+            return await _context.Tickets.FirstOrDefaultAsync(t => t.Id == ticketId);
         }
 
         public Task ArchiveTicketAsync(Ticket ticket)
