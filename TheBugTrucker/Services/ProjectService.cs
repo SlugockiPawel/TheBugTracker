@@ -229,9 +229,28 @@ namespace TheBugTrucker.Services
             return (await _context.ProjectPriorities.FirstOrDefaultAsync(pp => pp.Name == priorityName))!.Id;
         }
 
-        public Task RemoveProjectManagerAsync(int projectId)
+        public async Task RemoveProjectManagerAsync(int projectId)
         {
-            throw new NotImplementedException();
+            Project project =
+                await _context.Projects
+                    .Include(p => p.Members)
+                    .FirstOrDefaultAsync(p => p.Id == projectId);
+
+            try
+            {
+                foreach (BTUser member in project?.Members)
+                {
+                    if (await _rolesService.IsUserInRoleAsync(member, Roles.ProjectManager.ToString()))
+                    {
+                        await RemoveUserFromProjectAsync(member.Id, projectId);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
         }
 
         public async Task RemoveUsersFromProjectByRoleAsync(string role, int projectId)
