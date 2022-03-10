@@ -24,9 +24,32 @@ namespace TheBugTrucker.Services
             await _context.SaveChangesAsync();
         }
 
-        public Task<bool> AddProjectManagerAsync(string userId, int projectId)
+        public async Task<bool> AddProjectManagerAsync(string userId, int projectId)
         {
-            throw new NotImplementedException();
+            BTUser currentPM = await GetProjectManagerAsync(projectId);
+
+            if (currentPM is not null)
+            {
+                try
+                {
+                     await RemoveProjectManagerAsync(projectId);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    return false;
+                }
+            }
+
+            try
+            {
+                return await AddUserToProjectAsync(userId, projectId);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+            }
         }
 
         public async Task<bool> AddUserToProjectAsync(string userId, int projectId)
