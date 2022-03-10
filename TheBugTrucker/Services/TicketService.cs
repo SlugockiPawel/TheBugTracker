@@ -1,13 +1,23 @@
-﻿using TheBugTrucker.Models;
+﻿using TheBugTrucker.Data;
+using TheBugTrucker.Models;
 using TheBugTrucker.Services.Interfaces;
 
 namespace TheBugTrucker.Services
 {
     public class TicketService : ITicketService
     {
-        public Task AddNewTicketAsync(Ticket ticket)
+        private readonly ApplicationDbContext _context;
+
+
+        public TicketService(ApplicationDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
+        }
+
+        public async Task AddNewTicketAsync(Ticket ticket)
+        {
+            await _context.Tickets.AddAsync(ticket);
+            await _context.SaveChangesAsync();
         }
 
         public Task UpdateTicketAsync(Ticket ticket)
