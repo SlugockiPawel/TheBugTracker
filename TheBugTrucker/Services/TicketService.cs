@@ -88,9 +88,61 @@ namespace TheBugTrucker.Services
         }
         
 
-        public Task<List<Ticket>> GetAllTicketsByPriorityAsync(int companyId, string priorityName)
+        public async Task<List<Ticket>> GetAllTicketsByPriorityAsync(int companyId, string priorityName)
         {
-            throw new NotImplementedException();
+            // int? priorityId = await LookupTicketPriorityIdAsync(priorityName);
+
+            try
+            {
+                // TODO the one below is mine, check if it work as desired- if not, the other one below should work
+                return await _context.Tickets
+                    .Where(t => t.Project.Company.Id == companyId && t.TicketPriority.Name == priorityName)
+                    .Include(t => t.TicketAttachments)
+                    .Include(t => t.Comments)
+                    .Include(t => t.DeveloperUser)
+                    .Include(t => t.History)
+                    .Include(t => t.OwnerUser)
+                    .Include(t => t.TicketPriority)
+                    .Include(t => t.TicketStatus)
+                    .Include(t => t.TicketType)
+                    .Include(t => t.Project)
+                    .ToListAsync();
+
+                // return await _context.Projects
+                //     .Where(c => c.CompanyId == companyId)
+                //     .SelectMany(p => p.Tickets)
+                //     .Include(t => t.TicketAttachments)
+                //     .Include(t => t.Comments)
+                //     .Include(t => t.DeveloperUser)
+                //     .Include(t => t.History)
+                //     .Include(t => t.OwnerUser)
+                //     .Include(t => t.TicketPriority)
+                //     .Include(t => t.TicketStatus)
+                //     .Include(t => t.TicketType)
+                //     .Include(t => t.Project)
+                //     .Where(t => t.TicketPriority.Name == priorityName)
+                //     .ToListAsync();
+
+                // return await _context.Projects
+                //     .Where(c => c.CompanyId == companyId)
+                //     .SelectMany(p => p.Tickets)
+                //     .Include(t => t.TicketAttachments)
+                //     .Include(t => t.Comments)
+                //     .Include(t => t.DeveloperUser)
+                //     .Include(t => t.History)
+                //     .Include(t => t.OwnerUser)
+                //     .Include(t => t.TicketPriority)
+                //     .Include(t => t.TicketStatus)
+                //     .Include(t => t.TicketType)
+                //     .Include(t => t.Project)
+                //     .Where(t => t.TicketPriorityId == priorityId)
+                //     .ToListAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
         }
 
         public Task<List<Ticket>> GetAllTicketsByStatusAsync(int companyId, string statusName)
