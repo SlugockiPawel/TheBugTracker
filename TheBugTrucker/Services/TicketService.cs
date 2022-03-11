@@ -129,9 +129,17 @@ namespace TheBugTrucker.Services
             }
         }
 
-        public Task<int?> LookupTicketTypeIdAsync(string typeName)
+        public async Task<int?> LookupTicketTypeIdAsync(string typeName)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return (await _context.TicketTypes.FirstOrDefaultAsync(tt => tt.Name == typeName))?.Id;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
         }
     }
 }
