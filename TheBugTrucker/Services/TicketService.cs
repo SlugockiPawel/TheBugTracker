@@ -103,9 +103,17 @@ namespace TheBugTrucker.Services
             throw new NotImplementedException();
         }
 
-        public Task<int?> LookupTicketPriorityIdAsync(string priorityName)
+        public async Task<int?> LookupTicketPriorityIdAsync(string priorityName)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return (await _context.TicketPriorities.FirstOrDefaultAsync(tp => tp.Name == priorityName))?.Id;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
         }
 
         public Task<int?> LookupTicketStatusIdAsync(string statusName)
