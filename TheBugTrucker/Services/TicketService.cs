@@ -9,11 +9,15 @@ namespace TheBugTrucker.Services
     public class TicketService : ITicketService
     {
         private readonly ApplicationDbContext _context;
+        private readonly IRolesService _rolesService;
+        private readonly IProjectService _projectService;
 
 
-        public TicketService(ApplicationDbContext context)
+        public TicketService(ApplicationDbContext context, IRolesService rolesService, IProjectService projectService)
         {
             _context = context;
+            _rolesService = rolesService;
+            _projectService = projectService;
         }
 
         public async Task AddNewTicketAsync(Ticket ticket)
@@ -300,9 +304,47 @@ namespace TheBugTrucker.Services
             }
         }
 
-        public Task<List<Ticket>> GetTicketsByUserIdAsync(string userId, int companyId)
+        public async Task<List<Ticket>> GetTicketsByUserIdAsync(string userId, int companyId)
         {
-            throw new NotImplementedException();
+            BTUser user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            List<Ticket> tickets = new();
+
+            try
+            {
+                if (await _rolesService.IsUserInRoleAsync(user, Roles.Admin.ToString()))
+                {
+                    tickets = (await _projectService.GetAllProjectsByCompanyAsync(companyId))
+                        .SelectMany(p => p.Tickets)
+                        .ToList();
+                }
+                else if (await _rolesService.IsUserInRoleAsync(user, Roles.Developer.ToString()))
+                {
+                    tickets = (await _projectService.GetAllProjectsByCompanyAsync(companyId))
+                        .SelectMany(p => p.Tickets)
+                        .Where(t => t.DeveloperUserId == userId)
+                        .ToList();
+                }
+                else if (await _rolesService.IsUserInRoleAsync(user, Roles.Submitter.ToString()))
+                {
+                    tickets = (await _projectService.GetAllProjectsByCompanyAsync(companyId))
+                        .SelectMany(p => p.Tickets)
+                        .Where(t => t.OwnerUserId == userId)
+                        .ToList();
+                }
+                else if (await _rolesService.IsUserInRoleAsync(user, Roles.ProjectManager.ToString()))
+                {
+                    tickets = (await _projectService.GetUserProjectsAsync(userId))
+                        .SelectMany(p => p.Tickets)
+                        .ToList();
+                }
+
+                return tickets;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
         }
 
         public Task<List<Ticket>> GetProjectTicketsByRoleAsync(string role, string userId, int projectId, int companyId)
