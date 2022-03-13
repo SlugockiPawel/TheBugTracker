@@ -397,9 +397,20 @@ namespace TheBugTrucker.Services
             }
         }
 
-        public Task<List<Ticket>> GetProjectTicketsByRoleAsync(string role, string userId, int projectId, int companyId)
+        public async Task<List<Ticket>> GetProjectTicketsByRoleAsync(string role, string userId, int projectId,
+            int companyId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return (await GetTicketsByRoleAsync(role, userId, companyId))
+                    .Where(t => t.ProjectId == projectId)
+                    .ToList();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
         }
 
         public Task<List<Ticket>> GetProjectTicketsByStatusAsync(string statusName, int companyId, int projectId)
