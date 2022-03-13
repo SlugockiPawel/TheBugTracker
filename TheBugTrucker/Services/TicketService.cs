@@ -43,9 +43,33 @@ namespace TheBugTrucker.Services
             await UpdateTicketAsync(ticket);
         }
 
-        public Task AssignTicketAsync(int ticketId, string userId)
+        public async Task AssignTicketAsync(int ticketId, string userId)
         {
-            throw new NotImplementedException();
+            Ticket ticket = await _context.Tickets.FirstOrDefaultAsync(t => t.Id == ticketId);
+
+            try
+            {
+                if (ticket is not null)
+                {
+                    try
+                    {
+                        ticket.DeveloperUserId = userId;
+                        // TODO revisit code below when assinging Tickets
+                        ticket.TicketStatusId = (await LookupTicketStatusIdAsync("Development")).Value;
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        throw;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
         }
 
         public async Task<List<Ticket>> GetArchivedTicketsAsync(int companyId)
