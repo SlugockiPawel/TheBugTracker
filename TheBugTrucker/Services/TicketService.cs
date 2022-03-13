@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Data;
 using TheBugTrucker.Data;
 using TheBugTrucker.Models;
 using TheBugTrucker.Models.Enums;
@@ -413,9 +414,19 @@ namespace TheBugTrucker.Services
             }
         }
 
-        public Task<List<Ticket>> GetProjectTicketsByStatusAsync(string statusName, int companyId, int projectId)
+        public async Task<List<Ticket>> GetProjectTicketsByStatusAsync(string statusName, int companyId, int projectId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return (await GetAllTicketsByStatusAsync(companyId, statusName))
+                    .Where(t => t.ProjectId == projectId)
+                    .ToList();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
         }
 
         public Task<List<Ticket>> GetProjectTicketsByPriorityAsync(string priorityName, int companyId, int projectId)
