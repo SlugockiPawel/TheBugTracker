@@ -273,9 +273,25 @@ namespace TheBugTrucker.Services
             }
         }
 
-        public Task<BTUser> GetTicketDeveloperAsync(int ticketId)
+        public async Task<BTUser> GetTicketDeveloperAsync(int ticketId, int companyId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Ticket ticket = (await GetAllTicketsByCompanyAsync(companyId))
+                    .FirstOrDefault(t => t.Id == ticketId);
+
+                if (ticket?.DeveloperUserId is not null)
+                {
+                    return ticket.DeveloperUser;
+                }
+
+                return new BTUser();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
         }
 
         public async Task<List<Ticket>> GetTicketsByRoleAsync(string role, string userId, int companyId)
