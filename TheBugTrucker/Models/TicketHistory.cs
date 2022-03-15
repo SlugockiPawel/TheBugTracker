@@ -9,11 +9,11 @@ namespace TheBugTrucker.Models
 
         [DisplayName("Ticket")] public int TicketId { get; set; } = default!;
 
-        [DisplayName("Updated Item")] public int Property { get; set; } = default!;
+        [DisplayName("Updated Item")] public string Property { get; set; } = default!;
 
-        [DisplayName("Previous")] public int OldValue { get; set; } = default!;
+        [DisplayName("Previous")] public string OldValue { get; set; } = default!;
 
-        [DisplayName("Current")] public int NewValue { get; set; } = default!;
+        [DisplayName("Current")] public string NewValue { get; set; } = default!;
 
         [DisplayName("Date Modified")]
         [DataType(DataType.Date)]
