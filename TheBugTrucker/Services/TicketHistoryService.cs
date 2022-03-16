@@ -1,4 +1,5 @@
-﻿using TheBugTrucker.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using TheBugTrucker.Data;
 using TheBugTrucker.Models;
 using TheBugTrucker.Services.Interfaces;
 
@@ -171,9 +172,38 @@ namespace TheBugTrucker.Services
             throw new NotImplementedException();
         }
 
-        public Task<List<TicketHistory>> GetCompanyTicketsHistoriesAsync(int companyId)
+        public async Task<List<TicketHistory>> GetCompanyTicketsHistoriesAsync(int companyId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                // return await _context.TicketHistories
+                //          .Include(th => th.User)
+                //          .Include(th => th.Ticket.History)
+                //          .Include(th => th.Ticket)
+                //          .Include(th => th.Ticket.Project)
+                //          .Where(th => th.Ticket.Project.CompanyId == companyId)
+                //          .ToListAsync();
+
+                //TODO compare the below and above implementations and see if we have same results - one is going down from Companies, another is going up from TicketHistory
+
+                List<Project> projects = (await _context.Companies
+                        .Include(c => c.Projects)
+                        .ThenInclude(p => p.Tickets)
+                        .ThenInclude(t => t.History)
+                        .ThenInclude(h => h.User)
+                        .FirstOrDefaultAsync(c => c.Id == companyId))?.Projects.ToList();
+
+                List<Ticket> tickets = projects.SelectMany(p => p.Tickets).ToList();
+
+                List<TicketHistory> ticketHistories = tickets.SelectMany(t => t.History).ToList();
+
+                return ticketHistories;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
         }
     }
 }
