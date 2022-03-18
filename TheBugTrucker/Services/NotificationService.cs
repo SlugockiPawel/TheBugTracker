@@ -81,9 +81,22 @@ namespace TheBugTrucker.Services
             throw new NotImplementedException();
         }
 
-        public Task SendEmailNotificationAsync(Notification notification, string emailSubject)
+        public async Task<bool> SendEmailNotificationAsync(Notification notification, string emailSubject)
         {
-            throw new NotImplementedException();
+            BTUser? user = await _context.Users.FirstOrDefaultAsync(u => u.Id == notification.RecipientId);
+
+            if (user is null) return false;
+
+            try
+            {
+                await _emailSender.SendEmailAsync(user.Email, emailSubject, notification.Message);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
         }
     }
 }

@@ -9,6 +9,6 @@ namespace TheBugTrucker.Services.Interfaces
         Task<List<Notification>> GetReceivedNotificationsAsync(string userId);
         Task SendEmailNotificationsByRoleAsync(Notification notification, int companyId, string role);
         Task SendMembersEmailNotificationsAsync(Notification notification, List<BTUser> members);
-        Task SendEmailNotificationAsync(Notification notification, string emailSubject);
+        Task<bool> SendEmailNotificationAsync(Notification notification, string emailSubject);
     }
 }
