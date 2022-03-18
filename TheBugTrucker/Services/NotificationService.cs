@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.EntityFrameworkCore;
 using TheBugTrucker.Data;
 using TheBugTrucker.Models;
 using TheBugTrucker.Services.Interfaces;
@@ -10,6 +11,7 @@ namespace TheBugTrucker.Services
         private readonly ApplicationDbContext _context;
         private readonly IEmailSender _emailSender;
         private readonly IRolesService _rolesService;
+
         public NotificationService(ApplicationDbContext context, IEmailSender emailSender, IRolesService rolesService)
         {
             _context = context;
@@ -36,9 +38,23 @@ namespace TheBugTrucker.Services
             throw new NotImplementedException();
         }
 
-        public Task<List<Notification>> GetReceivedNotificationsAsync(string userId)
+        public async Task<List<Notification>> GetReceivedNotificationsAsync(string userId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _context.Notifications
+                    .Include(n => n.Recipient)
+                    .Include(n => n.Sender)
+                    .Include(n => n.Ticket)
+                    .ThenInclude(t => t.Project)
+                    .Where(n => n.RecipientId == userId)
+                    .ToListAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
         }
 
         public Task SendEmailNotificationsByRoleAsync(Notification notification, int companyId, string role)
