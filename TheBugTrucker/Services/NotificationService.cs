@@ -33,9 +33,23 @@ namespace TheBugTrucker.Services
             }
         }
 
-        public Task<List<Notification>> GetSentNotificationsAsync(string userId)
+        public async Task<List<Notification>> GetSentNotificationsAsync(string userId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _context.Notifications
+                    .Include(n => n.Recipient)
+                    .Include(n => n.Sender)
+                    .Include(n => n.Ticket)
+                    .ThenInclude(t => t.Project)
+                    .Where(n => n.SenderId == userId)
+                    .ToListAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
         }
 
         public async Task<List<Notification>> GetReceivedNotificationsAsync(string userId)
