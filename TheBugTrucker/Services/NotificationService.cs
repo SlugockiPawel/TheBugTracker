@@ -90,9 +90,21 @@ namespace TheBugTrucker.Services
             }
         }
 
-        public Task SendMembersEmailNotificationsAsync(Notification notification, List<BTUser> members)
+        public async Task SendMembersEmailNotificationsAsync(Notification notification, List<BTUser> members)
         {
-            throw new NotImplementedException();
+            try
+            {
+                foreach (BTUser member in members)
+                {
+                    notification.RecipientId = member.Id;
+                    await SendEmailNotificationAsync(notification, notification.Title);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
         }
 
         public async Task<bool> SendEmailNotificationAsync(Notification notification, string emailSubject)
