@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using TheBugTrucker.Data;
 using TheBugTrucker.Models;
@@ -25,6 +26,8 @@ builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<ITicketService, TicketService>();
 builder.Services.AddScoped<ITicketHistoryService, TicketHistoryService>();
 builder.Services.AddScoped<IEmailSender, EmailService>();
+
+builder.Services.Configure<MailSettings>(builder.Configuration.GetSection("EmailSettings"));
 
 builder.Services.AddControllersWithViews();
 
