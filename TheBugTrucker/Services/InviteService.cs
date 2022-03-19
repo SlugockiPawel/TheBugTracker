@@ -1,4 +1,5 @@
-﻿using TheBugTrucker.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using TheBugTrucker.Data;
 using TheBugTrucker.Models;
 using TheBugTrucker.Services.Interfaces;
 
@@ -13,9 +14,26 @@ namespace TheBugTrucker.Services
             _context = context;
         }
 
-        public Task<bool> AcceptInviteAsync(Guid? token, string userId, int companyId)
+        public async Task<bool> AcceptInviteAsync(Guid? token, string userId, int companyId)
         {
-            throw new NotImplementedException();
+            Invite invite = await _context.Invites.FirstOrDefaultAsync(i => i.CompanyToken == token);
+
+            if (invite is null) return false;
+
+            try
+            {
+                // app is accepting this invite, therefore it is no longer in use -> is invalid going forward
+                invite.IsValid = false;
+                invite.Invitee.Id = userId;
+                await _context.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
         }
 
         public Task AddNewInviteAsync(Invite invite)
