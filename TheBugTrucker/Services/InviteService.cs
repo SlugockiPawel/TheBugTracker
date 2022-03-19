@@ -36,9 +36,18 @@ namespace TheBugTrucker.Services
             }
         }
 
-        public Task AddNewInviteAsync(Invite invite)
+        public async Task AddNewInviteAsync(Invite invite)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await _context.Invites.AddAsync(invite);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
         }
 
         public Task<bool> AnyInviteAsync(Guid token, string email, int companyId)
