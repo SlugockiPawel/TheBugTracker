@@ -101,9 +101,24 @@ namespace TheBugTrucker.Services
             }
         }
 
-        public Task<bool> ValidateInviteCodeAsync(Guid? token)
+        /// <summary>
+        /// Check if invite is valid based on two conditions:
+        /// 1: Invite was issued less than 7 days ago
+        /// 2: Invite is still valid (was not used before)
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public async Task<bool> ValidateInviteCodeAsync(Guid? token)
         {
-            throw new NotImplementedException();
+            if (token is null) return false;
+
+            Invite invite = await _context.Invites.FirstOrDefaultAsync(i => i.CompanyToken == token);
+
+            if (invite is null) return false;
+
+            return (DateTime.Now - invite.InviteDate.DateTime).TotalDays <= 7
+                   &&
+                   invite.IsValid;
         }
     }
 }
