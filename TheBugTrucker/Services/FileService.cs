@@ -41,7 +41,15 @@ namespace TheBugTrucker.Services
 
         public string GetFileIcon(string file)
         {
-            throw new NotImplementedException();
+            string fileImage = "default";
+
+            if (!string.IsNullOrWhiteSpace(fileImage))
+            {
+                fileImage = Path.GetExtension(file).Replace(".", "");
+                return $"/img/png/{fileImage}.png";
+            }
+
+            return fileImage;
         }
 
         public string FormatFileSize(long bytes)
