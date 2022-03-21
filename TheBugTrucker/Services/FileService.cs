@@ -13,7 +13,16 @@ namespace TheBugTrucker.Services
 
         public string ConvertByteArrayToFile(byte[] fileData, string extension)
         {
-            throw new NotImplementedException();
+            try
+            {
+                string imageBase64Data = Convert.ToBase64String(fileData);
+                return string.Format($"data:{extension};base64,{imageBase64Data}");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
         }
 
         public string GetFileIcon(string file)
