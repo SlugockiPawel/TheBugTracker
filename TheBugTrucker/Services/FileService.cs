@@ -6,9 +6,23 @@ namespace TheBugTrucker.Services
     {
         private readonly string[] suffixes = { "Bytes", "KB", "MB", "GB", "TB", "PB" };
 
-        public Task<byte[]> ConvertFileToByteArrayAsync(IFormFile file)
+        public async Task<byte[]> ConvertFileToByteArrayAsync(IFormFile file)
         {
-            throw new NotImplementedException();
+            try
+            {
+                MemoryStream memoryStream = new();
+                await file.CopyToAsync(memoryStream);
+                byte[] byteFile = memoryStream.ToArray();
+                memoryStream.Close();
+                await memoryStream.DisposeAsync();
+
+                return byteFile;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
         }
 
         public string ConvertByteArrayToFile(byte[] fileData, string extension)
