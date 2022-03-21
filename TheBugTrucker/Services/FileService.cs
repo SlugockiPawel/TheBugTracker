@@ -4,6 +4,8 @@ namespace TheBugTrucker.Services
 {
     public class FileService : IFileService
     {
+        private readonly string[] suffixes = { "Bytes", "KB", "MB", "GB", "TB", "PB" };
+
         public Task<byte[]> ConvertFileToByteArrayAsync(IFormFile file)
         {
             throw new NotImplementedException();
