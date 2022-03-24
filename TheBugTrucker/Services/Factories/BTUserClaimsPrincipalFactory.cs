@@ -5,9 +5,9 @@ using TheBugTrucker.Models;
 
 namespace TheBugTrucker.Services.Factories
 {
-    public class UserClaimsPrincipalFactory : UserClaimsPrincipalFactory<BTUser, IdentityRole>
+    public class BTUserClaimsPrincipalFactory : UserClaimsPrincipalFactory<BTUser, IdentityRole>
     {
-        public UserClaimsPrincipalFactory(UserManager<BTUser> userManager, RoleManager<IdentityRole> roleManager,
+        public BTUserClaimsPrincipalFactory(UserManager<BTUser> userManager, RoleManager<IdentityRole> roleManager,
             IOptions<IdentityOptions> options)
             : base(userManager, roleManager, options)
         {
