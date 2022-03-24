@@ -67,8 +67,8 @@ namespace TheBugTrucker.Data
             await SeedDefaultTicketStatusAsync(dbContextSvc);
             await SeedDefaultTicketPriorityAsync(dbContextSvc);
             await SeedDefaultProjectPriorityAsync(dbContextSvc);
-            await SeedDefautProjectsAsync(dbContextSvc);
-            await SeedDefautTicketsAsync(dbContextSvc);
+            await SeedDefaultProjectsAsync(dbContextSvc);
+            await SeedDefaultTicketsAsync(dbContextSvc);
         }
 
 
@@ -143,7 +143,7 @@ namespace TheBugTrucker.Data
             }
         }
 
-        private static async Task SeedDefautProjectsAsync(ApplicationDbContext context)
+        private static async Task SeedDefaultProjectsAsync(ApplicationDbContext context)
         {
 //Get project priority Ids
             int priorityLow = context.ProjectPriorities.FirstOrDefault(p => p.Name == ProjectPriorities.Low.ToString())
@@ -167,7 +167,10 @@ namespace TheBugTrucker.Data
                             "Single page html, css & javascript page.  Serves as a landing page for candidates and contains a bio and links to all applications and challenges.",
                         StartDate = new DateTime(2021, 8, 20),
                         EndDate = new DateTime(2021, 8, 20).AddMonths(1),
-                        ProjectPriorityId = priorityLow
+                        ProjectPriorityId = priorityLow,
+                        FileName = "",
+                        FileData = Array.Empty<byte>(),
+                        FileContentType = "",
                     },
                     new Project()
                     {
@@ -177,7 +180,10 @@ namespace TheBugTrucker.Data
                             "Candidate's custom built web application using .Net Core with MVC, a postgres database and hosted in a heroku container.  The app is designed for the candidate to create, update and maintain a live blog site.",
                         StartDate = new DateTime(2021, 8, 20),
                         EndDate = new DateTime(2021, 8, 20).AddMonths(4),
-                        ProjectPriorityId = priorityMedium
+                        ProjectPriorityId = priorityMedium,
+                        FileName = "",
+                        FileData = Array.Empty<byte>(),
+                        FileContentType = "",
                     },
                     new Project()
                     {
@@ -187,7 +193,10 @@ namespace TheBugTrucker.Data
                             "A custom designed .Net Core application with postgres database.  The application is a multi tennent application designed to track issue tickets' progress.  Implemented with identity and user roles, Tickets are maintained in projects which are maintained by users in the role of projectmanager.  Each project has a team and team members.",
                         StartDate = new DateTime(2021, 8, 20),
                         EndDate = new DateTime(2021, 8, 20).AddMonths(6),
-                        ProjectPriorityId = priorityHigh
+                        ProjectPriorityId = priorityHigh,
+                        FileName = "",
+                        FileData = Array.Empty<byte>(),
+                        FileContentType = "",
                     },
                     new Project()
                     {
@@ -197,17 +206,23 @@ namespace TheBugTrucker.Data
                             "A custom designed .Net Core application with postgres database.  This is an application to serve as a rolodex of contacts for a given user..",
                         StartDate = new DateTime(2021, 8, 20),
                         EndDate = new DateTime(2021, 8, 20).AddMonths(2),
-                        ProjectPriorityId = priorityLow
+                        ProjectPriorityId = priorityLow,
+                        FileName = "",
+                        FileData = Array.Empty<byte>(),
+                        FileContentType = "",
                     },
                     new Project()
                     {
                         CompanyId = company1Id,
                         Name = "Build a Movie Information Web Application",
                         Description =
-                            "A custom designed .Net Core application with postgres database.  An API based application allows users to input and import movie posters and details including cast and crew information.",
+                    "A custom designed .Net Core application with postgres database.  An API based application allows users to input and import movie posters and details including cast and crew information.",
                         StartDate = new DateTime(2021, 8, 20),
                         EndDate = new DateTime(2021, 8, 20).AddMonths(3),
-                        ProjectPriorityId = priorityHigh
+                        ProjectPriorityId = priorityHigh,
+                        FileName = "",
+                        FileData = Array.Empty<byte>(),
+                        FileContentType = "",
                     }
                 };
 
@@ -233,10 +248,13 @@ namespace TheBugTrucker.Data
             {
                 UserName = "slugocki.pawel@gmail.com",
                 Email = "slugocki.pawel@gmail.com",
-                FirstName = "Bill",
-                LastName = "Appuser",
+                FirstName = "Pawel",
+                LastName = "Slugocki",
                 EmailConfirmed = true,
-                CompanyId = company1Id
+                CompanyId = company1Id,
+                AvatarFormName = "",
+                AvatarContentType = "",
+                AvatarFileData = Array.Empty<byte>(),
             };
             try
             {
@@ -264,7 +282,10 @@ namespace TheBugTrucker.Data
                 FirstName = "Steve",
                 LastName = "Appuser",
                 EmailConfirmed = true,
-                CompanyId = company2Id
+                CompanyId = company2Id,
+                AvatarFormName = "",
+                AvatarContentType = "",
+                AvatarFileData = Array.Empty<byte>(),
             };
             try
             {
@@ -293,7 +314,10 @@ namespace TheBugTrucker.Data
                 FirstName = "John",
                 LastName = "Appuser",
                 EmailConfirmed = true,
-                CompanyId = company1Id
+                CompanyId = company1Id,
+                AvatarFormName = "",
+                AvatarContentType = "",
+                AvatarFileData = Array.Empty<byte>(),
             };
             try
             {
@@ -322,7 +346,10 @@ namespace TheBugTrucker.Data
                 FirstName = "Jane",
                 LastName = "Appuser",
                 EmailConfirmed = true,
-                CompanyId = company2Id
+                CompanyId = company2Id,
+                AvatarFormName = "",
+                AvatarContentType = "",
+                AvatarFileData = Array.Empty<byte>(),
             };
             try
             {
@@ -351,7 +378,10 @@ namespace TheBugTrucker.Data
                 FirstName = "Elon",
                 LastName = "Appuser",
                 EmailConfirmed = true,
-                CompanyId = company1Id
+                CompanyId = company1Id,
+                AvatarFormName = "",
+                AvatarContentType = "",
+                AvatarFileData = Array.Empty<byte>(),
             };
             try
             {
@@ -380,7 +410,10 @@ namespace TheBugTrucker.Data
                 FirstName = "James",
                 LastName = "Appuser",
                 EmailConfirmed = true,
-                CompanyId = company2Id
+                CompanyId = company2Id,
+                AvatarFormName = "",
+                AvatarContentType = "",
+                AvatarFileData = Array.Empty<byte>(),
             };
             try
             {
@@ -409,7 +442,10 @@ namespace TheBugTrucker.Data
                 FirstName = "Natasha",
                 LastName = "Appuser",
                 EmailConfirmed = true,
-                CompanyId = company1Id
+                CompanyId = company1Id,
+                AvatarFormName = "",
+                AvatarContentType = "",
+                AvatarFileData = Array.Empty<byte>(),
             };
             try
             {
@@ -438,7 +474,10 @@ namespace TheBugTrucker.Data
                 FirstName = "Carol",
                 LastName = "Appuser",
                 EmailConfirmed = true,
-                CompanyId = company2Id
+                CompanyId = company2Id,
+                AvatarFormName = "",
+                AvatarContentType = "",
+                AvatarFileData = Array.Empty<byte>(),
             };
             try
             {
@@ -467,7 +506,10 @@ namespace TheBugTrucker.Data
                 FirstName = "Tony",
                 LastName = "Appuser",
                 EmailConfirmed = true,
-                CompanyId = company1Id
+                CompanyId = company1Id,
+                AvatarFormName = "",
+                AvatarContentType = "",
+                AvatarFileData = Array.Empty<byte>(),
             };
             try
             {
@@ -495,7 +537,10 @@ namespace TheBugTrucker.Data
                 FirstName = "Bruce",
                 LastName = "Appuser",
                 EmailConfirmed = true,
-                CompanyId = company2Id
+                CompanyId = company2Id,
+                AvatarFormName = "",
+                AvatarContentType = "",
+                AvatarFileData = Array.Empty<byte>(),
             };
             try
             {
@@ -523,7 +568,10 @@ namespace TheBugTrucker.Data
                 FirstName = "Scott",
                 LastName = "Appuser",
                 EmailConfirmed = true,
-                CompanyId = company1Id
+                CompanyId = company1Id,
+                AvatarFormName = "",
+                AvatarContentType = "",
+                AvatarFileData = Array.Empty<byte>(),
             };
             try
             {
@@ -552,7 +600,10 @@ namespace TheBugTrucker.Data
                 FirstName = "Sue",
                 LastName = "Appuser",
                 EmailConfirmed = true,
-                CompanyId = company2Id
+                CompanyId = company2Id,
+                AvatarFormName = "",
+                AvatarContentType = "",
+                AvatarFileData = Array.Empty<byte>(),
             };
             try
             {
@@ -583,7 +634,10 @@ namespace TheBugTrucker.Data
                 FirstName = "Demo",
                 LastName = "Admin",
                 EmailConfirmed = true,
-                CompanyId = company1Id
+                CompanyId = company1Id,
+                AvatarFormName = "",
+                AvatarContentType = "",
+                AvatarFileData = Array.Empty<byte>(),
             };
             try
             {
@@ -613,7 +667,10 @@ namespace TheBugTrucker.Data
                 FirstName = "Demo",
                 LastName = "ProjectManager",
                 EmailConfirmed = true,
-                CompanyId = company2Id
+                CompanyId = company2Id,
+                AvatarFormName = "",
+                AvatarContentType = "",
+                AvatarFileData = Array.Empty<byte>(),
             };
             try
             {
@@ -643,7 +700,10 @@ namespace TheBugTrucker.Data
                 FirstName = "Demo",
                 LastName = "Developer",
                 EmailConfirmed = true,
-                CompanyId = company2Id
+                CompanyId = company2Id,
+                AvatarFormName = "",
+                AvatarContentType = "",
+                AvatarFileData = Array.Empty<byte>(),
             };
             try
             {
@@ -673,7 +733,10 @@ namespace TheBugTrucker.Data
                 FirstName = "Demo",
                 LastName = "Submitter",
                 EmailConfirmed = true,
-                CompanyId = company2Id
+                CompanyId = company2Id,
+                AvatarFormName = "",
+                AvatarContentType = "",
+                AvatarFileData = Array.Empty<byte>(),
             };
             try
             {
@@ -703,7 +766,10 @@ namespace TheBugTrucker.Data
                 FirstName = "Demo",
                 LastName = "NewUser",
                 EmailConfirmed = true,
-                CompanyId = company2Id
+                CompanyId = company2Id,
+                AvatarFormName = "",
+                AvatarContentType = "",
+                AvatarFileData = Array.Empty<byte>(),
             };
             try
             {
@@ -837,7 +903,7 @@ namespace TheBugTrucker.Data
         }
 
 
-        private static async Task SeedDefautTicketsAsync(ApplicationDbContext context)
+        private static async Task SeedDefaultTicketsAsync(ApplicationDbContext context)
         {
             //Get project Ids
             int portfolioId = context.Projects.FirstOrDefault(p => p.Name == "Build a Personal Porfolio").Id;
@@ -883,455 +949,455 @@ namespace TheBugTrucker.Data
                     {
                         Title = "Portfolio Ticket 1", Description = "Ticket details for portfolio ticket 1",
                         Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityLow,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Portfolio Ticket 2", Description = "Ticket details for portfolio ticket 2",
-                        Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityMedium,
-                        TicketStatusId = statusNew, TicketTypeId = typeChangeRequest
-                    },
-                    new Ticket()
-                    {
-                        Title = "Portfolio Ticket 3", Description = "Ticket details for portfolio ticket 3",
-                        Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusDev, TicketTypeId = typeEnhancement
-                    },
-                    new Ticket()
-                    {
-                        Title = "Portfolio Ticket 4", Description = "Ticket details for portfolio ticket 4",
-                        Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityUrgent,
-                        TicketStatusId = statusTest, TicketTypeId = typeDefect
-                    },
-                    new Ticket()
-                    {
-                        Title = "Portfolio Ticket 5", Description = "Ticket details for portfolio ticket 5",
-                        Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityLow,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Portfolio Ticket 6", Description = "Ticket details for portfolio ticket 6",
-                        Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityMedium,
-                        TicketStatusId = statusNew, TicketTypeId = typeChangeRequest
-                    },
-                    new Ticket()
-                    {
-                        Title = "Portfolio Ticket 7", Description = "Ticket details for portfolio ticket 7",
-                        Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusDev, TicketTypeId = typeEnhancement
-                    },
-                    new Ticket()
-                    {
-                        Title = "Portfolio Ticket 8", Description = "Ticket details for portfolio ticket 8",
-                        Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityUrgent,
-                        TicketStatusId = statusTest, TicketTypeId = typeDefect
-                    },
-                    //BLOG
-                    new Ticket()
-                    {
-                        Title = "Blog Ticket 1", Description = "Ticket details for blog ticket 1",
-                        Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityLow,
-                        TicketStatusId = statusNew, TicketTypeId = typeDefect
-                    },
-                    new Ticket()
-                    {
-                        Title = "Blog Ticket 2", Description = "Ticket details for blog ticket 2",
-                        Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityMedium,
-                        TicketStatusId = statusDev, TicketTypeId = typeEnhancement
-                    },
-                    new Ticket()
-                    {
-                        Title = "Blog Ticket 3", Description = "Ticket details for blog ticket 3",
-                        Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeChangeRequest
-                    },
-                    new Ticket()
-                    {
-                        Title = "Blog Ticket 4", Description = "Ticket details for blog ticket 4",
-                        Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityUrgent,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Blog Ticket 5", Description = "Ticket details for blog ticket 5",
-                        Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityLow,
-                        TicketStatusId = statusDev, TicketTypeId = typeDefect
-                    },
-                    new Ticket()
-                    {
-                        Title = "Blog Ticket 6", Description = "Ticket details for blog ticket 6",
-                        Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityMedium,
-                        TicketStatusId = statusNew, TicketTypeId = typeEnhancement
-                    },
-                    new Ticket()
-                    {
-                        Title = "Blog Ticket 7", Description = "Ticket details for blog ticket 7",
-                        Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeChangeRequest
-                    },
-                    new Ticket()
-                    {
-                        Title = "Blog Ticket 8", Description = "Ticket details for blog ticket 8",
-                        Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityUrgent,
-                        TicketStatusId = statusDev, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Blog Ticket 9", Description = "Ticket details for blog ticket 9",
-                        Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityLow,
-                        TicketStatusId = statusNew, TicketTypeId = typeDefect
-                    },
-                    new Ticket()
-                    {
-                        Title = "Blog Ticket 10", Description = "Ticket details for blog ticket 10",
-                        Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityMedium,
-                        TicketStatusId = statusNew, TicketTypeId = typeEnhancement
-                    },
-                    new Ticket()
-                    {
-                        Title = "Blog Ticket 11", Description = "Ticket details for blog ticket 11",
-                        Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusDev, TicketTypeId = typeChangeRequest
-                    },
-                    new Ticket()
-                    {
-                        Title = "Blog Ticket 12", Description = "Ticket details for blog ticket 12",
-                        Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityUrgent,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Blog Ticket 13", Description = "Ticket details for blog ticket 13",
-                        Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityLow,
-                        TicketStatusId = statusNew, TicketTypeId = typeDefect
-                    },
-                    new Ticket()
-                    {
-                        Title = "Blog Ticket 14", Description = "Ticket details for blog ticket 14",
-                        Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityMedium,
-                        TicketStatusId = statusDev, TicketTypeId = typeEnhancement
-                    },
-                    new Ticket()
-                    {
-                        Title = "Blog Ticket 15", Description = "Ticket details for blog ticket 15",
-                        Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeChangeRequest
-                    },
-                    new Ticket()
-                    {
-                        Title = "Blog Ticket 16", Description = "Ticket details for blog ticket 16",
-                        Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityUrgent,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Blog Ticket 17", Description = "Ticket details for blog ticket 17",
-                        Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusDev, TicketTypeId = typeNewDev
-                    },
-                    //BUGTRACKER                                                                                                                         
-                    new Ticket()
-                    {
-                        Title = "Bug Tracker Ticket 1", Description = "Ticket details for bug tracker ticket 1",
-                        Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Bug Tracker Ticket 2", Description = "Ticket details for bug tracker ticket 2",
-                        Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Bug Tracker Ticket 3", Description = "Ticket details for bug tracker ticket 3",
-                        Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Bug Tracker Ticket 4", Description = "Ticket details for bug tracker ticket 4",
-                        Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Bug Tracker Ticket 5", Description = "Ticket details for bug tracker ticket 5",
-                        Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Bug Tracker Ticket 6", Description = "Ticket details for bug tracker ticket 6",
-                        Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Bug Tracker Ticket 7", Description = "Ticket details for bug tracker ticket 7",
-                        Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Bug Tracker Ticket 8", Description = "Ticket details for bug tracker ticket 8",
-                        Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Bug Tracker Ticket 9", Description = "Ticket details for bug tracker ticket 9",
-                        Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Bug Tracker Ticket 10", Description = "Ticket details for bug tracker 10",
-                        Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Bug Tracker Ticket 11", Description = "Ticket details for bug tracker 11",
-                        Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Bug Tracker Ticket 12", Description = "Ticket details for bug tracker 12",
-                        Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Bug Tracker Ticket 13", Description = "Ticket details for bug tracker 13",
-                        Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Bug Tracker Ticket 14", Description = "Ticket details for bug tracker 14",
-                        Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Bug Tracker Ticket 15", Description = "Ticket details for bug tracker 15",
-                        Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Bug Tracker Ticket 16", Description = "Ticket details for bug tracker 16",
-                        Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Bug Tracker Ticket 17", Description = "Ticket details for bug tracker 17",
-                        Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Bug Tracker Ticket 18", Description = "Ticket details for bug tracker 18",
-                        Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Bug Tracker Ticket 19", Description = "Ticket details for bug tracker 19",
-                        Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Bug Tracker Ticket 20", Description = "Ticket details for bug tracker 20",
-                        Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Bug Tracker Ticket 21", Description = "Ticket details for bug tracker 21",
-                        Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Bug Tracker Ticket 22", Description = "Ticket details for bug tracker 22",
-                        Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Bug Tracker Ticket 23", Description = "Ticket details for bug tracker 23",
-                        Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Bug Tracker Ticket 24", Description = "Ticket details for bug tracker 24",
-                        Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Bug Tracker Ticket 25", Description = "Ticket details for bug tracker 25",
-                        Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Bug Tracker Ticket 26", Description = "Ticket details for bug tracker 26",
-                        Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Bug Tracker Ticket 27", Description = "Ticket details for bug tracker 27",
-                        Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Bug Tracker Ticket 28", Description = "Ticket details for bug tracker 28",
-                        Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Bug Tracker Ticket 29", Description = "Ticket details for bug tracker 29",
-                        Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Bug Tracker Ticket 30", Description = "Ticket details for bug tracker 30",
-                        Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    //MOVIE
-                    new Ticket()
-                    {
-                        Title = "Movie Ticket 1", Description = "Ticket details for movie ticket 1",
-                        Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityLow,
-                        TicketStatusId = statusNew, TicketTypeId = typeDefect
-                    },
-                    new Ticket()
-                    {
-                        Title = "Movie Ticket 2", Description = "Ticket details for movie ticket 2",
-                        Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityMedium,
-                        TicketStatusId = statusDev, TicketTypeId = typeEnhancement
-                    },
-                    new Ticket()
-                    {
-                        Title = "Movie Ticket 3", Description = "Ticket details for movie ticket 3",
-                        Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeChangeRequest
-                    },
-                    new Ticket()
-                    {
-                        Title = "Movie Ticket 4", Description = "Ticket details for movie ticket 4",
-                        Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityUrgent,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Movie Ticket 5", Description = "Ticket details for movie ticket 5",
-                        Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityLow,
-                        TicketStatusId = statusDev, TicketTypeId = typeDefect
-                    },
-                    new Ticket()
-                    {
-                        Title = "Movie Ticket 6", Description = "Ticket details for movie ticket 6",
-                        Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityMedium,
-                        TicketStatusId = statusNew, TicketTypeId = typeEnhancement
-                    },
-                    new Ticket()
-                    {
-                        Title = "Movie Ticket 7", Description = "Ticket details for movie ticket 7",
-                        Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeChangeRequest
-                    },
-                    new Ticket()
-                    {
-                        Title = "Movie Ticket 8", Description = "Ticket details for movie ticket 8",
-                        Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityUrgent,
-                        TicketStatusId = statusDev, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Movie Ticket 9", Description = "Ticket details for movie ticket 9",
-                        Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityLow,
-                        TicketStatusId = statusNew, TicketTypeId = typeDefect
-                    },
-                    new Ticket()
-                    {
-                        Title = "Movie Ticket 10", Description = "Ticket details for movie ticket 10",
-                        Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityMedium,
-                        TicketStatusId = statusNew, TicketTypeId = typeEnhancement
-                    },
-                    new Ticket()
-                    {
-                        Title = "Movie Ticket 11", Description = "Ticket details for movie ticket 11",
-                        Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusDev, TicketTypeId = typeChangeRequest
-                    },
-                    new Ticket()
-                    {
-                        Title = "Movie Ticket 12", Description = "Ticket details for movie ticket 12",
-                        Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityUrgent,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Movie Ticket 13", Description = "Ticket details for movie ticket 13",
-                        Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityLow,
-                        TicketStatusId = statusNew, TicketTypeId = typeDefect
-                    },
-                    new Ticket()
-                    {
-                        Title = "Movie Ticket 14", Description = "Ticket details for movie ticket 14",
-                        Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityMedium,
-                        TicketStatusId = statusDev, TicketTypeId = typeEnhancement
-                    },
-                    new Ticket()
-                    {
-                        Title = "Movie Ticket 15", Description = "Ticket details for movie ticket 15",
-                        Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeChangeRequest
-                    },
-                    new Ticket()
-                    {
-                        Title = "Movie Ticket 16", Description = "Ticket details for movie ticket 16",
-                        Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityUrgent,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Movie Ticket 17", Description = "Ticket details for movie ticket 17",
-                        Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusDev, TicketTypeId = typeNewDev
-                    },
-                    new Ticket()
-                    {
-                        Title = "Movie Ticket 18", Description = "Ticket details for movie ticket 18",
-                        Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityMedium,
-                        TicketStatusId = statusDev, TicketTypeId = typeEnhancement
-                    },
-                    new Ticket()
-                    {
-                        Title = "Movie Ticket 19", Description = "Ticket details for movie ticket 19",
-                        Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityHigh,
-                        TicketStatusId = statusNew, TicketTypeId = typeChangeRequest
-                    },
-                    new Ticket()
-                    {
-                        Title = "Movie Ticket 20", Description = "Ticket details for movie ticket 20",
-                        Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityUrgent,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev
-                    },
+                        TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "119e5438-e98b-4f4a-b58b-b33063ce790f", DeveloperUserId = "e9f1f1d5-2791-445d-89a1-4481a5f1b620",
+                    },
+                     new Ticket()
+                     {
+                         Title = "Portfolio Ticket 2", Description = "Ticket details for portfolio ticket 2",
+                         Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityMedium,
+                         TicketStatusId = statusNew, TicketTypeId = typeChangeRequest, OwnerUserId = "119e5438-e98b-4f4a-b58b-b33063ce790f", DeveloperUserId = "e9f1f1d5-2791-445d-89a1-4481a5f1b620",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Portfolio Ticket 3", Description = "Ticket details for portfolio ticket 3",
+                         Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusDev, TicketTypeId = typeEnhancement, OwnerUserId = "119e5438-e98b-4f4a-b58b-b33063ce790f", DeveloperUserId = "e9f1f1d5-2791-445d-89a1-4481a5f1b620",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Portfolio Ticket 4", Description = "Ticket details for portfolio ticket 4",
+                         Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityUrgent,
+                         TicketStatusId = statusTest, TicketTypeId = typeDefect, OwnerUserId = "404031e2-dbf7-4065-a81e-70a62466a177", DeveloperUserId = "6a723414-2738-4554-9ee2-fa71d076cf86",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Portfolio Ticket 5", Description = "Ticket details for portfolio ticket 5",
+                         Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityLow,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "23428116-57eb-4e41-a038-814b86bcc972", DeveloperUserId = "e9f1f1d5-2791-445d-89a1-4481a5f1b620",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Portfolio Ticket 6", Description = "Ticket details for portfolio ticket 6",
+                         Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityMedium,
+                         TicketStatusId = statusNew, TicketTypeId = typeChangeRequest, OwnerUserId = "23428116-57eb-4e41-a038-814b86bcc972", DeveloperUserId = "6f780a0d-0c7d-48e2-b901-937d1a7e268d",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Portfolio Ticket 7", Description = "Ticket details for portfolio ticket 7",
+                         Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusDev, TicketTypeId = typeEnhancement, OwnerUserId = "404031e2-dbf7-4065-a81e-70a62466a177", DeveloperUserId = "5cd4468b-22e5-429f-9d11-7706f5c07e58",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Portfolio Ticket 8", Description = "Ticket details for portfolio ticket 8",
+                         Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityUrgent,
+                         TicketStatusId = statusTest, TicketTypeId = typeDefect, OwnerUserId = "b9a3e218-c446-4b58-9283-61fbe560c619", DeveloperUserId = "5cd4468b-22e5-429f-9d11-7706f5c07e58",
+                     },
+                    // BLOG
+                     new Ticket()
+                     {
+                         Title = "Blog Ticket 1", Description = "Ticket details for blog ticket 1",
+                         Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityLow,
+                         TicketStatusId = statusNew, TicketTypeId = typeDefect, OwnerUserId = "b9a3e218-c446-4b58-9283-61fbe560c619", DeveloperUserId = "5cd4468b-22e5-429f-9d11-7706f5c07e58",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Blog Ticket 2", Description = "Ticket details for blog ticket 2",
+                         Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityMedium,
+                         TicketStatusId = statusDev, TicketTypeId = typeEnhancement, OwnerUserId = "8dccc2fe-70f2-458a-96ba-c2a1c77acc95", DeveloperUserId = "5cd4468b-22e5-429f-9d11-7706f5c07e58",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Blog Ticket 3", Description = "Ticket details for blog ticket 3",
+                         Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeChangeRequest, OwnerUserId = "8dccc2fe-70f2-458a-96ba-c2a1c77acc95", DeveloperUserId = "e9f1f1d5-2791-445d-89a1-4481a5f1b620",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Blog Ticket 4", Description = "Ticket details for blog ticket 4",
+                         Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityUrgent,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "8dccc2fe-70f2-458a-96ba-c2a1c77acc95", DeveloperUserId = "e9f1f1d5-2791-445d-89a1-4481a5f1b620",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Blog Ticket 5", Description = "Ticket details for blog ticket 5",
+                         Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityLow,
+                         TicketStatusId = statusDev, TicketTypeId = typeDefect, OwnerUserId = "8dccc2fe-70f2-458a-96ba-c2a1c77acc95", DeveloperUserId = "e9f1f1d5-2791-445d-89a1-4481a5f1b620",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Blog Ticket 6", Description = "Ticket details for blog ticket 6",
+                         Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityMedium,
+                         TicketStatusId = statusNew, TicketTypeId = typeEnhancement, OwnerUserId = "119e5438-e98b-4f4a-b58b-b33063ce790f", DeveloperUserId = "e9f1f1d5-2791-445d-89a1-4481a5f1b620",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Blog Ticket 7", Description = "Ticket details for blog ticket 7",
+                         Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeChangeRequest, OwnerUserId = "b9a3e218-c446-4b58-9283-61fbe560c619", DeveloperUserId = "5cd4468b-22e5-429f-9d11-7706f5c07e58",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Blog Ticket 8", Description = "Ticket details for blog ticket 8",
+                         Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityUrgent,
+                         TicketStatusId = statusDev, TicketTypeId = typeNewDev, OwnerUserId = "404031e2-dbf7-4065-a81e-70a62466a177", DeveloperUserId = "6a723414-2738-4554-9ee2-fa71d076cf86",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Blog Ticket 9", Description = "Ticket details for blog ticket 9",
+                         Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityLow,
+                         TicketStatusId = statusNew, TicketTypeId = typeDefect, OwnerUserId = "23428116-57eb-4e41-a038-814b86bcc972", DeveloperUserId = "e9f1f1d5-2791-445d-89a1-4481a5f1b620",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Blog Ticket 10", Description = "Ticket details for blog ticket 10",
+                         Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityMedium,
+                         TicketStatusId = statusNew, TicketTypeId = typeEnhancement, OwnerUserId = "23428116-57eb-4e41-a038-814b86bcc972", DeveloperUserId = "6f780a0d-0c7d-48e2-b901-937d1a7e268d",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Blog Ticket 11", Description = "Ticket details for blog ticket 11",
+                         Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusDev, TicketTypeId = typeChangeRequest, OwnerUserId = "b9a3e218-c446-4b58-9283-61fbe560c619", DeveloperUserId = "5cd4468b-22e5-429f-9d11-7706f5c07e58",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Blog Ticket 12", Description = "Ticket details for blog ticket 12",
+                         Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityUrgent,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "b9a3e218-c446-4b58-9283-61fbe560c619", DeveloperUserId = "5cd4468b-22e5-429f-9d11-7706f5c07e58",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Blog Ticket 13", Description = "Ticket details for blog ticket 13",
+                         Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityLow,
+                         TicketStatusId = statusNew, TicketTypeId = typeDefect, OwnerUserId = "119e5438-e98b-4f4a-b58b-b33063ce790f", DeveloperUserId = "e9f1f1d5-2791-445d-89a1-4481a5f1b620",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Blog Ticket 14", Description = "Ticket details for blog ticket 14",
+                         Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityMedium,
+                         TicketStatusId = statusDev, TicketTypeId = typeEnhancement, OwnerUserId = "404031e2-dbf7-4065-a81e-70a62466a177", DeveloperUserId = "6a723414-2738-4554-9ee2-fa71d076cf86",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Blog Ticket 15", Description = "Ticket details for blog ticket 15",
+                         Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeChangeRequest, OwnerUserId = "23428116-57eb-4e41-a038-814b86bcc972", DeveloperUserId = "e9f1f1d5-2791-445d-89a1-4481a5f1b620",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Blog Ticket 16", Description = "Ticket details for blog ticket 16",
+                         Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityUrgent,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "23428116-57eb-4e41-a038-814b86bcc972", DeveloperUserId = "6f780a0d-0c7d-48e2-b901-937d1a7e268d",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Blog Ticket 17", Description = "Ticket details for blog ticket 17",
+                         Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusDev, TicketTypeId = typeNewDev, OwnerUserId = "404031e2-dbf7-4065-a81e-70a62466a177", DeveloperUserId = "5cd4468b-22e5-429f-9d11-7706f5c07e58",
+                     },
+                    // BUGTRACKER                                                                                                                         
+                     new Ticket()
+                     {
+                         Title = "Bug Tracker Ticket 1", Description = "Ticket details for bug tracker ticket 1",
+                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "b9a3e218-c446-4b58-9283-61fbe560c619", DeveloperUserId = "5cd4468b-22e5-429f-9d11-7706f5c07e58",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Bug Tracker Ticket 2", Description = "Ticket details for bug tracker ticket 2",
+                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "b9a3e218-c446-4b58-9283-61fbe560c619", DeveloperUserId = "5cd4468b-22e5-429f-9d11-7706f5c07e58",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Bug Tracker Ticket 3", Description = "Ticket details for bug tracker ticket 3",
+                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "8dccc2fe-70f2-458a-96ba-c2a1c77acc95", DeveloperUserId = "e9f1f1d5-2791-445d-89a1-4481a5f1b620",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Bug Tracker Ticket 4", Description = "Ticket details for bug tracker ticket 4",
+                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "119e5438-e98b-4f4a-b58b-b33063ce790f", DeveloperUserId = "e9f1f1d5-2791-445d-89a1-4481a5f1b620",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Bug Tracker Ticket 5", Description = "Ticket details for bug tracker ticket 5",
+                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "404031e2-dbf7-4065-a81e-70a62466a177", DeveloperUserId = "6a723414-2738-4554-9ee2-fa71d076cf86",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Bug Tracker Ticket 6", Description = "Ticket details for bug tracker ticket 6",
+                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "23428116-57eb-4e41-a038-814b86bcc972", DeveloperUserId = "e9f1f1d5-2791-445d-89a1-4481a5f1b620",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Bug Tracker Ticket 7", Description = "Ticket details for bug tracker ticket 7",
+                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "404031e2-dbf7-4065-a81e-70a62466a177", DeveloperUserId = "5cd4468b-22e5-429f-9d11-7706f5c07e58",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Bug Tracker Ticket 8", Description = "Ticket details for bug tracker ticket 8",
+                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "23428116-57eb-4e41-a038-814b86bcc972", DeveloperUserId = "6f780a0d-0c7d-48e2-b901-937d1a7e268d",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Bug Tracker Ticket 9", Description = "Ticket details for bug tracker ticket 9",
+                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "404031e2-dbf7-4065-a81e-70a62466a177", DeveloperUserId = "5cd4468b-22e5-429f-9d11-7706f5c07e58",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Bug Tracker Ticket 10", Description = "Ticket details for bug tracker 10",
+                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "b9a3e218-c446-4b58-9283-61fbe560c619", DeveloperUserId = "5cd4468b-22e5-429f-9d11-7706f5c07e58",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Bug Tracker Ticket 11", Description = "Ticket details for bug tracker 11",
+                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "b9a3e218-c446-4b58-9283-61fbe560c619", DeveloperUserId = "5cd4468b-22e5-429f-9d11-7706f5c07e58",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Bug Tracker Ticket 12", Description = "Ticket details for bug tracker 12",
+                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "b9a3e218-c446-4b58-9283-61fbe560c619", DeveloperUserId = "5cd4468b-22e5-429f-9d11-7706f5c07e58",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Bug Tracker Ticket 13", Description = "Ticket details for bug tracker 13",
+                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "b9a3e218-c446-4b58-9283-61fbe560c619", DeveloperUserId = "5cd4468b-22e5-429f-9d11-7706f5c07e58",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Bug Tracker Ticket 14", Description = "Ticket details for bug tracker 14",
+                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "b9a3e218-c446-4b58-9283-61fbe560c619", DeveloperUserId = "5cd4468b-22e5-429f-9d11-7706f5c07e58",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Bug Tracker Ticket 15", Description = "Ticket details for bug tracker 15",
+                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "8dccc2fe-70f2-458a-96ba-c2a1c77acc95", DeveloperUserId = "e9f1f1d5-2791-445d-89a1-4481a5f1b620",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Bug Tracker Ticket 16", Description = "Ticket details for bug tracker 16",
+                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "8dccc2fe-70f2-458a-96ba-c2a1c77acc95", DeveloperUserId = "e9f1f1d5-2791-445d-89a1-4481a5f1b620",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Bug Tracker Ticket 17", Description = "Ticket details for bug tracker 17",
+                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "8dccc2fe-70f2-458a-96ba-c2a1c77acc95", DeveloperUserId = "e9f1f1d5-2791-445d-89a1-4481a5f1b620",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Bug Tracker Ticket 18", Description = "Ticket details for bug tracker 18",
+                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "119e5438-e98b-4f4a-b58b-b33063ce790f", DeveloperUserId = "e9f1f1d5-2791-445d-89a1-4481a5f1b620",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Bug Tracker Ticket 19", Description = "Ticket details for bug tracker 19",
+                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "404031e2-dbf7-4065-a81e-70a62466a177", DeveloperUserId = "6a723414-2738-4554-9ee2-fa71d076cf86",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Bug Tracker Ticket 20", Description = "Ticket details for bug tracker 20",
+                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "23428116-57eb-4e41-a038-814b86bcc972", DeveloperUserId = "6f780a0d-0c7d-48e2-b901-937d1a7e268d",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Bug Tracker Ticket 21", Description = "Ticket details for bug tracker 21",
+                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "404031e2-dbf7-4065-a81e-70a62466a177", DeveloperUserId = "5cd4468b-22e5-429f-9d11-7706f5c07e58",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Bug Tracker Ticket 22", Description = "Ticket details for bug tracker 22",
+                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "23428116-57eb-4e41-a038-814b86bcc972", DeveloperUserId = "6f780a0d-0c7d-48e2-b901-937d1a7e268d",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Bug Tracker Ticket 23", Description = "Ticket details for bug tracker 23",
+                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "404031e2-dbf7-4065-a81e-70a62466a177", DeveloperUserId = "5cd4468b-22e5-429f-9d11-7706f5c07e58",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Bug Tracker Ticket 24", Description = "Ticket details for bug tracker 24",
+                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "b9a3e218-c446-4b58-9283-61fbe560c619", DeveloperUserId = "5cd4468b-22e5-429f-9d11-7706f5c07e58",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Bug Tracker Ticket 25", Description = "Ticket details for bug tracker 25",
+                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "404031e2-dbf7-4065-a81e-70a62466a177", DeveloperUserId = "5cd4468b-22e5-429f-9d11-7706f5c07e58",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Bug Tracker Ticket 26", Description = "Ticket details for bug tracker 26",
+                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "b9a3e218-c446-4b58-9283-61fbe560c619", DeveloperUserId = "5cd4468b-22e5-429f-9d11-7706f5c07e58",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Bug Tracker Ticket 27", Description = "Ticket details for bug tracker 27",
+                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "404031e2-dbf7-4065-a81e-70a62466a177", DeveloperUserId = "5cd4468b-22e5-429f-9d11-7706f5c07e58",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Bug Tracker Ticket 28", Description = "Ticket details for bug tracker 28",
+                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "b9a3e218-c446-4b58-9283-61fbe560c619", DeveloperUserId = "5cd4468b-22e5-429f-9d11-7706f5c07e58",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Bug Tracker Ticket 29", Description = "Ticket details for bug tracker 29",
+                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "8dccc2fe-70f2-458a-96ba-c2a1c77acc95", DeveloperUserId = "e9f1f1d5-2791-445d-89a1-4481a5f1b620",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Bug Tracker Ticket 30", Description = "Ticket details for bug tracker 30",
+                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "8dccc2fe-70f2-458a-96ba-c2a1c77acc95", DeveloperUserId = "e9f1f1d5-2791-445d-89a1-4481a5f1b620",
+                     },
+                    // MOVIE
+                     new Ticket()
+                     {
+                         Title = "Movie Ticket 1", Description = "Ticket details for movie ticket 1",
+                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityLow,
+                         TicketStatusId = statusNew, TicketTypeId = typeDefect, OwnerUserId = "119e5438-e98b-4f4a-b58b-b33063ce790f", DeveloperUserId = "e9f1f1d5-2791-445d-89a1-4481a5f1b620",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Movie Ticket 2", Description = "Ticket details for movie ticket 2",
+                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityMedium,
+                         TicketStatusId = statusDev, TicketTypeId = typeEnhancement, OwnerUserId = "119e5438-e98b-4f4a-b58b-b33063ce790f", DeveloperUserId = "e9f1f1d5-2791-445d-89a1-4481a5f1b620",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Movie Ticket 3", Description = "Ticket details for movie ticket 3",
+                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeChangeRequest, OwnerUserId = "404031e2-dbf7-4065-a81e-70a62466a177", DeveloperUserId = "6a723414-2738-4554-9ee2-fa71d076cf86",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Movie Ticket 4", Description = "Ticket details for movie ticket 4",
+                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityUrgent,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "404031e2-dbf7-4065-a81e-70a62466a177", DeveloperUserId = "6a723414-2738-4554-9ee2-fa71d076cf86",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Movie Ticket 5", Description = "Ticket details for movie ticket 5",
+                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityLow,
+                         TicketStatusId = statusDev, TicketTypeId = typeDefect, OwnerUserId = "23428116-57eb-4e41-a038-814b86bcc972", DeveloperUserId = "e9f1f1d5-2791-445d-89a1-4481a5f1b620",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Movie Ticket 6", Description = "Ticket details for movie ticket 6",
+                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityMedium,
+                         TicketStatusId = statusNew, TicketTypeId = typeEnhancement, OwnerUserId = "23428116-57eb-4e41-a038-814b86bcc972", DeveloperUserId = "e9f1f1d5-2791-445d-89a1-4481a5f1b620",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Movie Ticket 7", Description = "Ticket details for movie ticket 7",
+                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeChangeRequest, OwnerUserId = "23428116-57eb-4e41-a038-814b86bcc972", DeveloperUserId = "6f780a0d-0c7d-48e2-b901-937d1a7e268d",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Movie Ticket 8", Description = "Ticket details for movie ticket 8",
+                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityUrgent,
+                         TicketStatusId = statusDev, TicketTypeId = typeNewDev, OwnerUserId = "23428116-57eb-4e41-a038-814b86bcc972", DeveloperUserId = "6f780a0d-0c7d-48e2-b901-937d1a7e268d",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Movie Ticket 9", Description = "Ticket details for movie ticket 9",
+                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityLow,
+                         TicketStatusId = statusNew, TicketTypeId = typeDefect, OwnerUserId = "23428116-57eb-4e41-a038-814b86bcc972", DeveloperUserId = "6f780a0d-0c7d-48e2-b901-937d1a7e268d",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Movie Ticket 10", Description = "Ticket details for movie ticket 10",
+                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityMedium,
+                         TicketStatusId = statusNew, TicketTypeId = typeEnhancement, OwnerUserId = "404031e2-dbf7-4065-a81e-70a62466a177", DeveloperUserId = "5cd4468b-22e5-429f-9d11-7706f5c07e58",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Movie Ticket 11", Description = "Ticket details for movie ticket 11",
+                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusDev, TicketTypeId = typeChangeRequest, OwnerUserId = "404031e2-dbf7-4065-a81e-70a62466a177", DeveloperUserId = "5cd4468b-22e5-429f-9d11-7706f5c07e58",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Movie Ticket 12", Description = "Ticket details for movie ticket 12",
+                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityUrgent,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "404031e2-dbf7-4065-a81e-70a62466a177", DeveloperUserId = "5cd4468b-22e5-429f-9d11-7706f5c07e58",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Movie Ticket 13", Description = "Ticket details for movie ticket 13",
+                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityLow,
+                         TicketStatusId = statusNew, TicketTypeId = typeDefect, OwnerUserId = "b9a3e218-c446-4b58-9283-61fbe560c619", DeveloperUserId = "5cd4468b-22e5-429f-9d11-7706f5c07e58",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Movie Ticket 14", Description = "Ticket details for movie ticket 14",
+                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityMedium,
+                         TicketStatusId = statusDev, TicketTypeId = typeEnhancement, OwnerUserId = "b9a3e218-c446-4b58-9283-61fbe560c619", DeveloperUserId = "5cd4468b-22e5-429f-9d11-7706f5c07e58",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Movie Ticket 15", Description = "Ticket details for movie ticket 15",
+                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeChangeRequest, OwnerUserId = "b9a3e218-c446-4b58-9283-61fbe560c619", DeveloperUserId = "5cd4468b-22e5-429f-9d11-7706f5c07e58",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Movie Ticket 16", Description = "Ticket details for movie ticket 16",
+                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityUrgent,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "b9a3e218-c446-4b58-9283-61fbe560c619", DeveloperUserId = "5cd4468b-22e5-429f-9d11-7706f5c07e58",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Movie Ticket 17", Description = "Ticket details for movie ticket 17",
+                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusDev, TicketTypeId = typeNewDev, OwnerUserId = "b9a3e218-c446-4b58-9283-61fbe560c619", DeveloperUserId = "5cd4468b-22e5-429f-9d11-7706f5c07e58",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Movie Ticket 18", Description = "Ticket details for movie ticket 18",
+                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityMedium,
+                         TicketStatusId = statusDev, TicketTypeId = typeEnhancement, OwnerUserId = "b9a3e218-c446-4b58-9283-61fbe560c619", DeveloperUserId = "5cd4468b-22e5-429f-9d11-7706f5c07e58",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Movie Ticket 19", Description = "Ticket details for movie ticket 19",
+                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityHigh,
+                         TicketStatusId = statusNew, TicketTypeId = typeChangeRequest, OwnerUserId = "b9a3e218-c446-4b58-9283-61fbe560c619", DeveloperUserId = "5cd4468b-22e5-429f-9d11-7706f5c07e58",
+                     },
+                     new Ticket()
+                     {
+                         Title = "Movie Ticket 20", Description = "Ticket details for movie ticket 20",
+                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityUrgent,
+                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, OwnerUserId = "8dccc2fe-70f2-458a-96ba-c2a1c77acc95", DeveloperUserId = "e9f1f1d5-2791-445d-89a1-4481a5f1b620",
+                     },
                 };
 
 
