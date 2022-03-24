@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using TheBugTrucker.Data;
 using TheBugTrucker.Models;
 using TheBugTrucker.Services;
+using TheBugTrucker.Services.Factories;
 using TheBugTrucker.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +18,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddIdentity<BTUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddClaimsPrincipalFactory<BTUserClaimsPrincipalFactory>()
     .AddDefaultUI()
     .AddDefaultTokenProviders();
 
