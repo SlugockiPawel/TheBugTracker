@@ -25,6 +25,22 @@ namespace TheBugTrucker.Services
             return await _userManager.IsInRoleAsync(user, roleName);
         }
 
+        #region GetRoles
+        public async Task<List<IdentityRole>> GetRolesAsync()
+        {
+            try
+            {
+                return await _context.Roles.ToListAsync();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
+        }
+
+        #endregion
+
         public async Task<IEnumerable<string>> GetUserRolesAsync(BTUser user)
         {
             return await _userManager.GetRolesAsync(user);
