@@ -6,6 +6,6 @@ namespace TheBugTrucker.Models.ViewModels
     {
         public BTUser BTUser { get; set; } = default!;
         public MultiSelectList Roles { get; set; } = default!;
-        public List<string> SelectedRole { get; set; } = new();
+        public List<string> SelectedRoles { get; set; } = new();
     }
 }
