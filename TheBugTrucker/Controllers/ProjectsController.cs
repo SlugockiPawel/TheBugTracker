@@ -79,7 +79,10 @@ namespace TheBugTrucker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CompanyId,ProjectPriorityId,Name,Description,Archived,StartDate,EndDate,FileName,FileData,FileContentType")] Project project)
+        public async Task<IActionResult> Create(
+            [Bind(
+                "Id,CompanyId,ProjectPriorityId,Name,Description,Archived,StartDate,EndDate,FileName,FileData,FileContentType")]
+            Project project)
         {
             if (ModelState.IsValid)
             {
@@ -87,8 +90,10 @@ namespace TheBugTrucker.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Id", project.CompanyId);
-            ViewData["ProjectPriorityId"] = new SelectList(_context.ProjectPriorities, "Id", "Id", project.ProjectPriorityId);
+            ViewData["ProjectPriorityId"] =
+                new SelectList(_context.ProjectPriorities, "Id", "Id", project.ProjectPriorityId);
             return View(project);
         }
 
@@ -105,8 +110,10 @@ namespace TheBugTrucker.Controllers
             {
                 return NotFound();
             }
+
             ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Id", project.CompanyId);
-            ViewData["ProjectPriorityId"] = new SelectList(_context.ProjectPriorities, "Id", "Id", project.ProjectPriorityId);
+            ViewData["ProjectPriorityId"] =
+                new SelectList(_context.ProjectPriorities, "Id", "Id", project.ProjectPriorityId);
             return View(project);
         }
 
@@ -115,7 +122,10 @@ namespace TheBugTrucker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CompanyId,ProjectPriorityId,Name,Description,Archived,StartDate,EndDate,FileName,FileData,FileContentType")] Project project)
+        public async Task<IActionResult> Edit(int id,
+            [Bind(
+                "Id,CompanyId,ProjectPriorityId,Name,Description,Archived,StartDate,EndDate,FileName,FileData,FileContentType")]
+            Project project)
         {
             if (id != project.Id)
             {
@@ -140,10 +150,13 @@ namespace TheBugTrucker.Controllers
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Id", project.CompanyId);
-            ViewData["ProjectPriorityId"] = new SelectList(_context.ProjectPriorities, "Id", "Id", project.ProjectPriorityId);
+            ViewData["ProjectPriorityId"] =
+                new SelectList(_context.ProjectPriorities, "Id", "Id", project.ProjectPriorityId);
             return View(project);
         }
 
