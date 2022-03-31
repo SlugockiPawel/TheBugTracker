@@ -35,11 +35,11 @@
                 <label asp-for="Project.EndDate" class="control-label"></label>
                 <input asp-for="Project.EndDate" class="form-control" />
                 <span asp-validation-for="Project.EndDate" class="text-danger"></span>
-            </div>>
+            </div>
 
             <div class="form-group">
                 <label  class="control-label">Choose a priority</label>
-                <select asp-for="ProjectPriority" class ="form-control" asp-items="@Model.PriorityList"></select>
+                <select asp-for="ProjectPriority" class ="form-control form-select" asp-items="@Model.PriorityList"></select>
             </div>
           
         
@@ -58,7 +58,9 @@
             
             <div class="form-group">
                 <label class="control-label">Project Manager</label>
-                <select asp-for="PmId" class ="form-control" asp-items="@Model.PMList"></select>
+                <select asp-for="PmId" class="form-control form-select" asp-items="@Model.PMList">
+                    <option></option>
+                </select>
             </div>
 
 
