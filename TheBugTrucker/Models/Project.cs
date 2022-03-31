@@ -21,8 +21,14 @@ namespace TheBugTrucker.Models
 
         public string Description { get; set; } = default!;
         public bool Archived { get; set; }
-        [DisplayName("Start Date")] public DateTimeOffset StartDate { get; set; }
-        [DisplayName("End Date")] public DateTimeOffset EndDate { get; set; }
+
+        [DisplayName("Start Date")]
+        [DataType(DataType.Date)]
+        public DateTimeOffset StartDate { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayName("End Date")]
+        public DateTimeOffset EndDate { get; set; }
 
         [NotMapped]
         [DataType(DataType.Upload)]
