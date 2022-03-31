@@ -20,13 +20,17 @@ namespace TheBugTrucker.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IRolesService _rolesService;
         private readonly ILookupService _lookupsService;
+        private readonly IFileService _fileService;
+        private readonly IProjectService _projectService;
 
         public ProjectsController(ApplicationDbContext context, IRolesService rolesService,
-            ILookupService lookupsService)
+            ILookupService lookupsService, IFileService fileService, IProjectService projectService)
         {
             _context = context;
             _rolesService = rolesService;
             _lookupsService = lookupsService;
+            _fileService = fileService;
+            _projectService = projectService;
         }
 
         // GET: Projects
@@ -79,22 +83,42 @@ namespace TheBugTrucker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(
-            [Bind(
-                "Id,CompanyId,ProjectPriorityId,Name,Description,Archived,StartDate,EndDate,FileName,FileData,FileContentType")]
-            Project project)
+        public async Task<IActionResult> Create(AddProjectWithPMViewModel model)
         {
-            if (ModelState.IsValid)
+            if (model is not null)
             {
-                _context.Add(project);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                int companyId = User.Identity.GetCompanyId().Value;
+
+                try
+                {
+                    if (model.Project.FormFile is not null)
+                    {
+                        model.Project.FileData = await _fileService.ConvertFileToByteArrayAsync(model.Project.FormFile);
+                        model.Project.FileName = model.Project.FormFile.FileName;
+                        model.Project.FileContentType = model.Project.FormFile.ContentType;
+                    }
+
+                    model.Project.CompanyId = companyId;
+
+                    await _projectService.AddNewProjectAsync(model.Project);
+
+                    // Add PM if one was chosen
+                    if (!string.IsNullOrWhiteSpace(model.PmId))
+                    {
+                        await _projectService.AddProjectManagerAsync(model.PmId, model.Project.Id);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    throw;
+                }
+
+                // TODO Redirect to All Projects view
+                return RedirectToAction("Index");
             }
 
-            ViewData["CompanyId"] = new SelectList(_context.Companies, "Id", "Id", project.CompanyId);
-            ViewData["ProjectPriorityId"] =
-                new SelectList(_context.ProjectPriorities, "Id", "Id", project.ProjectPriorityId);
-            return View(project);
+            return RedirectToAction("Create");
         }
 
         // GET: Projects/Edit/5
