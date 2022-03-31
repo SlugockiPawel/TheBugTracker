@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace TheBugTrucker.Models.ViewModels
 {
@@ -8,6 +9,5 @@ namespace TheBugTrucker.Models.ViewModels
         public SelectList PMList { get; set; } = default!;
         public string PmId { get; set; } = default!;
         public SelectList PriorityList { get; set; } = default!;
-        public int ProjectPriority { get; set; } = default!;
     }
 }

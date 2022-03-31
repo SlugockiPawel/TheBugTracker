@@ -39,7 +39,7 @@
 
             <div class="form-group">
                 <label  class="control-label">Choose a priority</label>
-                <select asp-for="ProjectPriority" class ="form-control form-select" asp-items="@Model.PriorityList"></select>
+                <select asp-for="Project.ProjectPriorityId" class ="form-control form-select" asp-items="@Model.PriorityList"></select>
             </div>
           
         
@@ -64,7 +64,7 @@
             <div class="form-group">
                 <label class="control-label">Project Manager</label>
                 <select asp-for="PmId" class="form-control form-select" asp-items="@Model.PMList">
-                    <option></option>
+                    <option value=" "> </option>
                 </select>
             </div>
 
