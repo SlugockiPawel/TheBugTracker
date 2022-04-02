@@ -12,8 +12,13 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit" method="post" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="All" class="text-danger"></div>
             <input type="hidden" asp-for="Project.Id"/>
+            <input type="hidden" asp-for="Project.CompanyId"/>
+            <input type="hidden" asp-for="Project.FileData"/>
+            <input type="hidden" asp-for="Project.FileName"/>
+            <input type="hidden" asp-for="Project.FileContentType"/>
+
             <div class="form-group">
                 <label asp-for="Project.Name" class="control-label"></label>
                 <input asp-for="Project.Name" class="form-control"/>
