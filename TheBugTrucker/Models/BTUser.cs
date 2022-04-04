@@ -32,7 +32,7 @@ namespace TheBugTrucker.Models
         public string AvatarContentType { get; set; } = default!;
 
         // FK
-        public int? CompanyId { get; set; }
+        public int CompanyId { get; set; }
 
         // NP
         public virtual Company Company { get; set; } = default!;
