@@ -17,6 +17,7 @@ namespace TheBugTrucker.Models
         [DataType(DataType.Date)] public DateTimeOffset? Updated { get; set; }
 
         public bool Archived { get; set; }
+        [DisplayName("Archived By Project")] public bool ArchivedByProject { get; set; }
 
         // Foreign Keys
         [DisplayName("Project")] public int ProjectId { get; set; }
