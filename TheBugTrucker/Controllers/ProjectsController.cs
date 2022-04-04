@@ -232,7 +232,7 @@ namespace TheBugTrucker.Controllers
         }
 
         // POST: Projects/Restore/5
-        [HttpPost, ActionName("Archive")]
+        [HttpPost, ActionName("Restore")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RestoreConfirmed(int id)
         {
