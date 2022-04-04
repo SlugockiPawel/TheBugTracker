@@ -80,9 +80,24 @@ namespace TheBugTrucker.Services
 
         public async Task ArchiveProjectAsync(Project project)
         {
-            project.Archived = true;
-            _context.Update(project);
-            await _context.SaveChangesAsync();
+            try
+            {
+                project.Archived = true;
+                await UpdateProjectAsync(project);
+
+                // Archive also the tickets for the Project that is being archived
+                foreach (Ticket ticket in project.Tickets)
+                {
+                    ticket.ArchivedByProject = true;
+                    _context.Update(ticket);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
         }
 
         public async Task<List<Project>> GetAllProjectsByCompanyAsync(int companyId)
