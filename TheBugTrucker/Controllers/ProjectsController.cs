@@ -211,6 +211,25 @@ namespace TheBugTrucker.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // GET: Projects/Restore/5
+        public async Task<IActionResult> Restore(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            int companyId = User.Identity.GetCompanyId().Value;
+            Project project = await _projectService.GetProjectByIdAsync(id.Value, companyId);
+
+
+            if (project is null)
+            {
+                return NotFound();
+            }
+
+            return View(project);
+        }
         private bool ProjectExists(int id)
         {
             return _context.Projects.Any(e => e.Id == id);
