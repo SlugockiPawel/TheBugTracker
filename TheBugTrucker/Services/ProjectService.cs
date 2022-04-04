@@ -32,7 +32,7 @@ namespace TheBugTrucker.Services
             {
                 try
                 {
-                     await RemoveProjectManagerAsync(projectId);
+                    await RemoveProjectManagerAsync(projectId);
                 }
                 catch (Exception e)
                 {
