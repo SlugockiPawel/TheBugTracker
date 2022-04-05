@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -22,15 +23,17 @@ namespace TheBugTrucker.Controllers
         private readonly ILookupService _lookupsService;
         private readonly IFileService _fileService;
         private readonly IProjectService _projectService;
+        private readonly UserManager<BTUser> _userManager;
 
         public ProjectsController(ApplicationDbContext context, IRolesService rolesService,
-            ILookupService lookupsService, IFileService fileService, IProjectService projectService)
+            ILookupService lookupsService, IFileService fileService, IProjectService projectService, UserManager<BTUser> userManager)
         {
             _context = context;
             _rolesService = rolesService;
             _lookupsService = lookupsService;
             _fileService = fileService;
             _projectService = projectService;
+            _userManager = userManager;
         }
 
         // GET: Projects
@@ -38,6 +41,15 @@ namespace TheBugTrucker.Controllers
         {
             var applicationDbContext = _context.Projects.Include(p => p.Company).Include(p => p.ProjectPriority);
             return View(await applicationDbContext.ToListAsync());
+        }
+
+        // GET: Projects
+        public async Task<IActionResult> MyProjects()
+        {
+            string userId = _userManager.GetUserId(User);
+            List<Project> projects = await _projectService.GetUserProjectsAsync(userId);
+
+            return View(projects);
         }
 
         // GET: Projects/Details/5
