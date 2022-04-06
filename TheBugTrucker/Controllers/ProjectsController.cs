@@ -24,9 +24,10 @@ namespace TheBugTrucker.Controllers
         private readonly IFileService _fileService;
         private readonly IProjectService _projectService;
         private readonly UserManager<BTUser> _userManager;
+        private readonly ICompanyInfoService _companyInfoService;
 
         public ProjectsController(ApplicationDbContext context, IRolesService rolesService,
-            ILookupService lookupsService, IFileService fileService, IProjectService projectService, UserManager<BTUser> userManager)
+            ILookupService lookupsService, IFileService fileService, IProjectService projectService, UserManager<BTUser> userManager, ICompanyInfoService companyInfoService)
         {
             _context = context;
             _rolesService = rolesService;
@@ -34,6 +35,7 @@ namespace TheBugTrucker.Controllers
             _fileService = fileService;
             _projectService = projectService;
             _userManager = userManager;
+            _companyInfoService = companyInfoService;
         }
 
         // GET: Projects
@@ -43,7 +45,25 @@ namespace TheBugTrucker.Controllers
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Projects
+        // GET: MyProjects
+        public async Task<IActionResult> AllProjects()
+        {
+            List<Project> projects = new();
+            int companyId = User.Identity.GetCompanyId().Value;
+
+            if (User.IsInRole(nameof(Roles.Admin)) || User.IsInRole(nameof(Roles.ProjectManager)))
+            {
+                projects = await _companyInfoService.GetAllProjectsAsync(companyId);
+            }
+            else
+            {
+                projects = await _projectService.GetAllProjectsByCompanyAsync(companyId);
+            }
+
+            return View(projects);
+        }
+
+        // GET: MyProjects
         public async Task<IActionResult> MyProjects()
         {
             string userId = _userManager.GetUserId(User);
