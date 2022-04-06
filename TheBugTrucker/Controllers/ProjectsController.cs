@@ -27,7 +27,8 @@ namespace TheBugTrucker.Controllers
         private readonly ICompanyInfoService _companyInfoService;
 
         public ProjectsController(ApplicationDbContext context, IRolesService rolesService,
-            ILookupService lookupsService, IFileService fileService, IProjectService projectService, UserManager<BTUser> userManager, ICompanyInfoService companyInfoService)
+            ILookupService lookupsService, IFileService fileService, IProjectService projectService,
+            UserManager<BTUser> userManager, ICompanyInfoService companyInfoService)
         {
             _context = context;
             _rolesService = rolesService;
@@ -48,19 +49,14 @@ namespace TheBugTrucker.Controllers
         // GET: MyProjects
         public async Task<IActionResult> AllProjects()
         {
-            List<Project> projects = new();
             int companyId = User.Identity.GetCompanyId().Value;
 
             if (User.IsInRole(nameof(Roles.Admin)) || User.IsInRole(nameof(Roles.ProjectManager)))
             {
-                projects = await _companyInfoService.GetAllProjectsAsync(companyId);
-            }
-            else
-            {
-                projects = await _projectService.GetAllProjectsByCompanyAsync(companyId);
+                return View(await _companyInfoService.GetAllProjectsAsync(companyId));
             }
 
-            return View(projects);
+            return View(await _projectService.GetAllProjectsByCompanyAsync(companyId));
         }
 
         // GET: MyProjects
