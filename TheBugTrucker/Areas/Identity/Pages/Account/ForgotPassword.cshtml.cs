@@ -13,9 +13,9 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using TheBugTrucker.Models;
+using TheBugTracker.Models;
 
-namespace TheBugTrucker.Areas.Identity.Pages.Account
+namespace TheBugTracker.Areas.Identity.Pages.Account
 {
     public class ForgotPasswordModel : PageModel
     {

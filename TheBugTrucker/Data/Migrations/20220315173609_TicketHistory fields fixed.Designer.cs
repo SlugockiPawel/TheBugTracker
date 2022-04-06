@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using TheBugTrucker.Data;
+using TheBugTracker.Data;
 
 #nullable disable
 
-namespace TheBugTrucker.Data.Migrations
+namespace TheBugTracker.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20220315173609_TicketHistory fields fixed")]
@@ -171,7 +171,7 @@ namespace TheBugTrucker.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("TheBugTrucker.Models.BTUser", b =>
+            modelBuilder.Entity("TheBugTracker.Models.BTUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -260,7 +260,7 @@ namespace TheBugTrucker.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("TheBugTrucker.Models.Company", b =>
+            modelBuilder.Entity("TheBugTracker.Models.Company", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -281,7 +281,7 @@ namespace TheBugTrucker.Data.Migrations
                     b.ToTable("Companies");
                 });
 
-            modelBuilder.Entity("TheBugTrucker.Models.Invite", b =>
+            modelBuilder.Entity("TheBugTracker.Models.Invite", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -340,7 +340,7 @@ namespace TheBugTrucker.Data.Migrations
                     b.ToTable("Invites");
                 });
 
-            modelBuilder.Entity("TheBugTrucker.Models.Notification", b =>
+            modelBuilder.Entity("TheBugTracker.Models.Notification", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -384,7 +384,7 @@ namespace TheBugTrucker.Data.Migrations
                     b.ToTable("Notifications");
                 });
 
-            modelBuilder.Entity("TheBugTrucker.Models.Project", b =>
+            modelBuilder.Entity("TheBugTracker.Models.Project", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -437,7 +437,7 @@ namespace TheBugTrucker.Data.Migrations
                     b.ToTable("Projects");
                 });
 
-            modelBuilder.Entity("TheBugTrucker.Models.ProjectPriority", b =>
+            modelBuilder.Entity("TheBugTracker.Models.ProjectPriority", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -454,7 +454,7 @@ namespace TheBugTrucker.Data.Migrations
                     b.ToTable("ProjectPriorities");
                 });
 
-            modelBuilder.Entity("TheBugTrucker.Models.Ticket", b =>
+            modelBuilder.Entity("TheBugTracker.Models.Ticket", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -517,7 +517,7 @@ namespace TheBugTrucker.Data.Migrations
                     b.ToTable("Tickets");
                 });
 
-            modelBuilder.Entity("TheBugTrucker.Models.TicketAttachment", b =>
+            modelBuilder.Entity("TheBugTracker.Models.TicketAttachment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -560,7 +560,7 @@ namespace TheBugTrucker.Data.Migrations
                     b.ToTable("TicketAttachments");
                 });
 
-            modelBuilder.Entity("TheBugTrucker.Models.TicketComment", b =>
+            modelBuilder.Entity("TheBugTracker.Models.TicketComment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -591,7 +591,7 @@ namespace TheBugTrucker.Data.Migrations
                     b.ToTable("TicketComments");
                 });
 
-            modelBuilder.Entity("TheBugTrucker.Models.TicketHistory", b =>
+            modelBuilder.Entity("TheBugTracker.Models.TicketHistory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -634,7 +634,7 @@ namespace TheBugTrucker.Data.Migrations
                     b.ToTable("TicketHistories");
                 });
 
-            modelBuilder.Entity("TheBugTrucker.Models.TicketPriority", b =>
+            modelBuilder.Entity("TheBugTracker.Models.TicketPriority", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -651,7 +651,7 @@ namespace TheBugTrucker.Data.Migrations
                     b.ToTable("TicketPriorities");
                 });
 
-            modelBuilder.Entity("TheBugTrucker.Models.TicketStatus", b =>
+            modelBuilder.Entity("TheBugTracker.Models.TicketStatus", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -668,7 +668,7 @@ namespace TheBugTrucker.Data.Migrations
                     b.ToTable("TicketStatuses");
                 });
 
-            modelBuilder.Entity("TheBugTrucker.Models.TicketType", b =>
+            modelBuilder.Entity("TheBugTracker.Models.TicketType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -687,13 +687,13 @@ namespace TheBugTrucker.Data.Migrations
 
             modelBuilder.Entity("BTUserProject", b =>
                 {
-                    b.HasOne("TheBugTrucker.Models.BTUser", null)
+                    b.HasOne("TheBugTracker.Models.BTUser", null)
                         .WithMany()
                         .HasForeignKey("MembersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TheBugTrucker.Models.Project", null)
+                    b.HasOne("TheBugTracker.Models.Project", null)
                         .WithMany()
                         .HasForeignKey("ProjectsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -711,7 +711,7 @@ namespace TheBugTrucker.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("TheBugTrucker.Models.BTUser", null)
+                    b.HasOne("TheBugTracker.Models.BTUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -720,7 +720,7 @@ namespace TheBugTrucker.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("TheBugTrucker.Models.BTUser", null)
+                    b.HasOne("TheBugTracker.Models.BTUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -735,7 +735,7 @@ namespace TheBugTrucker.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TheBugTrucker.Models.BTUser", null)
+                    b.HasOne("TheBugTracker.Models.BTUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -744,43 +744,43 @@ namespace TheBugTrucker.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("TheBugTrucker.Models.BTUser", null)
+                    b.HasOne("TheBugTracker.Models.BTUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TheBugTrucker.Models.BTUser", b =>
+            modelBuilder.Entity("TheBugTracker.Models.BTUser", b =>
                 {
-                    b.HasOne("TheBugTrucker.Models.Company", "Company")
+                    b.HasOne("TheBugTracker.Models.Company", "Company")
                         .WithMany("Members")
                         .HasForeignKey("CompanyId");
 
                     b.Navigation("Company");
                 });
 
-            modelBuilder.Entity("TheBugTrucker.Models.Invite", b =>
+            modelBuilder.Entity("TheBugTracker.Models.Invite", b =>
                 {
-                    b.HasOne("TheBugTrucker.Models.Company", "Company")
+                    b.HasOne("TheBugTracker.Models.Company", "Company")
                         .WithMany("Invites")
                         .HasForeignKey("CompanyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TheBugTrucker.Models.BTUser", "Invitee")
+                    b.HasOne("TheBugTracker.Models.BTUser", "Invitee")
                         .WithMany()
                         .HasForeignKey("InviteeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TheBugTrucker.Models.BTUser", "Invitor")
+                    b.HasOne("TheBugTracker.Models.BTUser", "Invitor")
                         .WithMany()
                         .HasForeignKey("InvitorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TheBugTrucker.Models.Project", "Project")
+                    b.HasOne("TheBugTracker.Models.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -795,21 +795,21 @@ namespace TheBugTrucker.Data.Migrations
                     b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("TheBugTrucker.Models.Notification", b =>
+            modelBuilder.Entity("TheBugTracker.Models.Notification", b =>
                 {
-                    b.HasOne("TheBugTrucker.Models.BTUser", "Recipient")
+                    b.HasOne("TheBugTracker.Models.BTUser", "Recipient")
                         .WithMany()
                         .HasForeignKey("RecipientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TheBugTrucker.Models.BTUser", "Sender")
+                    b.HasOne("TheBugTracker.Models.BTUser", "Sender")
                         .WithMany()
                         .HasForeignKey("SenderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TheBugTrucker.Models.Ticket", "Ticket")
+                    b.HasOne("TheBugTracker.Models.Ticket", "Ticket")
                         .WithMany("Notifications")
                         .HasForeignKey("TicketId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -822,13 +822,13 @@ namespace TheBugTrucker.Data.Migrations
                     b.Navigation("Ticket");
                 });
 
-            modelBuilder.Entity("TheBugTrucker.Models.Project", b =>
+            modelBuilder.Entity("TheBugTracker.Models.Project", b =>
                 {
-                    b.HasOne("TheBugTrucker.Models.Company", "Company")
+                    b.HasOne("TheBugTracker.Models.Company", "Company")
                         .WithMany("Projects")
                         .HasForeignKey("CompanyId");
 
-                    b.HasOne("TheBugTrucker.Models.ProjectPriority", "ProjectPriority")
+                    b.HasOne("TheBugTracker.Models.ProjectPriority", "ProjectPriority")
                         .WithMany()
                         .HasForeignKey("ProjectPriorityId");
 
@@ -837,39 +837,39 @@ namespace TheBugTrucker.Data.Migrations
                     b.Navigation("ProjectPriority");
                 });
 
-            modelBuilder.Entity("TheBugTrucker.Models.Ticket", b =>
+            modelBuilder.Entity("TheBugTracker.Models.Ticket", b =>
                 {
-                    b.HasOne("TheBugTrucker.Models.BTUser", "DeveloperUser")
+                    b.HasOne("TheBugTracker.Models.BTUser", "DeveloperUser")
                         .WithMany()
                         .HasForeignKey("DeveloperUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TheBugTrucker.Models.BTUser", "OwnerUser")
+                    b.HasOne("TheBugTracker.Models.BTUser", "OwnerUser")
                         .WithMany()
                         .HasForeignKey("OwnerUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TheBugTrucker.Models.Project", "Project")
+                    b.HasOne("TheBugTracker.Models.Project", "Project")
                         .WithMany("Tickets")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TheBugTrucker.Models.TicketPriority", "TicketPriority")
+                    b.HasOne("TheBugTracker.Models.TicketPriority", "TicketPriority")
                         .WithMany()
                         .HasForeignKey("TicketPriorityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TheBugTrucker.Models.TicketStatus", "TicketStatus")
+                    b.HasOne("TheBugTracker.Models.TicketStatus", "TicketStatus")
                         .WithMany()
                         .HasForeignKey("TicketStatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TheBugTrucker.Models.TicketType", "TicketType")
+                    b.HasOne("TheBugTracker.Models.TicketType", "TicketType")
                         .WithMany()
                         .HasForeignKey("TicketTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -888,15 +888,15 @@ namespace TheBugTrucker.Data.Migrations
                     b.Navigation("TicketType");
                 });
 
-            modelBuilder.Entity("TheBugTrucker.Models.TicketAttachment", b =>
+            modelBuilder.Entity("TheBugTracker.Models.TicketAttachment", b =>
                 {
-                    b.HasOne("TheBugTrucker.Models.Ticket", "Ticket")
+                    b.HasOne("TheBugTracker.Models.Ticket", "Ticket")
                         .WithMany("TicketAttachments")
                         .HasForeignKey("TicketId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TheBugTrucker.Models.BTUser", "User")
+                    b.HasOne("TheBugTracker.Models.BTUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -907,15 +907,15 @@ namespace TheBugTrucker.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("TheBugTrucker.Models.TicketComment", b =>
+            modelBuilder.Entity("TheBugTracker.Models.TicketComment", b =>
                 {
-                    b.HasOne("TheBugTrucker.Models.Ticket", "Ticket")
+                    b.HasOne("TheBugTracker.Models.Ticket", "Ticket")
                         .WithMany("Comments")
                         .HasForeignKey("TicketId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TheBugTrucker.Models.BTUser", "User")
+                    b.HasOne("TheBugTracker.Models.BTUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -926,15 +926,15 @@ namespace TheBugTrucker.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("TheBugTrucker.Models.TicketHistory", b =>
+            modelBuilder.Entity("TheBugTracker.Models.TicketHistory", b =>
                 {
-                    b.HasOne("TheBugTrucker.Models.Ticket", "Ticket")
+                    b.HasOne("TheBugTracker.Models.Ticket", "Ticket")
                         .WithMany("History")
                         .HasForeignKey("TicketId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TheBugTrucker.Models.BTUser", "User")
+                    b.HasOne("TheBugTracker.Models.BTUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -945,7 +945,7 @@ namespace TheBugTrucker.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("TheBugTrucker.Models.Company", b =>
+            modelBuilder.Entity("TheBugTracker.Models.Company", b =>
                 {
                     b.Navigation("Invites");
 
@@ -954,12 +954,12 @@ namespace TheBugTrucker.Data.Migrations
                     b.Navigation("Projects");
                 });
 
-            modelBuilder.Entity("TheBugTrucker.Models.Project", b =>
+            modelBuilder.Entity("TheBugTracker.Models.Project", b =>
                 {
                     b.Navigation("Tickets");
                 });
 
-            modelBuilder.Entity("TheBugTrucker.Models.Ticket", b =>
+            modelBuilder.Entity("TheBugTracker.Models.Ticket", b =>
                 {
                     b.Navigation("Comments");
 

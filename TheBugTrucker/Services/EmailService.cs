@@ -3,9 +3,9 @@ using MailKit.Security;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Options;
 using MimeKit;
-using TheBugTrucker.Models;
+using TheBugTracker.Models;
 
-namespace TheBugTrucker.Services
+namespace TheBugTracker.Services
 {
     public class EmailService : IEmailSender
     {

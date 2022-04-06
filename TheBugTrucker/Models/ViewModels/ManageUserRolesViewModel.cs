@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace TheBugTrucker.Models.ViewModels
+namespace TheBugTracker.Models.ViewModels
 {
     public class ManageUserRolesViewModel
     {

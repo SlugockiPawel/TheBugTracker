@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace TheBugTrucker.Models
+namespace TheBugTracker.Models
 {
     public class TicketPriority
     {

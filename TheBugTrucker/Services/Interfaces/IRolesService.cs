@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using TheBugTrucker.Models;
+using TheBugTracker.Models;
 
-namespace TheBugTrucker.Services.Interfaces
+namespace TheBugTracker.Services.Interfaces
 {
     public interface IRolesService
     {

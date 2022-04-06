@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace TheBugTrucker.Data.Migrations
+namespace TheBugTracker.Data.Migrations
 {
     public partial class DataModels : Migration
     {

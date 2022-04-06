@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
-using TheBugTrucker.Data;
-using TheBugTrucker.Models;
-using TheBugTrucker.Services.Interfaces;
+using TheBugTracker.Data;
+using TheBugTracker.Models;
+using TheBugTracker.Services.Interfaces;
 
-namespace TheBugTrucker.Services
+namespace TheBugTracker.Services
 {
     public class NotificationService : INotificationService
     {

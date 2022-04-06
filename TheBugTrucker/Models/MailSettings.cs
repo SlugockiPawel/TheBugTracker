@@ -1,4 +1,4 @@
-﻿namespace TheBugTrucker.Models
+﻿namespace TheBugTracker.Models
 {
     public class MailSettings
     {

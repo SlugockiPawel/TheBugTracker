@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using TheBugTrucker.Data;
-using TheBugTrucker.Models;
+using TheBugTracker.Data;
+using TheBugTracker.Models;
 
-namespace TheBugTrucker.Controllers
+namespace TheBugTracker.Controllers
 {
     public class TicketStatusController : Controller
     {

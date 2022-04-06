@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
-using TheBugTrucker.Data;
-using TheBugTrucker.Models;
-using TheBugTrucker.Services;
-using TheBugTrucker.Services.Factories;
-using TheBugTrucker.Services.Interfaces;
+using TheBugTracker.Data;
+using TheBugTracker.Models;
+using TheBugTracker.Services;
+using TheBugTracker.Services.Factories;
+using TheBugTracker.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

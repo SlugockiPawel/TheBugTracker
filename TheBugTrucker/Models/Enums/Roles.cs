@@ -1,4 +1,4 @@
-﻿namespace TheBugTrucker.Models.Enums
+﻿namespace TheBugTracker.Models.Enums
 {
     public enum Roles
     {

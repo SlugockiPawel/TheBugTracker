@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Net.Sockets;
 
-namespace TheBugTrucker.Models
+namespace TheBugTracker.Models
 {
     public class TicketAttachment
     {

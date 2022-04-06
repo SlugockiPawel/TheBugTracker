@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using TheBugTrucker.Models;
+using TheBugTracker.Models;
 
-namespace TheBugTrucker.Data
+namespace TheBugTracker.Data
 {
     /// <summary>
     /// This class is responsible for connecting to database.

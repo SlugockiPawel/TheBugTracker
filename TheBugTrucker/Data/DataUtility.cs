@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using Npgsql;
-using TheBugTrucker.Models.Enums;
-using TheBugTrucker.Models;
+using TheBugTracker.Models.Enums;
+using TheBugTracker.Models;
 
-namespace TheBugTrucker.Data
+namespace TheBugTracker.Data
 {
     public static class DataUtility
     {

@@ -11,9 +11,9 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using TheBugTrucker.Models;
+using TheBugTracker.Models;
 
-namespace TheBugTrucker.Areas.Identity.Pages.Account.Manage
+namespace TheBugTracker.Areas.Identity.Pages.Account.Manage
 {
     public class ExternalLoginsModel : PageModel
     {

@@ -1,10 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>aspnet-TheBugTrucker-D8703C6D-5A7F-4934-811D-1B2135FB6A50</UserSecretsId>
+    <UserSecretsId>aspnet-TheBugTracker-D8703C6D-5A7F-4934-811D-1B2135FB6A50</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

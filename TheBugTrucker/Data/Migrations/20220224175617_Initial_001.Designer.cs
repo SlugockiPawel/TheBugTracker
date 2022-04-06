@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using TheBugTrucker.Data;
+using TheBugTracker.Data;
 
 #nullable disable
 
-namespace TheBugTrucker.Data.Migrations
+namespace TheBugTracker.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20220224175617_Initial_001")]
@@ -156,7 +156,7 @@ namespace TheBugTrucker.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("TheBugTrucker.Models.BTUser", b =>
+            modelBuilder.Entity("TheBugTracker.Models.BTUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -239,7 +239,7 @@ namespace TheBugTrucker.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("TheBugTrucker.Models.BTUser", null)
+                    b.HasOne("TheBugTracker.Models.BTUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -248,7 +248,7 @@ namespace TheBugTrucker.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("TheBugTrucker.Models.BTUser", null)
+                    b.HasOne("TheBugTracker.Models.BTUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -263,7 +263,7 @@ namespace TheBugTrucker.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TheBugTrucker.Models.BTUser", null)
+                    b.HasOne("TheBugTracker.Models.BTUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -272,7 +272,7 @@ namespace TheBugTrucker.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("TheBugTrucker.Models.BTUser", null)
+                    b.HasOne("TheBugTracker.Models.BTUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

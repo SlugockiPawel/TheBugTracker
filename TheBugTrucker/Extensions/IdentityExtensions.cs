@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using System.Security.Principal;
 
-namespace TheBugTrucker.Extensions
+namespace TheBugTracker.Extensions
 {
     public static class IdentityExtensions
     {

@@ -1,6 +1,6 @@
-﻿using TheBugTrucker.Services.Interfaces;
+﻿using TheBugTracker.Services.Interfaces;
 
-namespace TheBugTrucker.Services
+namespace TheBugTracker.Services
 {
     public class FileService : IFileService
     {

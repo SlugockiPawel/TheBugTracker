@@ -1,4 +1,4 @@
-﻿namespace TheBugTrucker.Services.Interfaces
+﻿namespace TheBugTracker.Services.Interfaces
 {
     public interface IFileService
     {

@@ -1,11 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using Microsoft.EntityFrameworkCore;
-using TheBugTrucker.Data;
-using TheBugTrucker.Models;
-using TheBugTrucker.Models.Enums;
-using TheBugTrucker.Services.Interfaces;
+using TheBugTracker.Data;
+using TheBugTracker.Models;
+using TheBugTracker.Models.Enums;
+using TheBugTracker.Services.Interfaces;
 
-namespace TheBugTrucker.Services
+namespace TheBugTracker.Services
 {
     public class ProjectService : IProjectService
     {

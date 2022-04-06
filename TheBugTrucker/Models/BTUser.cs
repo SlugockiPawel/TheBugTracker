@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 
-namespace TheBugTrucker.Models
+namespace TheBugTracker.Models
 {
     /// <summary>
     /// BTUser == Bug Trucker User

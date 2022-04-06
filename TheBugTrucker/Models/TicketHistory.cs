@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace TheBugTrucker.Models
+namespace TheBugTracker.Models
 {
     public class TicketHistory
     {

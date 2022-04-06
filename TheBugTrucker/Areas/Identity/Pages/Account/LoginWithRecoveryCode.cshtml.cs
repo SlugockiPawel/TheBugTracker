@@ -10,8 +10,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using TheBugTrucker.Models;
-namespace TheBugTrucker.Areas.Identity.Pages.Account
+using TheBugTracker.Models;
+namespace TheBugTracker.Areas.Identity.Pages.Account
 {
     public class LoginWithRecoveryCodeModel : PageModel
     {

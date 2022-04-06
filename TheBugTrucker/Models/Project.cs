@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 using System.Reflection;
 
-namespace TheBugTrucker.Models
+namespace TheBugTracker.Models
 {
     public class Project
     {

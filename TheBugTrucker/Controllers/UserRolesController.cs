@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Build.Evaluation;
-using TheBugTrucker.Extensions;
-using TheBugTrucker.Models;
-using TheBugTrucker.Models.ViewModels;
-using TheBugTrucker.Services.Interfaces;
+using TheBugTracker.Extensions;
+using TheBugTracker.Models;
+using TheBugTracker.Models.ViewModels;
+using TheBugTracker.Services.Interfaces;
 
-namespace TheBugTrucker.Controllers
+namespace TheBugTracker.Controllers
 {
     [Authorize]
     public class UserRolesController : Controller

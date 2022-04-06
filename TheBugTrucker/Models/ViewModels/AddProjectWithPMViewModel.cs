@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace TheBugTrucker.Models.ViewModels
+namespace TheBugTracker.Models.ViewModels
 {
     public class AddProjectWithPMViewModel
     {

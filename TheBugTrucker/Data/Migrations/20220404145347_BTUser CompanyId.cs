@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace TheBugTrucker.Data.Migrations
+namespace TheBugTracker.Data.Migrations
 {
     public partial class BTUserCompanyId : Migration
     {

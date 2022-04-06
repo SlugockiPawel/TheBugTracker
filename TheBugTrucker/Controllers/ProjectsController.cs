@@ -7,14 +7,14 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using TheBugTrucker.Data;
-using TheBugTrucker.Extensions;
-using TheBugTrucker.Models;
-using TheBugTrucker.Models.Enums;
-using TheBugTrucker.Models.ViewModels;
-using TheBugTrucker.Services.Interfaces;
+using TheBugTracker.Data;
+using TheBugTracker.Extensions;
+using TheBugTracker.Models;
+using TheBugTracker.Models.Enums;
+using TheBugTracker.Models.ViewModels;
+using TheBugTracker.Services.Interfaces;
 
-namespace TheBugTrucker.Controllers
+namespace TheBugTracker.Controllers
 {
     public class ProjectsController : Controller
     {
