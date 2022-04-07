@@ -150,7 +150,7 @@ namespace TheBugTracker.Services
             return teamMembers.ToList();
         }
 
-        public async Task<List<Project>> GetArchivedProjectsByCompany(int companyId)
+        public async Task<List<Project>> GetArchivedProjectsByCompanyAsync(int companyId)
         {
             return (await GetAllProjectsByCompanyAsync(companyId))
                 .Where(p => p.Archived)
