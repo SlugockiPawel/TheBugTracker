@@ -152,9 +152,29 @@ namespace TheBugTracker.Services
 
         public async Task<List<Project>> GetArchivedProjectsByCompanyAsync(int companyId)
         {
-            return (await GetAllProjectsByCompanyAsync(companyId))
-                .Where(p => p.Archived)
-                .ToList();
+            return await _context.Projects
+                .Where(p => p.CompanyId == companyId && p.Archived)
+                .Include(p => p.Members)
+                .Include(p => p.Tickets)
+                .ThenInclude(t => t.Comments)
+                .Include(p => p.Tickets)
+                .ThenInclude(t => t.TicketStatus)
+                .Include(p => p.Tickets)
+                .ThenInclude(t => t.TicketPriority)
+                .Include(p => p.Tickets)
+                .ThenInclude(t => t.TicketType)
+                .Include(p => p.ProjectPriority)
+                .Include(p => p.Tickets)
+                .ThenInclude(t => t.TicketAttachments)
+                .Include(p => p.Tickets)
+                .ThenInclude(t => t.History)
+                .Include(p => p.Tickets)
+                .ThenInclude(t => t.DeveloperUser)
+                .Include(p => p.Tickets)
+                .ThenInclude(t => t.OwnerUser)
+                .Include(p => p.Tickets)
+                .ThenInclude(t => t.Notifications)
+                .ToListAsync();
         }
 
         public Task<List<BTUser>> GetDevelopersOnProjectAsync(int projectId)
