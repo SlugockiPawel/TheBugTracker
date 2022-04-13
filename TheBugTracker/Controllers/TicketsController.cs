@@ -230,45 +230,14 @@ namespace TheBugTracker.Controllers
             return View(ticket);
         }
 
-        // POST: Tickets/Archive/5
-        [HttpPost, ActionName("Archive")]
+        // POST: Tickets/Delete/5
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ArchiveConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            Ticket ticket = await _ticketService.GetTicketByIdAsync(id);
-            ticket.Archived = true;
-            await _ticketService.UpdateTicketAsync(ticket);
-
-            return RedirectToAction(nameof(Index));
-        }
-
-        // GET: Tickets/Restore/5
-        public async Task<IActionResult> Restore(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            Ticket ticket = await _ticketService.GetTicketByIdAsync(id.Value);
-
-            if (ticket == null)
-            {
-                return NotFound();
-            }
-
-            return View(ticket);
-        }
-
-        // POST: Tickets/Restore/5
-        [HttpPost, ActionName("Restore")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RestoreConfirmed(int id)
-        {
-            Ticket ticket = await _ticketService.GetTicketByIdAsync(id);
-            ticket.Archived = false;
-            await _ticketService.UpdateTicketAsync(ticket);
-
+            var ticket = await _context.Tickets.FindAsync(id);
+            _context.Tickets.Remove(ticket);
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
