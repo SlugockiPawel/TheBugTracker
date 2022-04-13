@@ -169,7 +169,7 @@ namespace TheBugTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id,
             [Bind(
-                "Id,Title,Description,Created,Updated,Archived,ProjectId,TicketTypeId,TicketPriorityId,TicketStatusId,OwnerUserId,DeveloperUserId")]
+                "Id,Title,Description,Created,Updated,Archived,ArchivedByProject,ProjectId,TicketTypeId,TicketPriorityId,TicketStatusId,OwnerUserId,DeveloperUserId")]
             Ticket ticket)
         {
             if (id != ticket.Id)
@@ -179,14 +179,16 @@ namespace TheBugTracker.Controllers
 
             if (ModelState.IsValid)
             {
+                BTUser user = await _userManager.GetUserAsync(User);
+
                 try
                 {
-                    _context.Update(ticket);
-                    await _context.SaveChangesAsync();
+                    ticket.Updated = DateTime.Now;
+                    await _ticketService.UpdateTicketAsync(ticket);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TicketExists(ticket.Id))
+                    if (!await TicketExists(ticket.Id))
                     {
                         return NotFound();
                     }
@@ -196,16 +198,17 @@ namespace TheBugTracker.Controllers
                     }
                 }
 
+                // TODO add ticket history
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["DeveloperUserId"] = new SelectList(_context.Users, "Id", "Id", ticket.DeveloperUserId);
-            ViewData["OwnerUserId"] = new SelectList(_context.Users, "Id", "Id", ticket.OwnerUserId);
-            ViewData["ProjectId"] = new SelectList(_context.Projects, "Id", "Name", ticket.ProjectId);
             ViewData["TicketPriorityId"] =
-                new SelectList(_context.TicketPriorities, "Id", "Id", ticket.TicketPriorityId);
-            ViewData["TicketStatusId"] = new SelectList(_context.TicketStatuses, "Id", "Id", ticket.TicketStatusId);
-            ViewData["TicketTypeId"] = new SelectList(_context.TicketTypes, "Id", "Id", ticket.TicketTypeId);
+                new SelectList(await _lookupService.GetTicketPrioritiesAsync(), "Id", "Name", ticket.TicketPriorityId);
+            ViewData["TicketStatusId"] = new SelectList(await _lookupService.GetTicketStatusesAsync(), "Id", "Name",
+                ticket.TicketStatusId);
+            ViewData["TicketTypeId"] = new SelectList(await _lookupService.GetTicketTypesAsync(), "Id", "Name",
+                ticket.TicketTypeId);
+
             return View(ticket);
         }
 
