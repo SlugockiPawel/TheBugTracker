@@ -44,6 +44,19 @@ namespace TheBugTracker.Controllers
         }
 
         // GET: MyTickets
+        public async Task<IActionResult> AllTickets()
+        {
+            List<Ticket> tickets = await _ticketService.GetAllTicketsByCompanyAsync(User.Identity.GetCompanyId().Value);
+
+            if (User.IsInRole(nameof(Roles.Developer)) || User.IsInRole(nameof(Roles.Submitter)))
+            {
+                return View(tickets.Where(t => t.Archived == false));
+            }
+
+            return View(tickets);
+        }
+
+        // GET: AllTickets
         public async Task<IActionResult> MyTickets()
         {
             BTUser user = await _userManager.GetUserAsync(User);
