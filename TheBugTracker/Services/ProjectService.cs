@@ -283,6 +283,21 @@ namespace TheBugTracker.Services
             }
         }
 
+        public async Task<bool> IsAssignedProjectManagerAsync(string userId, int projectId)
+        {
+            try
+            {
+                string projectManagerId = (await GetProjectManagerAsync(projectId))?.Id;
+
+                return projectManagerId == userId;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
+        }
+
         public async Task<bool> IsUserOnProjectAsync(string userId, int projectId)
         {
             return (await _context.Projects
