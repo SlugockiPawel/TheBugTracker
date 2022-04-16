@@ -77,20 +77,14 @@ namespace TheBugTracker.Controllers
         // GET: Tickets/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            if (id is null)
             {
                 return NotFound();
             }
 
-            var ticket = await _context.Tickets
-                .Include(t => t.DeveloperUser)
-                .Include(t => t.OwnerUser)
-                .Include(t => t.Project)
-                .Include(t => t.TicketPriority)
-                .Include(t => t.TicketStatus)
-                .Include(t => t.TicketType)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (ticket == null)
+            Ticket ticket = await _ticketService.GetTicketByIdAsync(id.Value);
+
+            if (ticket is null)
             {
                 return NotFound();
             }
