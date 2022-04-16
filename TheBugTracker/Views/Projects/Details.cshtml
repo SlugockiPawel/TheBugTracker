@@ -32,9 +32,9 @@
                                 <div class="progress">
 
                                     @{
-                                        var start = Model.StartDate;
-                                        var end = Model.EndDate;
-                                        var today = DateTimeOffset.Now;
+                                        var start = Model.StartDate.DateTime;
+                                        var end = Model.EndDate.DateTime;
+                                        var today = DateTime.Now;
                                         var percent = today >= end ? 100 : today < start ? 0 :
                                             Math.Round((today.Subtract(start) / end.Subtract(start)) * 100);
                                     }
