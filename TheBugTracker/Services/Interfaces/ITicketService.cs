@@ -6,6 +6,7 @@ namespace TheBugTracker.Services.Interfaces
     {
         // CRUD Methods
         public Task AddNewTicketAsync(Ticket ticket);
+        public Task AddTicketCommentAsync(TicketComment ticketComment);
         public Task UpdateTicketAsync(Ticket ticket);
         public Task<Ticket> GetTicketByIdAsync(int ticketId);
         public Task ArchiveTicketAsync(Ticket ticket);
