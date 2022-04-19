@@ -46,7 +46,7 @@ namespace TheBugTracker.Services
             if (!string.IsNullOrWhiteSpace(fileImage))
             {
                 fileImage = Path.GetExtension(file).Replace(".", "");
-                return $"/img/png/{fileImage}.png";
+                return $"/img/contenttype/{fileImage}.png";
             }
 
             return fileImage;
@@ -63,7 +63,7 @@ namespace TheBugTracker.Services
                 counter++;
             }
 
-            return string.Format("{0:n1}{1}", fileSize, suffixes);
+            return string.Format("{0:n1}{1}", fileSize, suffixes[counter]);
         }
     }
 }
