@@ -368,6 +368,21 @@ namespace TheBugTracker.Services
             }
         }
 
+        public async Task<TicketAttachment> GetTicketAttachmentByIdAsync(int ticketAttachmentId)
+        {
+            try
+            {
+                return await _context.TicketAttachments
+                    .Include(t => t.User)
+                    .FirstOrDefaultAsync(t => t.Id == ticketAttachmentId);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
+        }
+
         public async Task<BTUser> GetTicketDeveloperAsync(int ticketId, int companyId)
         {
             try
