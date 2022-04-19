@@ -292,6 +292,17 @@ namespace TheBugTracker.Controllers
             return RedirectToAction("Details", new { id = ticketAttachment.TicketId, message = statusMessage });
         }
 
+        // GET: Tickets/ShowFile/5
+        public async Task<IActionResult> ShowFile(int id)
+        {
+            TicketAttachment ticketAttachment = await _ticketService.GetTicketAttachmentByIdAsync(id);
+            string fileName = ticketAttachment.FileName;
+            byte[] fileData = ticketAttachment.FileData;
+            string ext = Path.GetExtension(fileName).Replace(".", "");
+
+            Response.Headers.Add("Content-Disposition", $"inline; filename={fileName}");
+            return File(fileData, $"application/{ext}");
+        }
 
         // GET: Tickets/Archive/5
         public async Task<IActionResult> Archive(int? id)
