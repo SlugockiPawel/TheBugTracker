@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Data;
 using TheBugTracker.Data;
 using TheBugTracker.Models;
@@ -536,6 +538,21 @@ namespace TheBugTracker.Services
             {
                 return (await GetAllTicketsByTypeAsync(companyId, typeName))
                     .Where(t => t.ProjectId == projectId)
+                    .ToList();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
+        }
+
+        public async Task<List<Ticket>> GetUnassignedTicketsAsync(int companyId)
+        {
+            try
+            {
+                return (await GetAllTicketsByCompanyAsync(companyId))
+                    .Where(t => string.IsNullOrWhiteSpace(t.DeveloperUserId))
                     .ToList();
             }
             catch (Exception e)
