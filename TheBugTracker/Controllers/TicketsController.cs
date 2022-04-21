@@ -13,6 +13,7 @@ using TheBugTracker.Data;
 using TheBugTracker.Extensions;
 using TheBugTracker.Models;
 using TheBugTracker.Models.Enums;
+using TheBugTracker.Models.ViewModels;
 using TheBugTracker.Services;
 using TheBugTracker.Services.Interfaces;
 
@@ -28,7 +29,8 @@ namespace TheBugTracker.Controllers
         private readonly IFileService _fileService;
 
         public TicketsController(ApplicationDbContext context, UserManager<BTUser> userManager,
-            IProjectService projectService, ILookupService lookupService, ITicketService ticketService, IFileService fileService)
+            IProjectService projectService, ILookupService lookupService, ITicketService ticketService,
+            IFileService fileService)
         {
             _context = context;
             _userManager = userManager;
@@ -73,7 +75,7 @@ namespace TheBugTracker.Controllers
         public async Task<IActionResult> ArchivedTickets()
         {
             int companyId = User.Identity.GetCompanyId().Value;
-            List<Ticket> tickets =  await _ticketService.GetArchivedTicketsAsync(companyId);
+            List<Ticket> tickets = await _ticketService.GetArchivedTicketsAsync(companyId);
 
             return View(tickets);
         }
@@ -103,6 +105,20 @@ namespace TheBugTracker.Controllers
             }
 
             return View(pmTickets);
+        }
+
+        //Get: AssignDeveloper
+        public async Task<IActionResult> AssignDeveloper(int id)
+        {
+            AssignDeveloperViewModel model = new();
+
+            model.Ticket = await _ticketService.GetTicketByIdAsync(id);
+            model.Developers =
+                new SelectList(
+                    await _projectService.GetProjectMembersByRoleAsync(model.Ticket.ProjectId,
+                        nameof(Roles.Developer)), "Id", "FullName");
+
+            return View(model);
         }
 
         // GET: Tickets/Details/5
@@ -271,7 +287,6 @@ namespace TheBugTracker.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-
         public async Task<IActionResult> AddTicketComment([Bind("Id, TicketId, Comment")] TicketComment ticketComment)
         {
             if (ModelState.IsValid)
@@ -295,7 +310,8 @@ namespace TheBugTracker.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddTicketAttachment([Bind("Id,FormFile,Description,TicketId")] TicketAttachment ticketAttachment)
+        public async Task<IActionResult> AddTicketAttachment(
+            [Bind("Id,FormFile,Description,TicketId")] TicketAttachment ticketAttachment)
         {
             string statusMessage;
 
@@ -314,7 +330,6 @@ namespace TheBugTracker.Controllers
             else
             {
                 statusMessage = "Error: Invalid data.";
-
             }
 
             return RedirectToAction("Details", new { id = ticketAttachment.TicketId, message = statusMessage });
