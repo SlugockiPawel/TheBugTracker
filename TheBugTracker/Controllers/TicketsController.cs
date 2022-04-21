@@ -121,6 +121,19 @@ namespace TheBugTracker.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AssignDeveloper(AssignDeveloperViewModel model)
+        {
+            if (model.DeveloperId is not null)
+            {
+                await _ticketService.AssignTicketAsync(model.Ticket.Id, model.DeveloperId);
+                return RedirectToAction(nameof(Details), new { id = model.Ticket.Id });
+            }
+
+            return RedirectToAction(nameof(AssignDeveloper), new { id = model.Ticket.Id });
+        }
+
         // GET: Tickets/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -311,7 +324,8 @@ namespace TheBugTracker.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddTicketAttachment(
-            [Bind("Id,FormFile,Description,TicketId")] TicketAttachment ticketAttachment)
+            [Bind("Id,FormFile,Description,TicketId")]
+            TicketAttachment ticketAttachment)
         {
             string statusMessage;
 
