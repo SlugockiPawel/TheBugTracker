@@ -12,14 +12,14 @@
     <div class="col-md-4">
         <form method="post" asp-action="AssignPM" asp-controller="Projects">
             <input hidden asp-for="Project.Id"/>
-            
+
             <h2>@Model.Project.Name</h2>
 
             <p>@Model.Project.Description</p>
-            
+
             <div class="form-group">
                 <label class="control-label">Select Project Manager</label>
-                <select asp-for="PMID" asp-items="Model.PMList" class="form-control">
+                <select required asp-for="PMID" asp-items="Model.PMList" class="form-control">
                     <option></option>
                 </select>
                 <input type="submit" value="Assign" class="btn btn-primary"/>
