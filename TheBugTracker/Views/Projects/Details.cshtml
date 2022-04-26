@@ -93,7 +93,7 @@
                                         <p class="text-muted mb-0">Project Manager</p>
                                         @if (User.IsInRole(nameof(Roles.Admin)) || user.Id == projectManager.Id)
                                         {
-                                            <a class="btn btn-sm btn-outline-dark" style="font-size: small" asp-action="AssignUser" asp-controller="Projects" asp-route-id="@Model.Id">Manage Team</a>
+                                            <a class="btn alert-primary" style="font-size: small" asp-action="AssignMembers" asp-controller="Projects" asp-route-id="@Model.Id">Manage Team</a>
                                         }
                                     </div>
                                 </div>
