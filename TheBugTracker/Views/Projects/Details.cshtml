@@ -107,7 +107,7 @@
                             @if (User.IsInRole(nameof(Roles.Admin)))
                             {
                                 <span>
-                                    <a asp-action="AssignProjectManager" asp-controller="Projects" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-info">Assign PM</a>
+                                    <a asp-action="AssignPM" asp-controller="Projects" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-info">Assign PM</a>
                                 </span>
                             }
                         </div>
