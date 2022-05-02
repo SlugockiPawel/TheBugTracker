@@ -222,11 +222,11 @@
                             {
                                 <div class="">
 
-                                    <span class="date">@history.Created.ToString("dd MM yyyy")</span>
+                                    <span class="date">@history.Created.ToString("dd MMMM yyyy")</span>
                                     <h6>@history.Description</h6>
                                     <span>By: <a href="" title="@history.User.FullName">@history.User.FullName</a></span>
                                     <div class="">
-                                        <p>The ticket <b>@history.Property</b> was edited</p>
+                                        <p> <b>@history.Property</b> was edited </p>
                                         <p>@($"Previous {history.Property}: {history.OldValue}")</p>
                                         <p>@($"Current {history.Property}: {history.NewValue}")</p>
                                     </div>
