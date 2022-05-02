@@ -268,7 +268,7 @@ namespace TheBugTracker.Controllers
 
                 try
                 {
-                    ticket.Updated = DateTime.Now;
+                    ticket.Updated = DateTimeOffset.Now;
                     await _ticketService.UpdateTicketAsync(ticket);
                 }
                 catch (DbUpdateConcurrencyException)
