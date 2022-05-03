@@ -198,7 +198,9 @@ namespace TheBugTracker.Controllers
 
                 await _ticketService.AddNewTicketAsync(ticket);
 
-                // TODO Ticket History
+                // Add Ticket History
+                Ticket newTicket = await _ticketService.GetTicketAsNoTrackingAsync(ticket.Id);
+                await _ticketHistoryService.AddHistoryAsync(null, newTicket, user.Id);
 
                 // TODO Ticket Notification
 
