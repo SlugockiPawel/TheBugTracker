@@ -12,13 +12,13 @@ using TheBugTracker.Extensions;
 using TheBugTracker.Models;
 using TheBugTracker.Models.Enums;
 using TheBugTracker.Models.ViewModels;
+using TheBugTracker.Services;
 using TheBugTracker.Services.Interfaces;
 
 namespace TheBugTracker.Controllers
 {
     public class ProjectsController : Controller
     {
-        private readonly ApplicationDbContext _context;
         private readonly IRolesService _rolesService;
         private readonly ILookupService _lookupsService;
         private readonly IFileService _fileService;
@@ -26,24 +26,16 @@ namespace TheBugTracker.Controllers
         private readonly UserManager<BTUser> _userManager;
         private readonly ICompanyInfoService _companyInfoService;
 
-        public ProjectsController(ApplicationDbContext context, IRolesService rolesService,
+        public ProjectsController(IRolesService rolesService,
             ILookupService lookupsService, IFileService fileService, IProjectService projectService,
             UserManager<BTUser> userManager, ICompanyInfoService companyInfoService)
         {
-            _context = context;
             _rolesService = rolesService;
             _lookupsService = lookupsService;
             _fileService = fileService;
             _projectService = projectService;
             _userManager = userManager;
             _companyInfoService = companyInfoService;
-        }
-
-        // GET: Projects
-        public async Task<IActionResult> Index()
-        {
-            var applicationDbContext = _context.Projects.Include(p => p.Company).Include(p => p.ProjectPriority);
-            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: MyProjects
@@ -233,8 +225,7 @@ namespace TheBugTracker.Controllers
                     throw;
                 }
 
-                // TODO Redirect to All Projects view
-                return RedirectToAction("Index");
+                return RedirectToAction("AllProjects");
             }
 
             return RedirectToAction("Create");
@@ -286,11 +277,15 @@ namespace TheBugTracker.Controllers
                         await _projectService.AddProjectManagerAsync(model.PmId, model.Project.Id);
                     }
 
-                    return RedirectToAction("Index");
+                    return RedirectToAction("AllProjects");
                 }
-                catch (Exception e)
+                catch (DbUpdateConcurrencyException e)
                 {
-                    Console.WriteLine(e.Message);
+                    if (!await ProjectExists(model.Project.Id))
+                    {
+                        return NotFound();
+                    }
+
                     throw;
                 }
             }
@@ -327,7 +322,7 @@ namespace TheBugTracker.Controllers
             Project project = await _projectService.GetProjectByIdAsync(id, companyId);
             await _projectService.ArchiveProjectAsync(project);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(AllProjects));
         }
 
         // GET: Projects/Restore/5
@@ -359,7 +354,7 @@ namespace TheBugTracker.Controllers
             Project project = await _projectService.GetProjectByIdAsync(id, companyId);
             await _projectService.RestoreProjectAsync(project);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(AllProjects));
         }
 
         private async Task<bool> ProjectExists(int id)
