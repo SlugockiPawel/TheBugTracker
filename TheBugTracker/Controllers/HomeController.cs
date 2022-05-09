@@ -23,7 +23,7 @@ namespace TheBugTracker.Controllers
             return View();
         }
 
-        public async IActionResult Dashboard()
+        public async Task<IActionResult> Dashboard()
         {
             DashboardViewModel model = new();
             int companyId = User.Identity.GetCompanyId().Value;
