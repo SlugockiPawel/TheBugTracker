@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using TheBugTracker.Extensions;
 using TheBugTracker.Models;
+using TheBugTracker.Models.Enums;
 using TheBugTracker.Models.ViewModels;
 using TheBugTracker.Services.Interfaces;
 
@@ -11,11 +12,13 @@ namespace TheBugTracker.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ICompanyInfoService _companyInfoService;
+        private readonly IProjectService _projectService;
 
-        public HomeController(ILogger<HomeController> logger, ICompanyInfoService companyInfoService)
+        public HomeController(ILogger<HomeController> logger, ICompanyInfoService companyInfoService, IProjectService projectService)
         {
             _logger = logger;
             _companyInfoService = companyInfoService;
+            _projectService = projectService;
         }
 
         public IActionResult Index()
@@ -40,6 +43,26 @@ namespace TheBugTracker.Controllers
             model.Members = model.Company.Members.ToList();
 
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> GglProjectPriority()
+        {
+            int companyId = User.Identity.GetCompanyId().Value;
+
+            List<Project> projects = await _projectService.GetAllProjectsByCompanyAsync(companyId);
+
+            List<object> chartData = new();
+            chartData.Add(new object[] { "Priority", "Count" });
+
+
+            foreach (string priority in Enum.GetNames(typeof(ProjectPriorities)))
+            {
+                int priorityCount = (await _projectService.GetAllProjectsByPriorityAsync(companyId, priority)).Count();
+                chartData.Add(new object[] { priority, priorityCount });
+            }
+
+            return Json(chartData);
         }
 
         public IActionResult Privacy()
