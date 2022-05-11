@@ -65,6 +65,24 @@ namespace TheBugTracker.Controllers
             return Json(chartData);
         }
 
+        [HttpPost]
+        public async Task<JsonResult> GglProjectTickets()
+        {
+            int companyId = User.Identity.GetCompanyId().Value;
+
+            List<Project> projects = await _projectService.GetAllProjectsByCompanyAsync(companyId);
+
+            List<object> chartData = new();
+            chartData.Add(new object[] { "ProjectName", "TicketCount" });
+
+            foreach (Project prj in projects)
+            {
+                chartData.Add(new object[] { prj.Name, prj.Tickets.Count() });
+            }
+
+            return Json(chartData);
+        }
+
         public IActionResult Privacy()
         {
             return View();
