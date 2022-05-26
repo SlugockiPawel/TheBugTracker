@@ -47,11 +47,11 @@
 
 <div>
 <div classxfont-weighteighteightgetainer-fluid>
-    
+
     <!-- Info Pills -->
     <div class="row mt-2">
         <div class="col-lg-3 col-md-6 col-sm-6">
-            <a asp-action="AllProjects" asp-controller="Projects" style="text-decoration:none">
+            <a asp-action="AllProjects" asp-controller="Projects" style="text-decoration: none">
                 <div class="card text-center bg-info">
                     <div class="body">
                         <div class="p-15 text-light">
@@ -63,7 +63,7 @@
             </a>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6">
-            <a asp-action="AllTickets" asp-controller="Tickets" style="text-decoration:none">
+            <a asp-action="AllTickets" asp-controller="Tickets" style="text-decoration: none">
                 <div class="card text-center bg-secondary">
                     <div class="body">
                         <div class="p-15 text-light">
@@ -91,9 +91,9 @@
                     <div class="p-15 text-light">
                         <h3>
                             @(
-    Model.Projects.Count()
-    + Model.Tickets.Count()
-    + Model.Members.Count()
+        Model.Projects.Count()
+        + Model.Tickets.Count()
+        + Model.Members.Count()
                                 )
                         </h3>
                         <span>Total Data</span>
@@ -102,12 +102,15 @@
             </div>
         </div>
     </div>
-    
+
 
     <div class="row gy-2">
         <div class="col-md-12 col">
+
+
             <div class="row  mt-5 bg-secondary">
-                <div class="card col m-1 p-2">
+
+                <div class="card col-6 border border-5 border-secondary p-2">
                     <div class="card-body">
                         <h5>Projects by Priority</h5>
                         <p>[Google Charts]</p>
@@ -116,7 +119,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card col m-1 p-2">
+                <div class="card col-6 border border-5 border-secondary p-2">
                     <div class="card-body">
                         <h5>Project Tickets Count (%)</h5>
                         <p>[Google Charts]</p>
@@ -125,20 +128,22 @@
                         </div>
                     </div>
                 </div>
-                <div class="card col m-1 p-2">
+
+
+                <div class="card col-6 border border-5 border-secondary p-2">
                     <div class="card-body">
                         <h5>Tickets by Priority</h5>
                         <p>[Morris Charts]</p>
                         <!-- Morris: Donut -->
                         <div class="col-md-12">
-                            <div id="legend" class="donut-legend" style="font-size:x-small"></div>
+                            <div id="legend" class="donut-legend" style="font-size: x-small"></div>
                         </div>
                         <div class="col-md-12">
                             <div class="" id="morrisTicketPriority"></div>
                         </div>
                     </div>
                 </div>
-                <div class="card col m-1 p-2">
+                <div class="card col-6 border border-5 border-secondary p-2">
                     <div class="card-body">
                         <h5>Tickets by Status</h5>
                         <p>[ChartJS]</p>
@@ -149,13 +154,17 @@
                         </div>
                     </div>
                 </div>
+
+
             </div>
+
+
         </div>
     </div>
     <div class="row gy-2">
-        <div class="cols mt-5 bg-secondary">
+        <div class="col bg-secondary">
             <div class="card col m-1 p-2">
-                <div class="card-body" style="height:600px">
+                <div class="card-body" style="height: 600px">
                     <h5>Project: Tickets vs Developers</h5>
                     <p>[amCharts]</p>
                     <!-- HTML -->
@@ -164,13 +173,13 @@
             </div>
         </div>
     </div>
-    
+
     <div class="row gy-2">
-        <div class="cols mt-5 bg-secondary">
+        <div class="col bg-secondary">
             <div class="card col m-1 p-2">
-                <div class="card-body" style="height:600px;overflow-y:auto;">
+                <div class="card-body" style="height: 600px; overflow-y: auto;">
                     <h5>Project: Tickets vs Developers</h5>
-                    <p>[Plotly]</p>	
+                    <p>[Plotly]</p>
                     <!-- HTML -->
                     <div id="plotlyChart"></div>
                 </div>
@@ -180,7 +189,7 @@
 
 </div>
 <hr/>
-<div class="mt-5 ">
+<div class="">
     <div class="row">
         @* Projects Table *@
         <div class="col">
@@ -350,6 +359,7 @@
     <script type="text/javascript">
         google.load("visualization", "1", { packages: ["corechart"] });
         google.setOnLoadCallback(drawChart);
+
         function drawChart() {
             $.ajax({
                 type: "POST",
@@ -357,14 +367,14 @@
                 data: '{}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: function (result) {
+                success: function(result) {
                     var data = google.visualization.arrayToDataTable(result);
 
                     //3D Pie
                     var options = {
                         title: 'Project Priority',
                         is3D: true,
-                        chartArea: { left: 0,bottom: 15,width: '100%', height: '100%'},
+                        chartArea: { left: 0, bottom: 15, width: '100%', height: '100%' },
                         legend: { position: 'bottom' }
 
                     };
@@ -372,10 +382,10 @@
                     var chart = new google.visualization.PieChart($("#chart3D")[0]);
                     chart.draw(data, options);
                 },
-                failure: function (result) {
+                failure: function(result) {
                     alert(result.d);
                 },
-                error: function (result) {
+                error: function(result) {
                     alert(result.d);
                 }
             });
@@ -384,6 +394,7 @@
     <script type="text/javascript">
         google.load("visualization", "1", { packages: ["corechart"] });
         google.setOnLoadCallback(drawChart);
+
         function drawChart() {
             $.ajax({
                 type: "POST",
@@ -391,47 +402,49 @@
                 data: '{}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: function (result) {
+                success: function(result) {
                     var data = google.visualization.arrayToDataTable(result);
 
                     //Donut
                     var options = {
                         title: 'Company Ticket Distribution',
                         pieHole: 0.3,
-                        chartArea: { left: 0,bottom: 15,width: '100%', height: '100%'},
+                        chartArea: { left: 0, bottom: 15, width: '100%', height: '100%' },
                         legend: { position: 'bottom' }
                     };
                     var chart = new google.visualization.PieChart($("#donut")[0]);
                     chart.draw(data, options);
                 },
-                failure: function (rresult) {
+                failure: function(rresult) {
                     alert(result.d);
                 },
-                error: function (result) {
+                error: function(result) {
                     alert(result.d);
                 }
             });
         }
     </script>
- 
+
     @* Morris Donut Chart *@
     <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
     <script>
 
-        var morrisDonutData = [{
-            label: "Low",
-            value: @Model.Tickets.Where(t=>t.TicketPriority.Name == nameof(TicketPriorities.Low)).Count()
-        }, {
-            label: "Medium",
-            value: @Model.Tickets.Where(t=>t.TicketPriority.Name == nameof(TicketPriorities.Medium)).Count()
-        }, {
-            label: "High",
-            value: @Model.Tickets.Where(t=>t.TicketPriority.Name == nameof(TicketPriorities.High)).Count()
-        }, {
-            label: "Urgent",
-            value: @Model.Tickets.Where(t=>t.TicketPriority.Name == nameof(TicketPriorities.Urgent)).Count()
-        }];
+        var morrisDonutData = [
+            {
+                label: "Low",
+                value: @Model.Tickets.Where(t => t.TicketPriority.Name == nameof(TicketPriorities.Low)).Count()
+            }, {
+                label: "Medium",
+                value: @Model.Tickets.Where(t => t.TicketPriority.Name == nameof(TicketPriorities.Medium)).Count()
+            }, {
+                label: "High",
+                value: @Model.Tickets.Where(t => t.TicketPriority.Name == nameof(TicketPriorities.High)).Count()
+            }, {
+                label: "Urgent",
+                value: @Model.Tickets.Where(t => t.TicketPriority.Name == nameof(TicketPriorities.Urgent)).Count()
+            }
+        ];
 
 
         /*
@@ -446,7 +459,7 @@
             });
 
             donutChart.options.data.forEach(function(label, i) {
-                var legendItem = $('<span></span>').text( label['label'] + ": " +label['value']).prepend('<span>&nbsp;</span>');
+                var legendItem = $('<span></span>').text(label['label'] + ": " + label['value']).prepend('<span>&nbsp;</span>');
                 legendItem.find('span')
                     .css('backgroundColor', donutChart.options.colors[i])
                     .css('width', '20px')
@@ -456,7 +469,7 @@
             });
         };
     </script>
-    
+
     <!-- *** Begin Chart JS Pie/Donut *** -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.6.0/dist/chart.min.js"></script>
     <script>
@@ -472,10 +485,10 @@
             datasets: [
                 {
                     data: [
-                        @Model.Tickets.Where(t=> t.TicketStatus.Name == nameof(TicketStatuses.Development)).Count(),
-                        @Model.Tickets.Where(t=> t.TicketStatus.Name ==nameof(TicketStatuses.New)).Count(),
-                        @Model.Tickets.Where(t=> t.TicketStatus.Name ==nameof(TicketStatuses.Resolved)).Count(),
-                        @Model.Tickets.Where(t=> t.TicketStatus.Name ==nameof(TicketStatuses.Testing)).Count()
+                        @Model.Tickets.Where(t => t.TicketStatus.Name == nameof(TicketStatuses.Development)).Count(),
+                        @Model.Tickets.Where(t => t.TicketStatus.Name == nameof(TicketStatuses.New)).Count(),
+                        @Model.Tickets.Where(t => t.TicketStatus.Name == nameof(TicketStatuses.Resolved)).Count(),
+                        @Model.Tickets.Where(t => t.TicketStatus.Name == nameof(TicketStatuses.Testing)).Count()
                     ],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
@@ -499,96 +512,97 @@
         };
         //Create pie or douhnut chart
         // You can switch between pie and douhnut using the method below.
-        new Chart(donutChartCanvas, {
-            type: 'doughnut',
-            data: donutData,
-            options: donutOptions
-        });
+        new Chart(donutChartCanvas,
+            {
+                type: 'doughnut',
+                data: donutData,
+                options: donutOptions
+            });
     </script>
     <!-- *** End Chart JS Donut *** -->
-    
+
     <!-- *** Begin AM Charts *** -->
 
-<!-- Resources -->
-<script src="https://cdn.amcharts.com/lib/4/core.js"></script>
-<script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+    <!-- Resources -->
+    <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
 
-<!-- Chart code -->
-<script>
-	$.ajax({
-		type: "POST",
-		url: "/Home/AmCharts",
-		data: '{}',
-		contentType: "application/json; charset=utf-8",
-		dataType: "json",
-		success: function (result) {
-			am4core.ready(function() {
+    <!-- Chart code -->
+    <script>
+        $.ajax({
+            type: "POST",
+            url: "/Home/AmCharts",
+            data: '{}',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function(result) {
+                am4core.ready(function() {
 
-				// Themes begin
-				// Themes end
+                    // Themes begin
+                    // Themes end
 
-				 // Create chart instance
-				var chart = am4core.create("chartdiv", am4charts.XYChart);
-
-
-				// Add data
-				chart.data = result;
-
-				// Create axes
-				var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
-				categoryAxis.dataFields.category = "project";
-				categoryAxis.numberFormatter.numberFormat = "#";
-				categoryAxis.renderer.inversed = true;
-				categoryAxis.renderer.grid.template.location = 0;
-				categoryAxis.renderer.cellStartLocation = 0.1;
-				categoryAxis.renderer.cellEndLocation = 0.9;
-
-				var  valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
-				valueAxis.renderer.opposite = true;
-
-				// Create series
-				function createSeries(field, name) {
-				  var series = chart.series.push(new am4charts.ColumnSeries());
-				  series.dataFields.valueX = field;
-				  series.dataFields.categoryY = "project";
-				  series.name = name;
-				  series.columns.template.tooltipText = "{name}: [bold]{valueX}[/]";
-				  series.columns.template.height = am4core.percent(100);
-				  series.sequencedInterpolation = true;
-
-				  var valueLabel = series.bullets.push(new am4charts.LabelBullet());
-				  valueLabel.label.text = "{valueX}";
-				  valueLabel.label.horizontalCenter = "left";
-				  valueLabel.label.dx = 10;
-				  valueLabel.label.hideOversized = false;
-				  valueLabel.label.truncate = false;
-
-				  var categoryLabel = series.bullets.push(new am4charts.LabelBullet());
-				  categoryLabel.label.text = "{name}";
-				  categoryLabel.label.horizontalCenter = "right";
-				  categoryLabel.label.dx = -10;
-				  categoryLabel.label.fill = am4core.color("#fff");
-				  categoryLabel.label.hideOversized = false;
-				  categoryLabel.label.truncate = false;
-				}
-
-				createSeries("tickets", "Tickets");
-				createSeries("developers", "Devs");
-
-			}); // end am4core.ready()
+                    // Create chart instance
+                    var chart = am4core.create("chartdiv", am4charts.XYChart);
 
 
-		},
-		failure: function (result) {
-			alert(result.d);
-		},
-		error: function (result) {
-			alert(result.d);
-		}
-	});
-</script>
+                    // Add data
+                    chart.data = result;
 
-<!-- *** End AM Charts *** -->
+                    // Create axes
+                    var categoryAxis = chart.yAxes.push(new am4charts.CategoryAxis());
+                    categoryAxis.dataFields.category = "project";
+                    categoryAxis.numberFormatter.numberFormat = "#";
+                    categoryAxis.renderer.inversed = true;
+                    categoryAxis.renderer.grid.template.location = 0;
+                    categoryAxis.renderer.cellStartLocation = 0.1;
+                    categoryAxis.renderer.cellEndLocation = 0.9;
+
+                    var valueAxis = chart.xAxes.push(new am4charts.ValueAxis());
+                    valueAxis.renderer.opposite = true;
+
+                    // Create series
+                    function createSeries(field, name) {
+                        var series = chart.series.push(new am4charts.ColumnSeries());
+                        series.dataFields.valueX = field;
+                        series.dataFields.categoryY = "project";
+                        series.name = name;
+                        series.columns.template.tooltipText = "{name}: [bold]{valueX}[/]";
+                        series.columns.template.height = am4core.percent(100);
+                        series.sequencedInterpolation = true;
+
+                        var valueLabel = series.bullets.push(new am4charts.LabelBullet());
+                        valueLabel.label.text = "{valueX}";
+                        valueLabel.label.horizontalCenter = "left";
+                        valueLabel.label.dx = 10;
+                        valueLabel.label.hideOversized = false;
+                        valueLabel.label.truncate = false;
+
+                        var categoryLabel = series.bullets.push(new am4charts.LabelBullet());
+                        categoryLabel.label.text = "{name}";
+                        categoryLabel.label.horizontalCenter = "right";
+                        categoryLabel.label.dx = -10;
+                        categoryLabel.label.fill = am4core.color("#fff");
+                        categoryLabel.label.hideOversized = false;
+                        categoryLabel.label.truncate = false;
+                    }
+
+                    createSeries("tickets", "Tickets");
+                    createSeries("developers", "Devs");
+
+                }); // end am4core.ready()
+
+
+            },
+            failure: function(result) {
+                alert(result.d);
+            },
+            error: function(result) {
+                alert(result.d);
+            }
+        });
+    </script>
+
+    <!-- *** End AM Charts *** -->
 
     <!--  Plotly Charts  -->
     <!-- Load plotly.js into the DOM -->
@@ -600,21 +614,21 @@
             data: '{}',
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function (result) {
+            success: function(result) {
                 var data = result;
 
-                var layout = {barmode: 'group'};
+                var layout = { barmode: 'group' };
 
                 Plotly.newPlot('plotlyChart', data, layout);
             },
-            failure: function (result) {
+            failure: function(result) {
                 alert(result.d);
             },
-            error: function (result) {
+            error: function(result) {
                 alert(result.d);
             }
         });
-    </script>    
-    
+    </script>
+
 
 }
