@@ -14,8 +14,6 @@ namespace TheBugTracker.Services
             _context = context;
         }
 
-        // TODO try iterate through TicketHistory properties and write method that checks each property if it has been changed
-
         /// <summary>
         /// Adds history (TicketHistory object) to the specified Ticket object. oldTicket and newTicket are the same Ticket object (newTicket will update oldTicket in the database)
         /// </summary>
