@@ -9,6 +9,11 @@ using TheBugTracker.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// TODO implement notifications mechanism during new Ticket creation
+// TODO add filters to tables so user can filter tickets by priority etc.
+// TODO Add Index page where user can login as Demo Admin / Demo PM/ Demo Developer/ Demo User
+// TODO Should Company list be visible for all users?
+
 // Add services to the container.
 var connectionString = DataUtility.GetConnectionString(builder);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
