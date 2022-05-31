@@ -41,9 +41,6 @@
             @Html.DisplayNameFor(model => model.FileContentType)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Company)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.ProjectPriority)
         </th>
         <th></th>
@@ -81,10 +78,7 @@
                 @Html.DisplayFor(modelItem => item.FileContentType)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Company.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProjectPriority.Id)
+                @Html.DisplayFor(modelItem => item.ProjectPriority.Name)
             </td>
             <td>
 
