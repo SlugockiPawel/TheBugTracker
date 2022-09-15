@@ -7,7 +7,7 @@ using TheBugTracker.Models;
 
 namespace TheBugTracker.Services
 {
-    public class EmailService : IEmailSender
+    public sealed class EmailService : IEmailSender
     {
         private readonly MailSettings _mailSettings;
 

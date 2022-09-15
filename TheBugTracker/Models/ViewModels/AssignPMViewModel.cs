@@ -2,7 +2,7 @@
 
 namespace TheBugTracker.Models.ViewModels
 {
-    public class AssignPMViewModel
+    public sealed class AssignPMViewModel
     {
         public Project Project { get; set; }
         public SelectList PMList { get; set; }

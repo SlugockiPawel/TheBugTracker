@@ -15,7 +15,7 @@ using TheBugTracker.Models;
 
 namespace TheBugTracker.Areas.Identity.Pages.Account.Manage
 {
-    public class ExternalLoginsModel : PageModel
+    public sealed class ExternalLoginsModel : PageModel
     {
         private readonly UserManager<BTUser> _userManager;
         private readonly SignInManager<BTUser> _signInManager;

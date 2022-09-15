@@ -2,7 +2,7 @@
 
 namespace TheBugTracker.Models
 {
-    public class TicketType
+    public sealed class TicketType
     {
         public int Id { get; set; }
 

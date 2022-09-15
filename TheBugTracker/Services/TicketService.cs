@@ -9,7 +9,7 @@ using TheBugTracker.Services.Interfaces;
 
 namespace TheBugTracker.Services
 {
-    public class TicketService : ITicketService
+    public sealed class TicketService : ITicketService
     {
         private readonly ApplicationDbContext _context;
         private readonly IRolesService _rolesService;

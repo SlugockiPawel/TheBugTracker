@@ -2,7 +2,7 @@
 
 namespace TheBugTracker.Models.ViewModels
 {
-    public class AssignDeveloperViewModel
+    public sealed class AssignDeveloperViewModel
     {
         public Ticket Ticket { get; set; }
         public SelectList Developers { get; set; }

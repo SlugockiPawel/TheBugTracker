@@ -1,6 +1,6 @@
 ﻿namespace TheBugTracker.Models.ViewModels
 {
-    public class DashboardViewModel
+    public sealed class DashboardViewModel
     {
         public Company Company { get; set; }
         public List<Project> Projects { get; set; }

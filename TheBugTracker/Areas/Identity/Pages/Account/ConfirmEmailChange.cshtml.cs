@@ -14,7 +14,7 @@ using TheBugTracker.Models;
 
 namespace TheBugTracker.Areas.Identity.Pages.Account
 {
-    public class ConfirmEmailChangeModel : PageModel
+    public sealed class ConfirmEmailChangeModel : PageModel
     {
         private readonly UserManager<BTUser> _userManager;
         private readonly SignInManager<BTUser> _signInManager;

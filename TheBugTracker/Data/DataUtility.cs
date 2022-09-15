@@ -86,7 +86,7 @@ namespace TheBugTracker.Data
         {
             try
             {
-                IList<Company> defaultcompanies = new List<Company>()
+                IList<Company> defaultCompanies = new List<Company>()
                 {
                     new Company() { Name = "Company1", Description = "This is default Company 1" },
                     new Company() { Name = "Company2", Description = "This is default Company 2" },
@@ -96,7 +96,7 @@ namespace TheBugTracker.Data
                 };
 
                 var dbCompanies = context.Companies.Select(c => c.Name).ToList();
-                await context.Companies.AddRangeAsync(defaultcompanies.Where(c => !dbCompanies.Contains(c.Name)));
+                await context.Companies.AddRangeAsync(defaultCompanies.Where(c => !dbCompanies.Contains(c.Name)));
                 await context.SaveChangesAsync();
 
                 //Get company Ids
@@ -162,7 +162,7 @@ namespace TheBugTracker.Data
                     new Project()
                     {
                         CompanyId = company1Id,
-                        Name = "Build a Personal Porfolio",
+                        Name = "Build a Personal Portfolio",
                         Description =
                             "Single page html, css & javascript page.  Serves as a landing page for candidates and contains a bio and links to all applications and challenges.",
                         StartDate = new DateTime(2021, 8, 20),
@@ -190,7 +190,7 @@ namespace TheBugTracker.Data
                         CompanyId = company1Id,
                         Name = "Build an Issue Tracking Web Application",
                         Description =
-                            "A custom designed .Net Core application with postgres database.  The application is a multi tennent application designed to track issue tickets' progress.  Implemented with identity and user roles, Tickets are maintained in projects which are maintained by users in the role of projectmanager.  Each project has a team and team members.",
+                            "A custom designed .Net Core application with postgres database.  The application is a multi tenant application designed to track issue tickets' progress.  Implemented with identity and user roles, Tickets are maintained in projects which are maintained by users in the role of project manager.  Each project has a team and team members.",
                         StartDate = new DateTime(2021, 8, 20),
                         EndDate = new DateTime(2021, 8, 20).AddMonths(6),
                         ProjectPriorityId = priorityHigh,
@@ -801,7 +801,7 @@ namespace TheBugTracker.Data
                     new TicketType()
                     {
                         Name = TicketTypes.NewDevelopment.ToString()
-                    }, // Ticket involves development of a new, uncoded solution 
+                    }, // Ticket involves development of a new, un coded solution 
                     new TicketType()
                     {
                         Name = TicketTypes.WorkTask.ToString()
@@ -821,7 +821,7 @@ namespace TheBugTracker.Data
                     new TicketType()
                     {
                         Name = TicketTypes.GeneralTask.ToString()
-                    } // Ticket involves no software development but may involve tasks such as configuations, or hardware setup
+                    } // Ticket involves no software development but may involve tasks such as configurations, or hardware setup
                 };
 
                 var dbTicketTypes = context.TicketTypes.Select(c => c.Name).ToList();
@@ -890,7 +890,7 @@ namespace TheBugTracker.Data
                 var dbTicketPriorities = context.TicketPriorities.Select(c => c.Name).ToList();
                 await context.TicketPriorities.AddRangeAsync(ticketPriorities.Where(c =>
                     !dbTicketPriorities.Contains(c.Name)));
-                context.SaveChanges();
+                await context.SaveChangesAsync();
             }
             catch (Exception ex)
             {

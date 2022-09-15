@@ -2,7 +2,7 @@
 
 namespace TheBugTracker.Services
 {
-    public class FileService : IFileService
+    public sealed class FileService : IFileService
     {
         private readonly string[] suffixes = { "Bytes", "KB", "MB", "GB", "TB", "PB" };
 

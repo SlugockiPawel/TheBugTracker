@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace TheBugTracker.Models.ViewModels
 {
-    public class AddProjectWithPMViewModel
+    public sealed class AddProjectWithPMViewModel
     {
         public Project Project { get; set; } = default!;
         public SelectList PMList { get; set; } = default!;

@@ -6,7 +6,7 @@ using TheBugTracker.Services.Interfaces;
 
 namespace TheBugTracker.Services
 {
-    public class NotificationService : INotificationService
+    public sealed class NotificationService : INotificationService
     {
         private readonly ApplicationDbContext _context;
         private readonly IEmailSender _emailSender;

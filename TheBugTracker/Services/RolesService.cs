@@ -6,7 +6,7 @@ using TheBugTracker.Services.Interfaces;
 
 namespace TheBugTracker.Services
 {
-    public class RolesService : IRolesService
+    public sealed class RolesService : IRolesService
     {
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ApplicationDbContext _context;

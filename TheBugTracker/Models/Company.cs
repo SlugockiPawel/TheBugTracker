@@ -2,7 +2,7 @@
 
 namespace TheBugTracker.Models
 {
-    public class Company
+    public sealed class Company
     {
         public int Id { get; set; }
 
@@ -10,8 +10,8 @@ namespace TheBugTracker.Models
         [DisplayName("Company Description")] public string Description { get; set; } = default!;
 
         // NP
-        public virtual ICollection<BTUser> Members { get; set; } = new HashSet<BTUser>();
-        public virtual ICollection<Project> Projects { get; set; } = new HashSet<Project>();
-        public virtual ICollection<Invite> Invites { get; set; } = new HashSet<Invite>();
+        public ICollection<BTUser> Members { get; set; } = new HashSet<BTUser>();
+        public ICollection<Project> Projects { get; set; } = new HashSet<Project>();
+        public ICollection<Invite> Invites { get; set; } = new HashSet<Invite>();
     }
 }

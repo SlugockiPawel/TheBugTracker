@@ -10,7 +10,7 @@ using TheBugTracker.Models;
 
 namespace TheBugTracker.Areas.Identity.Pages.Account.Manage
 {
-    public class PersonalDataModel : PageModel
+    public sealed class PersonalDataModel : PageModel
     {
         private readonly UserManager<BTUser> _userManager;
         private readonly ILogger<PersonalDataModel> _logger;

@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace TheBugTracker.Models
 {
-    public class Project
+    public sealed class Project
     {
         //
         public int Id { get; set; }
@@ -39,10 +39,10 @@ namespace TheBugTracker.Models
         [DisplayName("File Extension")] public string FileContentType { get; set; } = default!;
 
         // NP
-        public virtual Company Company { get; set; } = default!;
-        public virtual ProjectPriority ProjectPriority { get; set; } = default!;
+        public Company Company { get; set; } = default!;
+        public ProjectPriority ProjectPriority { get; set; } = default!;
 
-        public virtual ICollection<BTUser> Members { get; set; } = new HashSet<BTUser>();
-        public virtual ICollection<Ticket> Tickets { get; set; } = new HashSet<Ticket>();
+        public ICollection<BTUser> Members { get; set; } = new HashSet<BTUser>();
+        public ICollection<Ticket> Tickets { get; set; } = new HashSet<Ticket>();
     }
 }

@@ -20,7 +20,7 @@ using TheBugTracker.Services.Interfaces;
 namespace TheBugTracker.Controllers
 {
     [Authorize]
-    public class TicketsController : Controller
+    public sealed class TicketsController : Controller
     {
         private readonly UserManager<BTUser> _userManager;
         private readonly IProjectService _projectService;

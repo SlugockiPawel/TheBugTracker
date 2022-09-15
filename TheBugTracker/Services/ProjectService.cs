@@ -7,7 +7,7 @@ using TheBugTracker.Services.Interfaces;
 
 namespace TheBugTracker.Services
 {
-    public class ProjectService : IProjectService
+    public sealed class ProjectService : IProjectService
     {
         private readonly ApplicationDbContext _context;
         private readonly IRolesService _rolesService;

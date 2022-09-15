@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TheBugTracker.Models
 {
-    public class Notification
+    public sealed class Notification
     {
         public int Id { get; set; }
 
@@ -23,8 +23,8 @@ namespace TheBugTracker.Models
         [DisplayName("Has been viewed")] public bool Viewed { get; set; }
 
         // NP
-        public virtual Ticket Ticket { get; set; } = default!;
-        public virtual BTUser Recipient { get; set; } = default!;
-        public virtual BTUser Sender { get; set; } = default!;
+        public Ticket Ticket { get; set; } = default!;
+        public BTUser Recipient { get; set; } = default!;
+        public BTUser Sender { get; set; } = default!;
     }
 }

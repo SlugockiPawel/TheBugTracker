@@ -20,7 +20,7 @@ using TheBugTracker.Services.Interfaces;
 namespace TheBugTracker.Controllers
 {
     [Authorize]
-    public class ProjectsController : Controller
+    public sealed class ProjectsController : Controller
     {
         private readonly IRolesService _rolesService;
         private readonly ILookupService _lookupsService;

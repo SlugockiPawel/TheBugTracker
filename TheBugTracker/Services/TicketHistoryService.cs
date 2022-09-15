@@ -5,7 +5,7 @@ using TheBugTracker.Services.Interfaces;
 
 namespace TheBugTracker.Services
 {
-    public class TicketHistoryService : ITicketHistoryService
+    public sealed class TicketHistoryService : ITicketHistoryService
     {
         private readonly ApplicationDbContext _context;
 

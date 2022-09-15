@@ -11,7 +11,7 @@ using TheBugTracker.Models;
 
 namespace TheBugTracker.Controllers
 {
-    public class NotificationsController : Controller
+    public sealed class NotificationsController : Controller
     {
         private readonly ApplicationDbContext _context;
 

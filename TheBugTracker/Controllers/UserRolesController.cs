@@ -10,7 +10,7 @@ using TheBugTracker.Services.Interfaces;
 namespace TheBugTracker.Controllers
 {
     [Authorize]
-    public class UserRolesController : Controller
+    public sealed class UserRolesController : Controller
     {
         private readonly IRolesService _rolesService;
         private readonly ICompanyInfoService _companyInfoService;

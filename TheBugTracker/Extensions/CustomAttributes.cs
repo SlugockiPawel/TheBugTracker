@@ -2,7 +2,7 @@
 
 namespace TheBugTracker.Extensions
 {
-    public class MaxFileSizeAttribute : ValidationAttribute
+    public sealed class MaxFileSizeAttribute : ValidationAttribute
     {
         private readonly int _maxFileSize;
         public MaxFileSizeAttribute(int maxFileSize)
@@ -33,7 +33,7 @@ namespace TheBugTracker.Extensions
         }
     }
 
-    public class AllowedExtensionsAttribute : ValidationAttribute
+    public sealed class AllowedExtensionsAttribute : ValidationAttribute
     {
         private readonly string[] _extensions;
         public AllowedExtensionsAttribute(string[] extensions)

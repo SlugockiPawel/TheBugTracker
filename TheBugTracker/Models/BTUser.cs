@@ -8,7 +8,7 @@ namespace TheBugTracker.Models
     /// <summary>
     /// BTUser == Bug Trucker User
     /// </summary>
-    public class BTUser : IdentityUser
+    public sealed class BTUser : IdentityUser
     {
         [Required]
         [Display(Name = "First Name")]
@@ -35,9 +35,9 @@ namespace TheBugTracker.Models
         public int CompanyId { get; set; }
 
         // NP
-        public virtual Company Company { get; set; } = default!;
+        public Company Company { get; set; } = default!;
 
-        public virtual ICollection<Project> Projects { get; set; } = new HashSet<Project>();
+        public ICollection<Project> Projects { get; set; } = new HashSet<Project>();
 
     }
 }

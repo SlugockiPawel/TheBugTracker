@@ -5,7 +5,7 @@ using TheBugTracker.Services.Interfaces;
 
 namespace TheBugTracker.Services
 {
-    public class InviteService : IInviteService
+    public sealed class InviteService : IInviteService
     {
         private readonly ApplicationDbContext _context;
 

@@ -16,7 +16,7 @@ using TheBugTracker.Models;
 namespace TheBugTracker.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
-    public class RegisterConfirmationModel : PageModel
+    public sealed class RegisterConfirmationModel : PageModel
     {
         private readonly UserManager<BTUser> _userManager;
         private readonly IEmailSender _sender;

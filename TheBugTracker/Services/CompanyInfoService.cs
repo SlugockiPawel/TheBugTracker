@@ -6,7 +6,7 @@ using TheBugTracker.Services.Interfaces;
 
 namespace TheBugTracker.Services
 {
-    public class CompanyInfoService : ICompanyInfoService
+    public sealed class CompanyInfoService : ICompanyInfoService
     {
         private readonly ApplicationDbContext _context;
 

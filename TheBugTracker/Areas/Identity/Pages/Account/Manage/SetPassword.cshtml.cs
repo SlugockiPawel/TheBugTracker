@@ -12,7 +12,7 @@ using TheBugTracker.Models;
 
 namespace TheBugTracker.Areas.Identity.Pages.Account.Manage
 {
-    public class SetPasswordModel : PageModel
+    public sealed class SetPasswordModel : PageModel
     {
         private readonly UserManager<BTUser> _userManager;
         private readonly SignInManager<BTUser> _signInManager;
@@ -43,7 +43,7 @@ namespace TheBugTracker.Areas.Identity.Pages.Account.Manage
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
-        public class InputModel
+        public sealed class InputModel
         {
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used

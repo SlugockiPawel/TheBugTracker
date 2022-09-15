@@ -13,7 +13,7 @@ using TheBugTracker.Models;
 
 namespace TheBugTracker.Areas.Identity.Pages.Account
 {
-    public class LogoutModel : PageModel
+    public sealed class LogoutModel : PageModel
     {
         private readonly SignInManager<BTUser> _signInManager;
         private readonly ILogger<LogoutModel> _logger;

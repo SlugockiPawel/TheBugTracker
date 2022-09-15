@@ -13,7 +13,7 @@ using TheBugTracker.Models;
 
 namespace TheBugTracker.Areas.Identity.Pages.Account.Manage
 {
-    public class GenerateRecoveryCodesModel : PageModel
+    public sealed class GenerateRecoveryCodesModel : PageModel
     {
         private readonly UserManager<BTUser> _userManager;
         private readonly ILogger<GenerateRecoveryCodesModel> _logger;

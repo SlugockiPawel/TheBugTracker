@@ -2,7 +2,7 @@
 
 namespace TheBugTracker.Models.ViewModels
 {
-    public class ProjectMembersViewModel
+    public sealed class ProjectMembersViewModel
     {
         public Project Project { get; set; }
         public MultiSelectList Users { get; set; }

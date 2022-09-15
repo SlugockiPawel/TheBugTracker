@@ -1,11 +1,11 @@
 ﻿namespace TheBugTracker.Models.ChartModels
 {
-    public class PlotlyBarData
+    public sealed class PlotlyBarData
     {
         public List<PlotlyBar> Data { get; set; }
     }
 
-    public class PlotlyBar
+    public sealed class PlotlyBar
     {
         public string[] X { get; set; }
         public int[] Y { get; set; }

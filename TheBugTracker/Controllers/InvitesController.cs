@@ -11,7 +11,7 @@ using TheBugTracker.Models;
 
 namespace TheBugTracker.Controllers
 {
-    public class InvitesController : Controller
+    public sealed class InvitesController : Controller
     {
         private readonly ApplicationDbContext _context;
 

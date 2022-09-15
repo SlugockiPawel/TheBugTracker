@@ -5,7 +5,7 @@ using TheBugTracker.Services.Interfaces;
 
 namespace TheBugTracker.Services
 {
-    public class LookupService : ILookupService
+    public sealed class LookupService : ILookupService
     {
         private readonly ApplicationDbContext _context;
 

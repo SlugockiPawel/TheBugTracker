@@ -1,6 +1,6 @@
 ﻿namespace TheBugTracker.Models
 {
-    public class MailSettings
+    public sealed class MailSettings
     {
         public string Mail { get; set; } = default!;
         public string DisplayName { get; set; } = default!;
