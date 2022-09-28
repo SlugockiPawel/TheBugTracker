@@ -101,7 +101,7 @@ namespace TheBugTracker.Controllers
 
         //Get: AssignDeveloper
         [Authorize(Roles = $"{nameof(Roles.Admin)}, {nameof(Roles.ProjectManager)}")]
-        public async Task<IActionResult> AssignDeveloper(int id)
+        public async Task<IActionResult> AssignDeveloper(int ticketId)
         {
             AssignDeveloperViewModel model = new();
 
@@ -144,14 +144,14 @@ namespace TheBugTracker.Controllers
         }
 
         // GET: Tickets/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? ticketId)
         {
-            if (id is null)
+            if (ticketId is null)
             {
                 return NotFound();
             }
 
-            Ticket ticket = await _ticketService.GetTicketByIdAsync(id.Value);
+            Ticket ticket = await _ticketService.GetTicketByIdAsync(ticketId.Value);
 
             if (ticket is null)
             {
