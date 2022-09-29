@@ -105,7 +105,7 @@ namespace TheBugTracker.Controllers
         {
             AssignDeveloperViewModel model = new();
 
-            model.Ticket = await _ticketService.GetTicketByIdAsync(id);
+            model.Ticket = await _ticketService.GetTicketByIdAsync(ticketId);
             model.Developers =
                 new SelectList(
                     await _projectService.GetProjectMembersByRoleAsync(model.Ticket.ProjectId,
