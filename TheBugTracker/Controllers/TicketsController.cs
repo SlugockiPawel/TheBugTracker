@@ -144,14 +144,14 @@ namespace TheBugTracker.Controllers
         }
 
         // GET: Tickets/Details/5
-        public async Task<IActionResult> Details(int? ticketId)
+        public async Task<IActionResult> Details(int? id)
         {
-            if (ticketId is null)
+            if (id is null)
             {
-                return NotFound();
+                return NotFound("Ticket not found");
             }
 
-            Ticket ticket = await _ticketService.GetTicketByIdAsync(ticketId.Value);
+            Ticket ticket = await _ticketService.GetTicketByIdAsync(id.Value);
 
             if (ticket is null)
             {
