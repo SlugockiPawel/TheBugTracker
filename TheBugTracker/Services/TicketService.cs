@@ -127,7 +127,7 @@ namespace TheBugTracker.Services
                     try
                     {
                         ticket.DeveloperUserId = userId;
-                        // TODO revisit code below when assinging Tickets
+                        // TODO revisit code below when assigning Tickets
                         ticket.TicketStatusId = (await LookupTicketStatusIdAsync("Development")).Value;
                         await _context.SaveChangesAsync();
                     }
@@ -164,7 +164,6 @@ namespace TheBugTracker.Services
         {
             try
             {
-                // TODO the one below is mine, check if it work as desired- if not, the other one below should work
                 return await _context.Tickets
                     .Where(t => t.Project.Company.Id == companyId)
                     .Include(t => t.TicketAttachments)
@@ -177,20 +176,6 @@ namespace TheBugTracker.Services
                     .Include(t => t.TicketType)
                     .Include(t => t.Project)
                     .ToListAsync();
-
-                // return await _context.Projects
-                //     .Where(p => p.CompanyId == companyId)
-                //     .SelectMany(p => p.Tickets)
-                //     .Include(t => t.TicketAttachments)
-                //     .Include(t => t.Comments)
-                //     .Include(t => t.DeveloperUser)
-                //     .Include(t => t.History)
-                //     .Include(t => t.OwnerUser)
-                //     .Include(t => t.TicketPriority)
-                //     .Include(t => t.TicketStatus)
-                //     .Include(t => t.TicketType)
-                //     .Include(t => t.Project)
-                //     .ToListAsync();
             }
             catch (Exception e)
             {
