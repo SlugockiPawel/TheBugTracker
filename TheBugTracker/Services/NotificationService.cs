@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using TheBugTracker.Data;
 using TheBugTracker.Models;
+using TheBugTracker.Models.Enums;
 using TheBugTracker.Services.Interfaces;
 
 namespace TheBugTracker.Services
@@ -11,12 +12,19 @@ namespace TheBugTracker.Services
         private readonly ApplicationDbContext _context;
         private readonly IEmailSender _emailSender;
         private readonly IRolesService _rolesService;
+        private readonly IProjectService _projectService;
 
-        public NotificationService(ApplicationDbContext context, IEmailSender emailSender, IRolesService rolesService)
+        public NotificationService(
+            ApplicationDbContext context,
+            IEmailSender emailSender,
+            IRolesService rolesService,
+            IProjectService projectService
+        )
         {
             _context = context;
             _emailSender = emailSender;
             _rolesService = rolesService;
+            _projectService = projectService;
         }
 
         public async Task AddNotificationAsync(Notification notification)
@@ -136,6 +144,46 @@ namespace TheBugTracker.Services
                 Console.WriteLine(e.Message);
                 throw;
             }
+        }
+
+        public async Task<Notification> CreateNotification(Ticket ticket)
+        {
+            var projectManager = await _projectService.GetProjectManagerAsync(ticket.ProjectId);
+
+            Notification notification = new()
+            {
+                Created = DateTimeOffset.UtcNow,
+                Message = "New ticket created",
+                Sender = ticket.OwnerUser,
+                Ticket = ticket,
+                Title = ticket.Title,
+                SenderId = ticket.OwnerUserId,
+                Viewed = false,
+                TicketId = ticket.Id
+            };
+
+            if (projectManager is not null)
+            {
+                notification.Recipient = projectManager;
+                notification.RecipientId = projectManager.Id;
+            }
+            else
+            {
+                var admin = (
+                    await _projectService.GetProjectMembersByRoleAsync(
+                        ticket.ProjectId,
+                        nameof(Roles.Admin)
+                    )
+                ).FirstOrDefault();
+
+                if (admin is not null)
+                {
+                    notification.Recipient = admin;
+                    notification.RecipientId = admin.Id;
+                }
+            }
+
+            return notification;
         }
     }
 }
