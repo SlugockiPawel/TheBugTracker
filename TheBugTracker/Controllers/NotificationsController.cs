@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,10 +15,15 @@ namespace TheBugTracker.Controllers
     public sealed class NotificationsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<BTUser> _userManager;
 
-        public NotificationsController(ApplicationDbContext context)
+        public NotificationsController(
+            ApplicationDbContext context,
+            UserManager<BTUser> userManager
+        )
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Notifications
@@ -46,6 +52,12 @@ namespace TheBugTracker.Controllers
             if (notification == null)
             {
                 return NotFound();
+            }
+
+            if (notification.RecipientId == _userManager.GetUserId(User))
+            {
+                notification.Viewed = true;
+                await _context.SaveChangesAsync();
             }
 
             return View(notification);
