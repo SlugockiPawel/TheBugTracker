@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@model IEnumerable<TheBugTracker.Models.Notification>
+@model DisplayNotificationsViewModel
 @inject UserManager<BTUser> UserManager
 
 @{
@@ -20,53 +20,53 @@
             <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Title)
+                    @Html.DisplayNameFor(model => model.SentNotifications.FirstOrDefault().Title)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Message)
+                    @Html.DisplayNameFor(model => model.SentNotifications.FirstOrDefault().Message)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Created)
+                    @Html.DisplayNameFor(model => model.SentNotifications.FirstOrDefault().Created)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Viewed)
+                    @Html.DisplayNameFor(model => model.SentNotifications.FirstOrDefault().Viewed)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Ticket)
+                    @Html.DisplayNameFor(model => model.SentNotifications.FirstOrDefault().Ticket.Description)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Recipient)
+                    @Html.DisplayNameFor(model => model.SentNotifications.FirstOrDefault().Recipient)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Sender)
+                    @Html.DisplayNameFor(model => model.SentNotifications.FirstOrDefault().Sender)
                 </th>
                 <th></th>
             </tr>
             </thead>
             <tbody>
-            @foreach (var item in Model.Where(n => n.SenderId == user.Id))
+            @foreach (var item in Model.SentNotifications)
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Title)
+                        @Html.DisplayFor(m => item.Title)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Message)
+                        @Html.DisplayFor(m => item.Message)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Created)
+                        @Html.DisplayFor(m => item.Created)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Viewed)
+                        @Html.DisplayFor(m => item.Viewed)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Ticket.Description)
+                        @Html.DisplayFor(m => item.Ticket.Description)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Recipient.FullName)
+                        @Html.DisplayFor(m => item.Recipient.FullName)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Sender.FullName)
+                        @Html.DisplayFor(m => item.Sender.FullName)
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
@@ -87,53 +87,53 @@
             <thead>
             <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Title)
+                    @Html.DisplayNameFor(model => model.ReceivedNotifications.FirstOrDefault().Title)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Message)
+                    @Html.DisplayNameFor(model => model.ReceivedNotifications.FirstOrDefault().Message)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Created)
+                    @Html.DisplayNameFor(model => model.ReceivedNotifications.FirstOrDefault().Created)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Viewed)
+                    @Html.DisplayNameFor(model => model.ReceivedNotifications.FirstOrDefault().Viewed)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Ticket)
+                    @Html.DisplayNameFor(model => model.ReceivedNotifications.FirstOrDefault().Ticket.Description)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Recipient)
+                    @Html.DisplayNameFor(model => model.ReceivedNotifications.FirstOrDefault().Recipient)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Sender)
+                    @Html.DisplayNameFor(model => model.ReceivedNotifications.FirstOrDefault().Sender)
                 </th>
                 <th></th>
             </tr>
             </thead>
             <tbody>
-            @foreach (var item in Model.Where(n => n.RecipientId == user.Id))
+            @foreach (var item in Model.ReceivedNotifications)
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Title)
+                        @Html.DisplayFor(m => item.Title)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Message)
+                        @Html.DisplayFor(m => item.Message)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Created)
+                        @Html.DisplayFor(m => item.Created)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Viewed)
+                        @Html.DisplayFor(m => item.Viewed)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Ticket.Description)
+                        @Html.DisplayFor(m => item.Ticket.Description)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Recipient.FullName)
+                        @Html.DisplayFor(m => item.Recipient.FullName)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Sender.FullName)
+                        @Html.DisplayFor(m => item.Sender.FullName)
                     </td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
