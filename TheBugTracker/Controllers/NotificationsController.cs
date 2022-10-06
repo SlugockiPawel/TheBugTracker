@@ -3,37 +3,50 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TheBugTracker.Data;
 using TheBugTracker.Models;
+using TheBugTracker.Models.ViewModels;
+using TheBugTracker.Services.Interfaces;
 
 namespace TheBugTracker.Controllers
 {
+    [Authorize]
     public sealed class NotificationsController : Controller
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<BTUser> _userManager;
+        private readonly INotificationService _notificationService;
 
         public NotificationsController(
             ApplicationDbContext context,
-            UserManager<BTUser> userManager
+            UserManager<BTUser> userManager,
+            INotificationService notificationService
         )
         {
             _context = context;
             _userManager = userManager;
+            _notificationService = notificationService;
         }
 
         // GET: Notifications
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Notifications
-                .Include(n => n.Recipient)
-                .Include(n => n.Sender)
-                .Include(n => n.Ticket);
-            return View(await applicationDbContext.ToListAsync());
+            var userId = _userManager.GetUserId(User);
+
+            var model = new DisplayNotificationsViewModel()
+            {
+                ReceivedNotifications = await _notificationService.GetReceivedNotificationsAsync(
+                    userId
+                ),
+                SentNotifications = await _notificationService.GetSentNotificationsAsync(userId),
+            };
+
+            return View(model);
         }
 
         // GET: Notifications/Details/5
