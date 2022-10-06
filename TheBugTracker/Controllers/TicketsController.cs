@@ -242,7 +242,17 @@ namespace TheBugTracker.Controllers
                     Ticket newTicket = await _ticketService.GetTicketAsNoTrackingAsync(ticket.Id);
                     await _ticketHistoryService.AddHistoryAsync(null, newTicket, user.Id);
 
-                    // TODO Ticket Notification
+                    // Add Notification
+                    var notification = await _notificationService.CreateNotification(ticket);
+
+                    if (
+                        notification.RecipientId is not null
+                        && notification.SenderId != notification.RecipientId
+                    )
+                    {
+                        await _notificationService.AddNotificationAsync(notification);
+                        // TODO send email
+                    }
                 }
                 catch (Exception e)
                 {
