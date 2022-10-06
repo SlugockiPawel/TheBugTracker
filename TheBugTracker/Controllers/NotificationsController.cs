@@ -23,7 +23,10 @@ namespace TheBugTracker.Controllers
         // GET: Notifications
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Notifications.Include(n => n.Recipient).Include(n => n.Sender).Include(n => n.Ticket);
+            var applicationDbContext = _context.Notifications
+                .Include(n => n.Recipient)
+                .Include(n => n.Sender)
+                .Include(n => n.Ticket);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -62,7 +65,10 @@ namespace TheBugTracker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,TicketId,Title,Message,Created,RecipientId,SenderId,Viewed")] Notification notification)
+        public async Task<IActionResult> Create(
+            [Bind("Id,TicketId,Title,Message,Created,RecipientId,SenderId,Viewed")]
+                Notification notification
+        )
         {
             if (ModelState.IsValid)
             {
@@ -70,9 +76,24 @@ namespace TheBugTracker.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RecipientId"] = new SelectList(_context.Users, "Id", "Id", notification.RecipientId);
-            ViewData["SenderId"] = new SelectList(_context.Users, "Id", "Id", notification.SenderId);
-            ViewData["TicketId"] = new SelectList(_context.Tickets, "Id", "Description", notification.TicketId);
+            ViewData["RecipientId"] = new SelectList(
+                _context.Users,
+                "Id",
+                "Id",
+                notification.RecipientId
+            );
+            ViewData["SenderId"] = new SelectList(
+                _context.Users,
+                "Id",
+                "Id",
+                notification.SenderId
+            );
+            ViewData["TicketId"] = new SelectList(
+                _context.Tickets,
+                "Id",
+                "Description",
+                notification.TicketId
+            );
             return View(notification);
         }
 
@@ -89,9 +110,24 @@ namespace TheBugTracker.Controllers
             {
                 return NotFound();
             }
-            ViewData["RecipientId"] = new SelectList(_context.Users, "Id", "Id", notification.RecipientId);
-            ViewData["SenderId"] = new SelectList(_context.Users, "Id", "Id", notification.SenderId);
-            ViewData["TicketId"] = new SelectList(_context.Tickets, "Id", "Description", notification.TicketId);
+            ViewData["RecipientId"] = new SelectList(
+                _context.Users,
+                "Id",
+                "Id",
+                notification.RecipientId
+            );
+            ViewData["SenderId"] = new SelectList(
+                _context.Users,
+                "Id",
+                "Id",
+                notification.SenderId
+            );
+            ViewData["TicketId"] = new SelectList(
+                _context.Tickets,
+                "Id",
+                "Description",
+                notification.TicketId
+            );
             return View(notification);
         }
 
@@ -100,7 +136,11 @@ namespace TheBugTracker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,TicketId,Title,Message,Created,RecipientId,SenderId,Viewed")] Notification notification)
+        public async Task<IActionResult> Edit(
+            int id,
+            [Bind("Id,TicketId,Title,Message,Created,RecipientId,SenderId,Viewed")]
+                Notification notification
+        )
         {
             if (id != notification.Id)
             {
@@ -127,9 +167,24 @@ namespace TheBugTracker.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["RecipientId"] = new SelectList(_context.Users, "Id", "Id", notification.RecipientId);
-            ViewData["SenderId"] = new SelectList(_context.Users, "Id", "Id", notification.SenderId);
-            ViewData["TicketId"] = new SelectList(_context.Tickets, "Id", "Description", notification.TicketId);
+            ViewData["RecipientId"] = new SelectList(
+                _context.Users,
+                "Id",
+                "Id",
+                notification.RecipientId
+            );
+            ViewData["SenderId"] = new SelectList(
+                _context.Users,
+                "Id",
+                "Id",
+                notification.SenderId
+            );
+            ViewData["TicketId"] = new SelectList(
+                _context.Tickets,
+                "Id",
+                "Description",
+                notification.TicketId
+            );
             return View(notification);
         }
 

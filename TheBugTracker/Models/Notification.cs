@@ -7,20 +7,29 @@ namespace TheBugTracker.Models
     {
         public int Id { get; set; }
 
-        [DisplayName("Ticket")] public int TicketId { get; set; }
+        [DisplayName("Ticket")]
+        public int TicketId { get; set; }
 
-        [Required] public string Title { get; set; } = default!;
+        [Required]
+        public string Title { get; set; } = default!;
 
-        [Required] public string Message { get; set; } = default!;
+        [Required]
+        public string Message { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayName("Date")]
         public DateTimeOffset Created { get; set; }
 
-        [Required] [DisplayName("Recipient")] public string RecipientId { get; set; } = default!;
-        [Required] [DisplayName("Sender")] public string SenderId { get; set; } = default!;
+        [Required]
+        [DisplayName("Recipient")]
+        public string RecipientId { get; set; } = default!;
 
-        [DisplayName("Has been viewed")] public bool Viewed { get; set; }
+        [Required]
+        [DisplayName("Sender")]
+        public string SenderId { get; set; } = default!;
+
+        [DisplayName("Has been viewed")]
+        public bool Viewed { get; set; }
 
         // NP
         public Ticket Ticket { get; set; } = default!;

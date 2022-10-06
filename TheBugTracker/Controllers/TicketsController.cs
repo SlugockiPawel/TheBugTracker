@@ -28,10 +28,17 @@ namespace TheBugTracker.Controllers
         private readonly ITicketService _ticketService;
         private readonly IFileService _fileService;
         private readonly ITicketHistoryService _ticketHistoryService;
+        private readonly INotificationService _notificationService;
 
-        public TicketsController(UserManager<BTUser> userManager,
-            IProjectService projectService, ILookupService lookupService, ITicketService ticketService,
-            IFileService fileService, ITicketHistoryService ticketHistoryService)
+        public TicketsController(
+            UserManager<BTUser> userManager,
+            IProjectService projectService,
+            ILookupService lookupService,
+            ITicketService ticketService,
+            IFileService fileService,
+            ITicketHistoryService ticketHistoryService,
+            INotificationService notificationService
+        )
         {
             _userManager = userManager;
             _projectService = projectService;
@@ -39,12 +46,15 @@ namespace TheBugTracker.Controllers
             _ticketService = ticketService;
             _fileService = fileService;
             _ticketHistoryService = ticketHistoryService;
+            _notificationService = notificationService;
         }
 
         // GET: MyTickets
         public async Task<IActionResult> AllTickets()
         {
-            List<Ticket> tickets = await _ticketService.GetAllTicketsByCompanyAsync(User.Identity.GetCompanyId().Value);
+            List<Ticket> tickets = await _ticketService.GetAllTicketsByCompanyAsync(
+                User.Identity.GetCompanyId().Value
+            );
 
             if (User.IsInRole(nameof(Roles.Developer)) || User.IsInRole(nameof(Roles.Submitter)))
             {
@@ -58,7 +68,10 @@ namespace TheBugTracker.Controllers
         public async Task<IActionResult> MyTickets()
         {
             BTUser user = await _userManager.GetUserAsync(User);
-            List<Ticket> tickets = await _ticketService.GetTicketsByUserIdAsync(user.Id, user.CompanyId);
+            List<Ticket> tickets = await _ticketService.GetTicketsByUserIdAsync(
+                user.Id,
+                user.CompanyId
+            );
 
             return View(tickets);
         }
@@ -106,10 +119,14 @@ namespace TheBugTracker.Controllers
             AssignDeveloperViewModel model = new();
 
             model.Ticket = await _ticketService.GetTicketByIdAsync(ticketId);
-            model.Developers =
-                new SelectList(
-                    await _projectService.GetProjectMembersByRoleAsync(model.Ticket.ProjectId,
-                        nameof(Roles.Developer)), "Id", "FullName");
+            model.Developers = new SelectList(
+                await _projectService.GetProjectMembersByRoleAsync(
+                    model.Ticket.ProjectId,
+                    nameof(Roles.Developer)
+                ),
+                "Id",
+                "FullName"
+            );
 
             return View(model);
         }
@@ -169,18 +186,31 @@ namespace TheBugTracker.Controllers
 
             if (User.IsInRole(nameof(Roles.Admin)))
             {
-                ViewData["ProjectId"] = new SelectList(await _projectService.GetAllProjectsByCompanyAsync(companyId),
-                    "Id", "Name");
+                ViewData["ProjectId"] = new SelectList(
+                    await _projectService.GetAllProjectsByCompanyAsync(companyId),
+                    "Id",
+                    "Name"
+                );
             }
             else
             {
-                ViewData["ProjectId"] =
-                    new SelectList(await _projectService.GetUserProjectsAsync(user.Id), "Id", "Name");
+                ViewData["ProjectId"] = new SelectList(
+                    await _projectService.GetUserProjectsAsync(user.Id),
+                    "Id",
+                    "Name"
+                );
             }
 
-            ViewData["TicketPriorityId"] =
-                new SelectList(await _lookupService.GetTicketPrioritiesAsync(), "Id", "Name");
-            ViewData["TicketTypeId"] = new SelectList(await _lookupService.GetTicketTypesAsync(), "Id", "Name");
+            ViewData["TicketPriorityId"] = new SelectList(
+                await _lookupService.GetTicketPrioritiesAsync(),
+                "Id",
+                "Name"
+            );
+            ViewData["TicketTypeId"] = new SelectList(
+                await _lookupService.GetTicketTypesAsync(),
+                "Id",
+                "Name"
+            );
 
             return View();
         }
@@ -191,8 +221,8 @@ namespace TheBugTracker.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(
-            [Bind("Id,Title,Description,ProjectId,TicketTypeId,TicketPriorityId")]
-            Ticket ticket)
+            [Bind("Id,Title,Description,ProjectId,TicketTypeId,TicketPriorityId")] Ticket ticket
+        )
         {
             BTUser user = await _userManager.GetUserAsync(User);
 
@@ -202,8 +232,9 @@ namespace TheBugTracker.Controllers
                 {
                     ticket.Created = DateTimeOffset.Now;
                     ticket.OwnerUserId = user.Id;
-                    ticket.TicketStatusId =
-                        (await _ticketService.LookupTicketStatusIdAsync(nameof(TicketStatuses.New))).Value;
+                    ticket.TicketStatusId = (
+                        await _ticketService.LookupTicketStatusIdAsync(nameof(TicketStatuses.New))
+                    ).Value;
 
                     await _ticketService.AddNewTicketAsync(ticket);
 
@@ -226,17 +257,29 @@ namespace TheBugTracker.Controllers
             {
                 ViewData["ProjectId"] = new SelectList(
                     await _projectService.GetAllProjectsByCompanyAsync(user.CompanyId),
-                    "Id", "Name");
+                    "Id",
+                    "Name"
+                );
             }
             else
             {
-                ViewData["ProjectId"] =
-                    new SelectList(await _projectService.GetUserProjectsAsync(user.Id), "Id", "Name");
+                ViewData["ProjectId"] = new SelectList(
+                    await _projectService.GetUserProjectsAsync(user.Id),
+                    "Id",
+                    "Name"
+                );
             }
 
-            ViewData["TicketPriorityId"] =
-                new SelectList(await _lookupService.GetTicketPrioritiesAsync(), "Id", "Name");
-            ViewData["TicketTypeId"] = new SelectList(await _lookupService.GetTicketTypesAsync(), "Id", "Name");
+            ViewData["TicketPriorityId"] = new SelectList(
+                await _lookupService.GetTicketPrioritiesAsync(),
+                "Id",
+                "Name"
+            );
+            ViewData["TicketTypeId"] = new SelectList(
+                await _lookupService.GetTicketTypesAsync(),
+                "Id",
+                "Name"
+            );
 
             return View(ticket);
         }
@@ -256,12 +299,24 @@ namespace TheBugTracker.Controllers
                 return NotFound();
             }
 
-            ViewData["TicketPriorityId"] =
-                new SelectList(await _lookupService.GetTicketPrioritiesAsync(), "Id", "Name", ticket.TicketPriorityId);
-            ViewData["TicketStatusId"] = new SelectList(await _lookupService.GetTicketStatusesAsync(), "Id", "Name",
-                ticket.TicketStatusId);
-            ViewData["TicketTypeId"] = new SelectList(await _lookupService.GetTicketTypesAsync(), "Id", "Name",
-                ticket.TicketTypeId);
+            ViewData["TicketPriorityId"] = new SelectList(
+                await _lookupService.GetTicketPrioritiesAsync(),
+                "Id",
+                "Name",
+                ticket.TicketPriorityId
+            );
+            ViewData["TicketStatusId"] = new SelectList(
+                await _lookupService.GetTicketStatusesAsync(),
+                "Id",
+                "Name",
+                ticket.TicketStatusId
+            );
+            ViewData["TicketTypeId"] = new SelectList(
+                await _lookupService.GetTicketTypesAsync(),
+                "Id",
+                "Name",
+                ticket.TicketTypeId
+            );
 
             return View(ticket);
         }
@@ -271,10 +326,13 @@ namespace TheBugTracker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id,
+        public async Task<IActionResult> Edit(
+            int id,
             [Bind(
-                "Id,Title,Description,Created,Updated,Archived,ArchivedByProject,ProjectId,TicketTypeId,TicketPriorityId,TicketStatusId,OwnerUserId,DeveloperUserId")]
-            Ticket ticket)
+                "Id,Title,Description,Created,Updated,Archived,ArchivedByProject,ProjectId,TicketTypeId,TicketPriorityId,TicketStatusId,OwnerUserId,DeveloperUserId"
+            )]
+                Ticket ticket
+        )
         {
             if (id != ticket.Id)
             {
@@ -309,20 +367,33 @@ namespace TheBugTracker.Controllers
                 return RedirectToAction(nameof(AllTickets));
             }
 
-            ViewData["TicketPriorityId"] =
-                new SelectList(await _lookupService.GetTicketPrioritiesAsync(), "Id", "Name", ticket.TicketPriorityId);
-            ViewData["TicketStatusId"] = new SelectList(await _lookupService.GetTicketStatusesAsync(), "Id", "Name",
-                ticket.TicketStatusId);
-            ViewData["TicketTypeId"] = new SelectList(await _lookupService.GetTicketTypesAsync(), "Id", "Name",
-                ticket.TicketTypeId);
+            ViewData["TicketPriorityId"] = new SelectList(
+                await _lookupService.GetTicketPrioritiesAsync(),
+                "Id",
+                "Name",
+                ticket.TicketPriorityId
+            );
+            ViewData["TicketStatusId"] = new SelectList(
+                await _lookupService.GetTicketStatusesAsync(),
+                "Id",
+                "Name",
+                ticket.TicketStatusId
+            );
+            ViewData["TicketTypeId"] = new SelectList(
+                await _lookupService.GetTicketTypesAsync(),
+                "Id",
+                "Name",
+                ticket.TicketTypeId
+            );
 
             return View(ticket);
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddTicketComment([Bind("Id, TicketId, Comment")] TicketComment ticketComment)
+        public async Task<IActionResult> AddTicketComment(
+            [Bind("Id, TicketId, Comment")] TicketComment ticketComment
+        )
         {
             if (ModelState.IsValid)
             {
@@ -334,8 +405,11 @@ namespace TheBugTracker.Controllers
                     await _ticketService.AddTicketCommentAsync(ticketComment);
 
                     // Add history
-                    await _ticketHistoryService.AddHistoryAsync(ticketComment.TicketId, nameof(TicketComment),
-                        ticketComment.UserId);
+                    await _ticketHistoryService.AddHistoryAsync(
+                        ticketComment.TicketId,
+                        nameof(TicketComment),
+                        ticketComment.UserId
+                    );
                 }
                 catch (Exception e)
                 {
@@ -350,8 +424,8 @@ namespace TheBugTracker.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddTicketAttachment(
-            [Bind("Id,FormFile,Description,TicketId")]
-            TicketAttachment ticketAttachment)
+            [Bind("Id,FormFile,Description,TicketId")] TicketAttachment ticketAttachment
+        )
         {
             string statusMessage;
 
@@ -359,7 +433,9 @@ namespace TheBugTracker.Controllers
             {
                 try
                 {
-                    ticketAttachment.FileData = await _fileService.ConvertFileToByteArrayAsync(ticketAttachment.FormFile);
+                    ticketAttachment.FileData = await _fileService.ConvertFileToByteArrayAsync(
+                        ticketAttachment.FormFile
+                    );
                     ticketAttachment.FileName = ticketAttachment.FormFile.FileName;
                     ticketAttachment.FileContentType = ticketAttachment.FormFile.ContentType;
 
@@ -369,8 +445,11 @@ namespace TheBugTracker.Controllers
                     await _ticketService.AddTicketAttachmentAsync(ticketAttachment);
 
                     // Add history
-                    await _ticketHistoryService.AddHistoryAsync(ticketAttachment.TicketId, nameof(TicketAttachment),
-                        ticketAttachment.UserId);
+                    await _ticketHistoryService.AddHistoryAsync(
+                        ticketAttachment.TicketId,
+                        nameof(TicketAttachment),
+                        ticketAttachment.UserId
+                    );
                 }
                 catch (Exception e)
                 {
@@ -385,13 +464,18 @@ namespace TheBugTracker.Controllers
                 statusMessage = "Error: Invalid data.";
             }
 
-            return RedirectToAction("Details", new { id = ticketAttachment.TicketId, message = statusMessage });
+            return RedirectToAction(
+                "Details",
+                new { id = ticketAttachment.TicketId, message = statusMessage }
+            );
         }
 
         // GET: Tickets/ShowFile/5
         public async Task<IActionResult> ShowFile(int id)
         {
-            TicketAttachment ticketAttachment = await _ticketService.GetTicketAttachmentByIdAsync(id);
+            TicketAttachment ticketAttachment = await _ticketService.GetTicketAttachmentByIdAsync(
+                id
+            );
             string fileName = ticketAttachment.FileName;
             byte[] fileData = ticketAttachment.FileData;
             string ext = Path.GetExtension(fileName).Replace(".", "");
@@ -468,7 +552,9 @@ namespace TheBugTracker.Controllers
         {
             int companyId = User.Identity.GetCompanyId().Value;
 
-            return (await _ticketService.GetAllTicketsByCompanyAsync(companyId)).Any(t => t.Id == id);
+            return (await _ticketService.GetAllTicketsByCompanyAsync(companyId)).Any(
+                t => t.Id == id
+            );
         }
     }
 }

@@ -71,7 +71,11 @@ namespace TheBugTracker.Services
             }
         }
 
-        public async Task SendEmailNotificationsByRoleAsync(Notification notification, int companyId, string role)
+        public async Task SendEmailNotificationsByRoleAsync(
+            Notification notification,
+            int companyId,
+            string role
+        )
         {
             try
             {
@@ -90,7 +94,10 @@ namespace TheBugTracker.Services
             }
         }
 
-        public async Task SendMembersEmailNotificationsAsync(Notification notification, List<BTUser> members)
+        public async Task SendMembersEmailNotificationsAsync(
+            Notification notification,
+            List<BTUser> members
+        )
         {
             try
             {
@@ -107,11 +114,17 @@ namespace TheBugTracker.Services
             }
         }
 
-        public async Task<bool> SendEmailNotificationAsync(Notification notification, string emailSubject)
+        public async Task<bool> SendEmailNotificationAsync(
+            Notification notification,
+            string emailSubject
+        )
         {
-            BTUser? user = await _context.Users.FirstOrDefaultAsync(u => u.Id == notification.RecipientId);
+            BTUser? user = await _context.Users.FirstOrDefaultAsync(
+                u => u.Id == notification.RecipientId
+            );
 
-            if (user is null) return false;
+            if (user is null)
+                return false;
 
             try
             {
