@@ -31,6 +31,8 @@ namespace TheBugTracker.Models
         [DisplayName("Has been viewed")]
         public bool Viewed { get; set; }
 
+        public bool DeletedBySender { get; set; }
+        public bool DeletedByRecipient { get; set; }
         // NP
         public Ticket Ticket { get; set; } = default!;
         public BTUser Recipient { get; set; } = default!;
