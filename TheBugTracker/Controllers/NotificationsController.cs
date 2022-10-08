@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TheBugTracker.Data;
 using TheBugTracker.Models;
+using TheBugTracker.Models.Enums;
 using TheBugTracker.Models.ViewModels;
 using TheBugTracker.Services.Interfaces;
 
@@ -21,16 +22,19 @@ namespace TheBugTracker.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<BTUser> _userManager;
         private readonly INotificationService _notificationService;
+        private readonly IRolesService _rolesService;
 
         public NotificationsController(
             ApplicationDbContext context,
             UserManager<BTUser> userManager,
-            INotificationService notificationService
+            INotificationService notificationService,
+            IRolesService rolesService
         )
         {
             _context = context;
             _userManager = userManager;
             _notificationService = notificationService;
+            _rolesService = rolesService;
         }
 
         // GET: Notifications
@@ -221,11 +225,7 @@ namespace TheBugTracker.Controllers
                 return NotFound();
             }
 
-            var notification = await _context.Notifications
-                .Include(n => n.Recipient)
-                .Include(n => n.Sender)
-                .Include(n => n.Ticket)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var notification = await _notificationService.GetNotificationByIdAsync(id);
             if (notification == null)
             {
                 return NotFound();
@@ -239,9 +239,25 @@ namespace TheBugTracker.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var notification = await _context.Notifications.FindAsync(id);
-            _context.Notifications.Remove(notification);
+            var notification = await _notificationService.GetNotificationByIdAsync(id);
+            var user = await _userManager.GetUserAsync(User);
+
+            if (notification is null || user is null)
+            {
+                return NotFound();
+            }
+
+            if (user.Id == notification.RecipientId || user.Id == notification.SenderId)
+            {
+                _notificationService.SoftDelete(notification, user);
+            }
+            else if (await _rolesService.IsUserInRoleAsync(user, nameof(Roles.Admin)))
+            {
+                _notificationService.HardDelete(notification);
+            }
+
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 

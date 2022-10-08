@@ -41,6 +41,19 @@ namespace TheBugTracker.Services
             }
         }
 
+        public async Task<Notification> GetNotificationByIdAsync(int? id)
+        {
+            try
+            {
+                return await _context.Notifications.FirstOrDefaultAsync(n => n.Id == id);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
+        }
+
         public async Task<List<Notification>> GetSentNotificationsAsync(string userId)
         {
             try
@@ -50,7 +63,7 @@ namespace TheBugTracker.Services
                     .Include(n => n.Sender)
                     .Include(n => n.Ticket)
                     .ThenInclude(t => t.Project)
-                    .Where(n => n.SenderId == userId)
+                    .Where(n => n.SenderId == userId && !n.DeletedBySender)
                     .ToListAsync();
             }
             catch (Exception e)
@@ -69,7 +82,7 @@ namespace TheBugTracker.Services
                     .Include(n => n.Sender)
                     .Include(n => n.Ticket)
                     .ThenInclude(t => t.Project)
-                    .Where(n => n.RecipientId == userId)
+                    .Where(n => n.RecipientId == userId && !n.DeletedByRecipient)
                     .ToListAsync();
             }
             catch (Exception e)
@@ -150,17 +163,18 @@ namespace TheBugTracker.Services
         {
             var projectManager = await _projectService.GetProjectManagerAsync(ticket.ProjectId);
 
-            Notification notification = new()
-            {
-                Created = DateTimeOffset.UtcNow,
-                Message = "New ticket created",
-                Sender = ticket.OwnerUser,
-                Ticket = ticket,
-                Title = ticket.Title,
-                SenderId = ticket.OwnerUserId,
-                Viewed = false,
-                TicketId = ticket.Id
-            };
+            Notification notification =
+                new()
+                {
+                    Created = DateTimeOffset.UtcNow,
+                    Message = "New ticket created",
+                    Sender = ticket.OwnerUser,
+                    Ticket = ticket,
+                    Title = ticket.Title,
+                    SenderId = ticket.OwnerUserId,
+                    Viewed = false,
+                    TicketId = ticket.Id
+                };
 
             if (projectManager is not null)
             {
@@ -184,6 +198,50 @@ namespace TheBugTracker.Services
             }
 
             return notification;
+        }
+
+        public void SoftDelete(Notification notification, BTUser user)
+        {
+            if (notification is null || user is null)
+            {
+                return;
+            }
+
+            try
+            {
+                if (notification.SenderId == user.Id)
+                {
+                    notification.DeletedBySender = true;
+                }
+
+                if (notification.RecipientId == user.Id)
+                {
+                    notification.DeletedByRecipient = true;
+                }
+
+                if (notification.DeletedByRecipient && notification.DeletedBySender)
+                {
+                    HardDelete(notification);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
+        }
+
+        public void HardDelete(Notification notification)
+        {
+            try
+            {
+                _context.Notifications.Remove(notification);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
     }
 }
