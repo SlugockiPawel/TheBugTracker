@@ -247,13 +247,16 @@ namespace TheBugTracker.Controllers
                 return NotFound();
             }
 
-            if (user.Id == notification.RecipientId || user.Id == notification.SenderId)
-            {
-                _notificationService.SoftDelete(notification, user);
-            }
-            else if (await _rolesService.IsUserInRoleAsync(user, nameof(Roles.Admin)))
+            if (
+                notification.DeletedByRecipient && notification.DeletedBySender
+                || await _rolesService.IsUserInRoleAsync(user, nameof(Roles.Admin))
+            )
             {
                 _notificationService.HardDelete(notification);
+            }
+            else
+            {
+                _notificationService.SoftDelete(notification, user);
             }
 
             await _context.SaveChangesAsync();

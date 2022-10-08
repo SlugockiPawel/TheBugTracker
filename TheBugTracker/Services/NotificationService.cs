@@ -202,11 +202,6 @@ namespace TheBugTracker.Services
 
         public void SoftDelete(Notification notification, BTUser user)
         {
-            if (notification is null || user is null)
-            {
-                return;
-            }
-
             try
             {
                 if (notification.SenderId == user.Id)
@@ -217,11 +212,6 @@ namespace TheBugTracker.Services
                 if (notification.RecipientId == user.Id)
                 {
                     notification.DeletedByRecipient = true;
-                }
-
-                if (notification.DeletedByRecipient && notification.DeletedBySender)
-                {
-                    HardDelete(notification);
                 }
             }
             catch (Exception e)
