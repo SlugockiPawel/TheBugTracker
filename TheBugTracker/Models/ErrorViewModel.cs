@@ -1,3 +1,4 @@
+#nullable enable
 namespace TheBugTracker.Models
 {
     public sealed class ErrorViewModel

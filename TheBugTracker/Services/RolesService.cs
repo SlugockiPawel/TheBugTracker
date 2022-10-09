@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿#nullable enable
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TheBugTracker.Data;
 using TheBugTracker.Models;
