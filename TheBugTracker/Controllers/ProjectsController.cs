@@ -84,14 +84,15 @@ namespace TheBugTracker.Controllers
 
         // GET: AssignPM
         [Authorize(Roles = nameof(Roles.Admin))]
-        public async Task<IActionResult> AssignPM(int projectId)
+        public async Task<IActionResult> AssignPM(int id)
         {
             int companyId = User.Identity.GetCompanyId().Value;
-            AssignPMViewModel model = new();
-
-            model.Project = await _projectService.GetProjectByIdAsync(projectId, companyId);
-            model.PMList = new SelectList(await _rolesService
-                .GetUsersInRoleAsync(nameof(Roles.ProjectManager), companyId), "Id", "FullName");
+            AssignPMViewModel model = new()
+            {
+                Project = await _projectService.GetProjectByIdAsync(id, companyId),
+                PMList = new SelectList(await _rolesService
+                    .GetUsersInRoleAsync(nameof(Roles.ProjectManager), companyId), "Id", "FullName")
+            };
 
             return View(model);
         }
