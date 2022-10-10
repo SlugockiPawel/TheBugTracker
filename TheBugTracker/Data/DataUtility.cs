@@ -11,11 +11,9 @@ namespace TheBugTracker.Data
     public static class DataUtility
     {
         //Company Ids
-        private static int company1Id;
-        private static int company2Id;
-        private static int company3Id;
-        private static int company4Id;
-        private static int company5Id;
+        private static int _accountingCorpId;
+        private static int _softwareHouseId;
+
 
         public static string GetConnectionString(WebApplicationBuilder builder)
         {
@@ -62,7 +60,7 @@ namespace TheBugTracker.Data
             await SeedRolesAsync(roleManagerSvc);
             await SeedDefaultCompaniesAsync(dbContextSvc);
             await SeedDefaultUsersAsync(userManagerSvc);
-            await SeedDemoUsersAsync(userManagerSvc);
+            // await SeedDemoUsersAsync(userManagerSvc);
             await SeedDefaultTicketTypeAsync(dbContextSvc);
             await SeedDefaultTicketStatusAsync(dbContextSvc);
             await SeedDefaultTicketPriorityAsync(dbContextSvc);
@@ -86,13 +84,10 @@ namespace TheBugTracker.Data
         {
             try
             {
-                IList<Company> defaultCompanies = new List<Company>()
+                IList<Company> defaultCompanies = new List<Company>
                 {
-                    new Company() { Name = "Company1", Description = "This is default Company 1" },
-                    new Company() { Name = "Company2", Description = "This is default Company 2" },
-                    new Company() { Name = "Company3", Description = "This is default Company 3" },
-                    new Company() { Name = "Company4", Description = "This is default Company 4" },
-                    new Company() { Name = "Company5", Description = "This is default Company 5" }
+                    new() { Name = "Accounting Corp", Description = "Big finance corporation specialized in accounting services" },
+                    new() { Name = "Software House LLC", Description = "Small Software House that builds software for outside clients" },
                 };
 
                 var dbCompanies = context.Companies.Select(c => c.Name).ToList();
@@ -100,11 +95,8 @@ namespace TheBugTracker.Data
                 await context.SaveChangesAsync();
 
                 //Get company Ids
-                company1Id = context.Companies.FirstOrDefault(p => p.Name == "Company1").Id;
-                company2Id = context.Companies.FirstOrDefault(p => p.Name == "Company2").Id;
-                company3Id = context.Companies.FirstOrDefault(p => p.Name == "Company3").Id;
-                company4Id = context.Companies.FirstOrDefault(p => p.Name == "Company4").Id;
-                company5Id = context.Companies.FirstOrDefault(p => p.Name == "Company5").Id;
+                _accountingCorpId = context.Companies.FirstOrDefault(p => p.Name == "Accounting Corp").Id;
+                _softwareHouseId = context.Companies.FirstOrDefault(p => p.Name == "Software House LLC").Id;
             }
             catch (Exception ex)
             {
@@ -120,12 +112,12 @@ namespace TheBugTracker.Data
         {
             try
             {
-                IList<Models.ProjectPriority> projectPriorities = new List<ProjectPriority>()
+                IList<ProjectPriority> projectPriorities = new List<ProjectPriority>
                 {
-                    new ProjectPriority() { Name = ProjectPriorities.Low.ToString() },
-                    new ProjectPriority() { Name = ProjectPriorities.Medium.ToString() },
-                    new ProjectPriority() { Name = ProjectPriorities.High.ToString() },
-                    new ProjectPriority() { Name = ProjectPriorities.Urgent.ToString() },
+                    new() { Name = ProjectPriorities.Low.ToString() },
+                    new() { Name = ProjectPriorities.Medium.ToString() },
+                    new() { Name = ProjectPriorities.High.ToString() },
+                    new() { Name = ProjectPriorities.Urgent.ToString() },
                 };
 
                 var dbProjectPriorities = context.ProjectPriorities.Select(c => c.Name).ToList();
@@ -157,72 +149,48 @@ namespace TheBugTracker.Data
 
             try
             {
-                IList<Project> projects = new List<Project>()
+                IList<Project> projects = new List<Project>
                 {
-                    new Project()
+                    new()
                     {
-                        CompanyId = company1Id,
-                        Name = "Build a Personal Portfolio",
+                        CompanyId = _accountingCorpId,
+                        Name = "SAP S4 Hana implementation",
                         Description =
-                            "Single page html, css & javascript page.  Serves as a landing page for candidates and contains a bio and links to all applications and challenges.",
-                        StartDate = new DateTime(2021, 8, 20),
-                        EndDate = new DateTime(2021, 8, 20).AddMonths(1),
+                            "Project that should implement SAP S4 Hana as the company's ERP system",
+                        StartDate = new DateTimeOffset(DateTime.UtcNow),
+                        EndDate = new DateTimeOffset(DateTime.UtcNow).AddMonths(3),
                         ProjectPriorityId = priorityLow,
-                        FileName = "",
-                        FileData = Array.Empty<byte>(),
-                        FileContentType = "",
                     },
-                    new Project()
+                    new()
                     {
-                        CompanyId = company2Id,
-                        Name = "Build a supplemental Blog Web Application",
+                        CompanyId = _softwareHouseId,
+                        Name = "Build a social media application",
                         Description =
-                            "Candidate's custom built web application using .Net Core with MVC, a postgres database and hosted in a heroku container.  The app is designed for the candidate to create, update and maintain a live blog site.",
-                        StartDate = new DateTime(2021, 8, 20),
-                        EndDate = new DateTime(2021, 8, 20).AddMonths(4),
+                            "Single page social app which allows users to chat and upload photos",
+                        StartDate = new DateTimeOffset(DateTime.UtcNow),
+                        EndDate = new DateTimeOffset(DateTime.UtcNow).AddMonths(3),
                         ProjectPriorityId = priorityMedium,
-                        FileName = "",
-                        FileData = Array.Empty<byte>(),
-                        FileContentType = "",
                     },
-                    new Project()
+                    new()
                     {
-                        CompanyId = company1Id,
-                        Name = "Build an Issue Tracking Web Application",
+                        CompanyId = _accountingCorpId,
+                        Name = "Year End Closing activities",
                         Description =
-                            "A custom designed .Net Core application with postgres database.  The application is a multi tenant application designed to track issue tickets' progress.  Implemented with identity and user roles, Tickets are maintained in projects which are maintained by users in the role of project manager.  Each project has a team and team members.",
-                        StartDate = new DateTime(2021, 8, 20),
-                        EndDate = new DateTime(2021, 8, 20).AddMonths(6),
+                            "Manage future Year End Closing activities - schedule tasks across teams",
+                        StartDate = new DateTimeOffset(DateTime.UtcNow),
+                        EndDate = new DateTimeOffset(DateTime.UtcNow).AddMonths(3),
                         ProjectPriorityId = priorityHigh,
-                        FileName = "",
-                        FileData = Array.Empty<byte>(),
-                        FileContentType = "",
                     },
-                    new Project()
+                    new()
                     {
-                        CompanyId = company2Id,
-                        Name = "Build an Address Book Web Application",
+                        CompanyId = _softwareHouseId,
+                        Name = "KPI metrics",
                         Description =
-                            "A custom designed .Net Core application with postgres database.  This is an application to serve as a rolodex of contacts for a given user..",
-                        StartDate = new DateTime(2021, 8, 20),
-                        EndDate = new DateTime(2021, 8, 20).AddMonths(2),
+                            "A project that tracks internal KPI metrics",
+                        StartDate = new DateTimeOffset(DateTime.UtcNow),
+                        EndDate = new DateTimeOffset(DateTime.UtcNow).AddMonths(12),
                         ProjectPriorityId = priorityLow,
-                        FileName = "",
-                        FileData = Array.Empty<byte>(),
-                        FileContentType = "",
-                    },
-                    new Project()
-                    {
-                        CompanyId = company1Id,
-                        Name = "Build a Movie Information Web Application",
-                        Description =
-                    "A custom designed .Net Core application with postgres database.  An API based application allows users to input and import movie posters and details including cast and crew information.",
-                        StartDate = new DateTime(2021, 8, 20),
-                        EndDate = new DateTime(2021, 8, 20).AddMonths(3),
-                        ProjectPriorityId = priorityHigh,
-                        FileName = "",
-                        FileData = Array.Empty<byte>(),
-                        FileContentType = "",
+                   
                     }
                 };
 
@@ -244,94 +212,84 @@ namespace TheBugTracker.Data
         private static async Task SeedDefaultUsersAsync(UserManager<BTUser> userManager)
         {
             //Seed Default Admin User
-            var defaultUser = new BTUser
+            var johnAdminUser = new BTUser
             {
-                UserName = "slugocki.pawel@gmail.com",
-                Email = "slugocki.pawel@gmail.com",
-                FirstName = "Pawel",
-                LastName = "Slugocki",
+                UserName = "johnAdmin@bugtracker.com",
+                Email = "johnAdmin@bugtracker.com",
+                FirstName = "John",
+                LastName = "Admin",
                 EmailConfirmed = true,
-                CompanyId = company1Id,
-                AvatarFormName = "",
-                AvatarContentType = "",
-                AvatarFileData = Array.Empty<byte>(),
+                CompanyId = _accountingCorpId,
             };
             try
             {
-                var user = await userManager.FindByEmailAsync(defaultUser.Email);
+                var user = await userManager.FindByEmailAsync(johnAdminUser.Email);
                 if (user == null)
                 {
-                    await userManager.CreateAsync(defaultUser, "Abc&123!");
-                    await userManager.AddToRoleAsync(defaultUser, Roles.Admin.ToString());
+                    await userManager.CreateAsync(johnAdminUser, "Abc&123!");
+                    await userManager.AddToRoleAsync(johnAdminUser, Roles.Admin.ToString());
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine("*************  ERROR  *************");
-                Console.WriteLine("Error Seeding Default Admin User.");
+                Console.WriteLine("Error Seeding John Admin User.");
                 Console.WriteLine(ex.Message);
                 Console.WriteLine("***********************************");
                 throw;
             }
 
             //Seed Default Admin User
-            defaultUser = new BTUser
+            var danielAdminUser = new BTUser
             {
-                UserName = "btadmin2@bugtracker.com",
-                Email = "btadmin2@bugtracker.com",
-                FirstName = "Steve",
-                LastName = "Appuser",
+                UserName = "danielAdmin@bugtracker.com",
+                Email = "danielAdmin@bugtracker.com",
+                FirstName = "Daniel",
+                LastName = "Admin",
                 EmailConfirmed = true,
-                CompanyId = company2Id,
-                AvatarFormName = "",
-                AvatarContentType = "",
-                AvatarFileData = Array.Empty<byte>(),
+                CompanyId = _softwareHouseId,
             };
             try
             {
-                var user = await userManager.FindByEmailAsync(defaultUser.Email);
+                var user = await userManager.FindByEmailAsync(danielAdminUser.Email);
                 if (user == null)
                 {
-                    await userManager.CreateAsync(defaultUser, "Abc&123!");
-                    await userManager.AddToRoleAsync(defaultUser, Roles.Admin.ToString());
+                    await userManager.CreateAsync(danielAdminUser, "Abc&123!");
+                    await userManager.AddToRoleAsync(danielAdminUser, Roles.Admin.ToString());
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine("*************  ERROR  *************");
-                Console.WriteLine("Error Seeding Default Admin User.");
+                Console.WriteLine("Error Seeding Daniel Admin User.");
                 Console.WriteLine(ex.Message);
                 Console.WriteLine("***********************************");
                 throw;
             }
-
-
+            
             //Seed Default ProjectManager1 User
-            defaultUser = new BTUser
+            var monicaPmUser= new BTUser
             {
-                UserName = "ProjectManager1@bugtracker.com",
-                Email = "ProjectManager1@bugtracker.com",
-                FirstName = "John",
-                LastName = "Appuser",
+                UserName = "MonicaPM@bugtracker.com",
+                Email = "MonicaPM@bugtracker.com",
+                FirstName = "Monica",
+                LastName = "PM",
                 EmailConfirmed = true,
-                CompanyId = company1Id,
-                AvatarFormName = "",
-                AvatarContentType = "",
-                AvatarFileData = Array.Empty<byte>(),
-            };
+                CompanyId = _accountingCorpId,
+                };
             try
             {
-                var user = await userManager.FindByEmailAsync(defaultUser.Email);
+                var user = await userManager.FindByEmailAsync(monicaPmUser.Email);
                 if (user == null)
                 {
-                    await userManager.CreateAsync(defaultUser, "Abc&123!");
-                    await userManager.AddToRoleAsync(defaultUser, Roles.ProjectManager.ToString());
+                    await userManager.CreateAsync(monicaPmUser, "Abc&123!");
+                    await userManager.AddToRoleAsync(monicaPmUser, Roles.ProjectManager.ToString());
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine("*************  ERROR  *************");
-                Console.WriteLine("Error Seeding Default ProjectManager1 User.");
+                Console.WriteLine("Error Seeding Default Monica PM User.");
                 Console.WriteLine(ex.Message);
                 Console.WriteLine("***********************************");
                 throw;
@@ -339,31 +297,89 @@ namespace TheBugTracker.Data
 
 
             //Seed Default ProjectManager2 User
-            defaultUser = new BTUser
+            var marthaPmUser = new BTUser
             {
-                UserName = "ProjectManager2@bugtracker.com",
-                Email = "ProjectManager2@bugtracker.com",
-                FirstName = "Jane",
-                LastName = "Appuser",
+                UserName = "MarthaPM@bugtracker.com",
+                Email = "MarthaPM@bugtracker.com",
+                FirstName = "Martha",
+                LastName = "PM",
                 EmailConfirmed = true,
-                CompanyId = company2Id,
+                CompanyId = _softwareHouseId,
                 AvatarFormName = "",
                 AvatarContentType = "",
                 AvatarFileData = Array.Empty<byte>(),
             };
             try
             {
-                var user = await userManager.FindByEmailAsync(defaultUser.Email);
+                var user = await userManager.FindByEmailAsync(marthaPmUser.Email);
                 if (user == null)
                 {
-                    await userManager.CreateAsync(defaultUser, "Abc&123!");
-                    await userManager.AddToRoleAsync(defaultUser, Roles.ProjectManager.ToString());
+                    await userManager.CreateAsync(marthaPmUser, "Abc&123!");
+                    await userManager.AddToRoleAsync(marthaPmUser, Roles.ProjectManager.ToString());
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine("*************  ERROR  *************");
-                Console.WriteLine("Error Seeding Default ProjectManager2 User.");
+                Console.WriteLine("Error Seeding Default Martha PM User.");
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("***********************************");
+                throw;
+            }
+            
+            
+            //Seed Default ProjectManager2 User
+            var paulPmUser= new BTUser
+            {
+                UserName = "PaulPM2@bugtracker.com",
+                Email = "PaulPM2@bugtracker.com",
+                FirstName = "Paul",
+                LastName = "PM2",
+                EmailConfirmed = true,
+                CompanyId = _accountingCorpId,
+                };
+            try
+            {
+                var user = await userManager.FindByEmailAsync(paulPmUser.Email);
+                if (user == null)
+                {
+                    await userManager.CreateAsync(paulPmUser, "Abc&123!");
+                    await userManager.AddToRoleAsync(paulPmUser, Roles.ProjectManager.ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("*************  ERROR  *************");
+                Console.WriteLine("Error Seeding Default Paul PM2 User.");
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("***********************************");
+                throw;
+            }
+
+
+            //Seed Default ProjectManager2 User
+            var ericPM2User = new BTUser
+            {
+                UserName = "EricPM2@bugtracker.com",
+                Email = "EricPM2@bugtracker.com",
+                FirstName = "Eric",
+                LastName = "PM2",
+                EmailConfirmed = true,
+                CompanyId = _softwareHouseId,
+            };
+            try
+            {
+                var user = await userManager.FindByEmailAsync(ericPM2User.Email);
+                if (user == null)
+                {
+                    await userManager.CreateAsync(ericPM2User, "Abc&123!");
+                    await userManager.AddToRoleAsync(ericPM2User, Roles.ProjectManager.ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("*************  ERROR  *************");
+                Console.WriteLine("Error Seeding Default Eric PM2 User.");
                 Console.WriteLine(ex.Message);
                 Console.WriteLine("***********************************");
                 throw;
@@ -371,31 +387,28 @@ namespace TheBugTracker.Data
 
 
             //Seed Default Developer1 User
-            defaultUser = new BTUser
+            var daveDev1User = new BTUser
             {
-                UserName = "Developer1@bugtracker.com",
-                Email = "Developer1@bugtracker.com",
-                FirstName = "Elon",
-                LastName = "Appuser",
+                UserName = "DaveDev1@bugtracker.com",
+                Email = "DaveDev1@bugtracker.com",
+                FirstName = "Dave",
+                LastName = "Dev1",
                 EmailConfirmed = true,
-                CompanyId = company1Id,
-                AvatarFormName = "",
-                AvatarContentType = "",
-                AvatarFileData = Array.Empty<byte>(),
+                CompanyId = _accountingCorpId,
             };
             try
             {
-                var user = await userManager.FindByEmailAsync(defaultUser.Email);
+                var user = await userManager.FindByEmailAsync(daveDev1User.Email);
                 if (user == null)
                 {
-                    await userManager.CreateAsync(defaultUser, "Abc&123!");
-                    await userManager.AddToRoleAsync(defaultUser, Roles.Developer.ToString());
+                    await userManager.CreateAsync(daveDev1User, "Abc&123!");
+                    await userManager.AddToRoleAsync(daveDev1User, Roles.Developer.ToString());
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine("*************  ERROR  *************");
-                Console.WriteLine("Error Seeding Default Developer1 User.");
+                Console.WriteLine("Error Seeding Dave Dev1 User.");
                 Console.WriteLine(ex.Message);
                 Console.WriteLine("***********************************");
                 throw;
@@ -403,189 +416,114 @@ namespace TheBugTracker.Data
 
 
             //Seed Default Developer2 User
-            defaultUser = new BTUser
+            var maggieDev1 = new BTUser
             {
-                UserName = "Developer2@bugtracker.com",
-                Email = "Developer2@bugtracker.com",
-                FirstName = "James",
-                LastName = "Appuser",
+                UserName = "MaggieDev1@bugtracker.com",
+                Email = "MaggieDev1@bugtracker.com",
+                FirstName = "Maggie",
+                LastName = "Dev1",
                 EmailConfirmed = true,
-                CompanyId = company2Id,
-                AvatarFormName = "",
-                AvatarContentType = "",
-                AvatarFileData = Array.Empty<byte>(),
+                CompanyId = _softwareHouseId,
             };
             try
             {
-                var user = await userManager.FindByEmailAsync(defaultUser.Email);
+                var user = await userManager.FindByEmailAsync(maggieDev1.Email);
                 if (user == null)
                 {
-                    await userManager.CreateAsync(defaultUser, "Abc&123!");
-                    await userManager.AddToRoleAsync(defaultUser, Roles.Developer.ToString());
+                    await userManager.CreateAsync(maggieDev1, "Abc&123!");
+                    await userManager.AddToRoleAsync(maggieDev1, Roles.Developer.ToString());
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine("*************  ERROR  *************");
-                Console.WriteLine("Error Seeding Default Developer2 User.");
+                Console.WriteLine("Error Seeding Maggie Dev1 User.");
                 Console.WriteLine(ex.Message);
                 Console.WriteLine("***********************************");
                 throw;
             }
 
 
-            //Seed Default Developer3 User
-            defaultUser = new BTUser
+            //Seed Default Developer2 User
+            var addDev2User = new BTUser
             {
-                UserName = "Developer3@bugtracker.com",
-                Email = "Developer3@bugtracker.com",
-                FirstName = "Natasha",
-                LastName = "Appuser",
+                UserName = "AnnDev2@bugtracker.com",
+                Email = "AnnDev2@bugtracker.com",
+                FirstName = "Ann",
+                LastName = "Dev2",
                 EmailConfirmed = true,
-                CompanyId = company1Id,
-                AvatarFormName = "",
-                AvatarContentType = "",
-                AvatarFileData = Array.Empty<byte>(),
+                CompanyId = _accountingCorpId,
             };
             try
             {
-                var user = await userManager.FindByEmailAsync(defaultUser.Email);
+                var user = await userManager.FindByEmailAsync(addDev2User.Email);
                 if (user == null)
                 {
-                    await userManager.CreateAsync(defaultUser, "Abc&123!");
-                    await userManager.AddToRoleAsync(defaultUser, Roles.Developer.ToString());
+                    await userManager.CreateAsync(addDev2User, "Abc&123!");
+                    await userManager.AddToRoleAsync(addDev2User, Roles.Developer.ToString());
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine("*************  ERROR  *************");
-                Console.WriteLine("Error Seeding Default Developer3 User.");
+                Console.WriteLine("Error Seeding Ann Dev2 User.");
                 Console.WriteLine(ex.Message);
                 Console.WriteLine("***********************************");
                 throw;
             }
 
 
-            //Seed Default Developer4 User
-            defaultUser = new BTUser
+            //Seed Default Developer2 User
+            var cainDev2 = new BTUser
             {
-                UserName = "Developer4@bugtracker.com",
-                Email = "Developer4@bugtracker.com",
-                FirstName = "Carol",
-                LastName = "Appuser",
+                UserName = "CainDev2@bugtracker.com",
+                Email = "CainDev2@bugtracker.com",
+                FirstName = "Cain",
+                LastName = "Dev2",
                 EmailConfirmed = true,
-                CompanyId = company2Id,
-                AvatarFormName = "",
-                AvatarContentType = "",
-                AvatarFileData = Array.Empty<byte>(),
+                CompanyId = _softwareHouseId,
             };
             try
             {
-                var user = await userManager.FindByEmailAsync(defaultUser.Email);
+                var user = await userManager.FindByEmailAsync(cainDev2.Email);
                 if (user == null)
                 {
-                    await userManager.CreateAsync(defaultUser, "Abc&123!");
-                    await userManager.AddToRoleAsync(defaultUser, Roles.Developer.ToString());
+                    await userManager.CreateAsync(cainDev2, "Abc&123!");
+                    await userManager.AddToRoleAsync(cainDev2, Roles.Developer.ToString());
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine("*************  ERROR  *************");
-                Console.WriteLine("Error Seeding Default Developer4 User.");
-                Console.WriteLine(ex.Message);
-                Console.WriteLine("***********************************");
-                throw;
-            }
-
-
-            //Seed Default Developer5 User
-            defaultUser = new BTUser
-            {
-                UserName = "Developer5@bugtracker.com",
-                Email = "Developer5@bugtracker.com",
-                FirstName = "Tony",
-                LastName = "Appuser",
-                EmailConfirmed = true,
-                CompanyId = company1Id,
-                AvatarFormName = "",
-                AvatarContentType = "",
-                AvatarFileData = Array.Empty<byte>(),
-            };
-            try
-            {
-                var user = await userManager.FindByEmailAsync(defaultUser.Email);
-                if (user == null)
-                {
-                    await userManager.CreateAsync(defaultUser, "Abc&123!");
-                    await userManager.AddToRoleAsync(defaultUser, Roles.Developer.ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("*************  ERROR  *************");
-                Console.WriteLine("Error Seeding Default Developer5 User.");
-                Console.WriteLine(ex.Message);
-                Console.WriteLine("***********************************");
-                throw;
-            }
-
-            //Seed Default Developer6 User
-            defaultUser = new BTUser
-            {
-                UserName = "Developer6@bugtracker.com",
-                Email = "Developer6@bugtracker.com",
-                FirstName = "Bruce",
-                LastName = "Appuser",
-                EmailConfirmed = true,
-                CompanyId = company2Id,
-                AvatarFormName = "",
-                AvatarContentType = "",
-                AvatarFileData = Array.Empty<byte>(),
-            };
-            try
-            {
-                var user = await userManager.FindByEmailAsync(defaultUser.Email);
-                if (user == null)
-                {
-                    await userManager.CreateAsync(defaultUser, "Abc&123!");
-                    await userManager.AddToRoleAsync(defaultUser, Roles.Developer.ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("*************  ERROR  *************");
-                Console.WriteLine("Error Seeding Default Developer5 User.");
+                Console.WriteLine("Error Seeding Cain Dev2 User.");
                 Console.WriteLine(ex.Message);
                 Console.WriteLine("***********************************");
                 throw;
             }
 
             //Seed Default Submitter1 User
-            defaultUser = new BTUser
+            var richardSub1User = new BTUser
             {
-                UserName = "Submitter1@bugtracker.com",
-                Email = "Submitter1@bugtracker.com",
-                FirstName = "Scott",
-                LastName = "Appuser",
+                UserName = "RichardSub1@bugtracker.com",
+                Email = "RichardSub1@bugtracker.com",
+                FirstName = "Richard",
+                LastName = "Sub1",
                 EmailConfirmed = true,
-                CompanyId = company1Id,
-                AvatarFormName = "",
-                AvatarContentType = "",
-                AvatarFileData = Array.Empty<byte>(),
+                CompanyId = _accountingCorpId,
             };
             try
             {
-                var user = await userManager.FindByEmailAsync(defaultUser.Email);
+                var user = await userManager.FindByEmailAsync(richardSub1User.Email);
                 if (user == null)
                 {
-                    await userManager.CreateAsync(defaultUser, "Abc&123!");
-                    await userManager.AddToRoleAsync(defaultUser, Roles.Submitter.ToString());
+                    await userManager.CreateAsync(richardSub1User, "Abc&123!");
+                    await userManager.AddToRoleAsync(richardSub1User, Roles.Submitter.ToString());
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine("*************  ERROR  *************");
-                Console.WriteLine("Error Seeding Default Submitter1 User.");
+                Console.WriteLine("Error Seeding Richard Sub1 User.");
                 Console.WriteLine(ex.Message);
                 Console.WriteLine("***********************************");
                 throw;
@@ -593,232 +531,285 @@ namespace TheBugTracker.Data
 
 
             //Seed Default Submitter2 User
-            defaultUser = new BTUser
+            var robertSub1User = new BTUser
             {
-                UserName = "Submitter2@bugtracker.com",
-                Email = "Submitter2@bugtracker.com",
-                FirstName = "Sue",
-                LastName = "Appuser",
+                UserName = "RobertSub1@bugtracker.com",
+                Email = "RobertSub1@bugtracker.com",
+                FirstName = "Robert",
+                LastName = "Sub1",
                 EmailConfirmed = true,
-                CompanyId = company2Id,
-                AvatarFormName = "",
-                AvatarContentType = "",
-                AvatarFileData = Array.Empty<byte>(),
+                CompanyId = _softwareHouseId,
             };
             try
             {
-                var user = await userManager.FindByEmailAsync(defaultUser.Email);
+                var user = await userManager.FindByEmailAsync(robertSub1User.Email);
                 if (user == null)
                 {
-                    await userManager.CreateAsync(defaultUser, "Abc&123!");
-                    await userManager.AddToRoleAsync(defaultUser, Roles.Submitter.ToString());
+                    await userManager.CreateAsync(robertSub1User, "Abc&123!");
+                    await userManager.AddToRoleAsync(robertSub1User, Roles.Submitter.ToString());
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine("*************  ERROR  *************");
-                Console.WriteLine("Error Seeding Default Submitter2 User.");
+                Console.WriteLine("Error Seeding Robert Sub1 User.");
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("***********************************");
+                throw;
+            }
+            
+            //Seed Default Submitter3 User
+            var dianaSub2User = new BTUser
+            {
+                UserName = "DianaSub2@bugtracker.com",
+                Email = "DianaSub2@bugtracker.com",
+                FirstName = "Diana",
+                LastName = "Sub2",
+                EmailConfirmed = true,
+                CompanyId = _accountingCorpId,
+            };
+            try
+            {
+                var user = await userManager.FindByEmailAsync(dianaSub2User.Email);
+                if (user == null)
+                {
+                    await userManager.CreateAsync(dianaSub2User, "Abc&123!");
+                    await userManager.AddToRoleAsync(dianaSub2User, Roles.Submitter.ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("*************  ERROR  *************");
+                Console.WriteLine("Error Seeding Diana Sub2 User.");
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("***********************************");
+                throw;
+            }
+
+
+            //Seed Default Submitter4 User
+            var eveSub2User = new BTUser
+            {
+                UserName = "EveSub2@bugtracker.com",
+                Email = "EveSub2@bugtracker.com",
+                FirstName = "Eve",
+                LastName = "Sub2",
+                EmailConfirmed = true,
+                CompanyId = _softwareHouseId,
+            };
+            try
+            {
+                var user = await userManager.FindByEmailAsync(eveSub2User.Email);
+                if (user == null)
+                {
+                    await userManager.CreateAsync(eveSub2User, "Abc&123!");
+                    await userManager.AddToRoleAsync(eveSub2User, Roles.Submitter.ToString());
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("*************  ERROR  *************");
+                Console.WriteLine("Error Seeding Eve Sub2 User.");
                 Console.WriteLine(ex.Message);
                 Console.WriteLine("***********************************");
                 throw;
             }
         }
 
-        private static async Task SeedDemoUsersAsync(UserManager<BTUser> userManager)
-        {
-            //Seed Demo Admin User
-            var defaultUser = new BTUser
-            {
-                UserName = "demoadmin@bugtracker.com",
-                Email = "demoadmin@bugtracker.com",
-                FirstName = "Demo",
-                LastName = "Admin",
-                EmailConfirmed = true,
-                CompanyId = company1Id,
-                AvatarFormName = "",
-                AvatarContentType = "",
-                AvatarFileData = Array.Empty<byte>(),
-            };
-            try
-            {
-                var user = await userManager.FindByEmailAsync(defaultUser.Email);
-                if (user == null)
-                {
-                    await userManager.CreateAsync(defaultUser, "Abc&123!");
-                    await userManager.AddToRoleAsync(defaultUser, Roles.Admin.ToString());
-                    await userManager.AddToRoleAsync(defaultUser, Roles.DemoUser.ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("*************  ERROR  *************");
-                Console.WriteLine("Error Seeding Demo Admin User.");
-                Console.WriteLine(ex.Message);
-                Console.WriteLine("***********************************");
-                throw;
-            }
-
-
-            //Seed Demo ProjectManager User
-            defaultUser = new BTUser
-            {
-                UserName = "demopm@bugtracker.com",
-                Email = "demopm@bugtracker.com",
-                FirstName = "Demo",
-                LastName = "ProjectManager",
-                EmailConfirmed = true,
-                CompanyId = company2Id,
-                AvatarFormName = "",
-                AvatarContentType = "",
-                AvatarFileData = Array.Empty<byte>(),
-            };
-            try
-            {
-                var user = await userManager.FindByEmailAsync(defaultUser.Email);
-                if (user == null)
-                {
-                    await userManager.CreateAsync(defaultUser, "Abc&123!");
-                    await userManager.AddToRoleAsync(defaultUser, Roles.ProjectManager.ToString());
-                    await userManager.AddToRoleAsync(defaultUser, Roles.DemoUser.ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("*************  ERROR  *************");
-                Console.WriteLine("Error Seeding Demo ProjectManager1 User.");
-                Console.WriteLine(ex.Message);
-                Console.WriteLine("***********************************");
-                throw;
-            }
-
-
-            //Seed Demo Developer User
-            defaultUser = new BTUser
-            {
-                UserName = "demodev@bugtracker.com",
-                Email = "demodev@bugtracker.com",
-                FirstName = "Demo",
-                LastName = "Developer",
-                EmailConfirmed = true,
-                CompanyId = company2Id,
-                AvatarFormName = "",
-                AvatarContentType = "",
-                AvatarFileData = Array.Empty<byte>(),
-            };
-            try
-            {
-                var user = await userManager.FindByEmailAsync(defaultUser.Email);
-                if (user == null)
-                {
-                    await userManager.CreateAsync(defaultUser, "Abc&123!");
-                    await userManager.AddToRoleAsync(defaultUser, Roles.Developer.ToString());
-                    await userManager.AddToRoleAsync(defaultUser, Roles.DemoUser.ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("*************  ERROR  *************");
-                Console.WriteLine("Error Seeding Demo Developer1 User.");
-                Console.WriteLine(ex.Message);
-                Console.WriteLine("***********************************");
-                throw;
-            }
-
-
-            //Seed Demo Submitter User
-            defaultUser = new BTUser
-            {
-                UserName = "demosub@bugtracker.com",
-                Email = "demosub@bugtracker.com",
-                FirstName = "Demo",
-                LastName = "Submitter",
-                EmailConfirmed = true,
-                CompanyId = company2Id,
-                AvatarFormName = "",
-                AvatarContentType = "",
-                AvatarFileData = Array.Empty<byte>(),
-            };
-            try
-            {
-                var user = await userManager.FindByEmailAsync(defaultUser.Email);
-                if (user == null)
-                {
-                    await userManager.CreateAsync(defaultUser, "Abc&123!");
-                    await userManager.AddToRoleAsync(defaultUser, Roles.Submitter.ToString());
-                    await userManager.AddToRoleAsync(defaultUser, Roles.DemoUser.ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("*************  ERROR  *************");
-                Console.WriteLine("Error Seeding Demo Submitter User.");
-                Console.WriteLine(ex.Message);
-                Console.WriteLine("***********************************");
-                throw;
-            }
-
-
-            //Seed Demo New User
-            defaultUser = new BTUser
-            {
-                UserName = "demonew@bugtracker.com",
-                Email = "demonew@bugtracker.com",
-                FirstName = "Demo",
-                LastName = "NewUser",
-                EmailConfirmed = true,
-                CompanyId = company2Id,
-                AvatarFormName = "",
-                AvatarContentType = "",
-                AvatarFileData = Array.Empty<byte>(),
-            };
-            try
-            {
-                var user = await userManager.FindByEmailAsync(defaultUser.Email);
-                if (user == null)
-                {
-                    await userManager.CreateAsync(defaultUser, "Abc&123!");
-                    await userManager.AddToRoleAsync(defaultUser, Roles.Submitter.ToString());
-                    await userManager.AddToRoleAsync(defaultUser, Roles.DemoUser.ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("*************  ERROR  *************");
-                Console.WriteLine("Error Seeding Demo New User.");
-                Console.WriteLine(ex.Message);
-                Console.WriteLine("***********************************");
-                throw;
-            }
-        }
-
-
+        // private static async Task SeedDemoUsersAsync(UserManager<BTUser> userManager)
+        // {
+        //     //Seed Demo Admin User
+        //     var defaultUser = new BTUser
+        //     {
+        //         UserName = "demoadmin@bugtracker.com",
+        //         Email = "demoadmin@bugtracker.com",
+        //         FirstName = "Demo",
+        //         LastName = "Admin",
+        //         EmailConfirmed = true,
+        //         CompanyId = accountingCorpId,
+        //         AvatarFormName = "",
+        //         AvatarContentType = "",
+        //         AvatarFileData = Array.Empty<byte>(),
+        //     };
+        //     try
+        //     {
+        //         var user = await userManager.FindByEmailAsync(defaultUser.Email);
+        //         if (user == null)
+        //         {
+        //             await userManager.CreateAsync(defaultUser, "Abc&123!");
+        //             await userManager.AddToRoleAsync(defaultUser, Roles.Admin.ToString());
+        //             await userManager.AddToRoleAsync(defaultUser, Roles.DemoUser.ToString());
+        //         }
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         Console.WriteLine("*************  ERROR  *************");
+        //         Console.WriteLine("Error Seeding Demo Admin User.");
+        //         Console.WriteLine(ex.Message);
+        //         Console.WriteLine("***********************************");
+        //         throw;
+        //     }
+        //
+        //
+        //     //Seed Demo ProjectManager User
+        //     defaultUser = new BTUser
+        //     {
+        //         UserName = "demopm@bugtracker.com",
+        //         Email = "demopm@bugtracker.com",
+        //         FirstName = "Demo",
+        //         LastName = "ProjectManager",
+        //         EmailConfirmed = true,
+        //         CompanyId = softwareHouseId,
+        //         AvatarFormName = "",
+        //         AvatarContentType = "",
+        //         AvatarFileData = Array.Empty<byte>(),
+        //     };
+        //     try
+        //     {
+        //         var user = await userManager.FindByEmailAsync(defaultUser.Email);
+        //         if (user == null)
+        //         {
+        //             await userManager.CreateAsync(defaultUser, "Abc&123!");
+        //             await userManager.AddToRoleAsync(defaultUser, Roles.ProjectManager.ToString());
+        //             await userManager.AddToRoleAsync(defaultUser, Roles.DemoUser.ToString());
+        //         }
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         Console.WriteLine("*************  ERROR  *************");
+        //         Console.WriteLine("Error Seeding Demo ProjectManager1 User.");
+        //         Console.WriteLine(ex.Message);
+        //         Console.WriteLine("***********************************");
+        //         throw;
+        //     }
+        //
+        //
+        //     //Seed Demo Developer User
+        //     defaultUser = new BTUser
+        //     {
+        //         UserName = "demodev@bugtracker.com",
+        //         Email = "demodev@bugtracker.com",
+        //         FirstName = "Demo",
+        //         LastName = "Developer",
+        //         EmailConfirmed = true,
+        //         CompanyId = softwareHouseId,
+        //         AvatarFormName = "",
+        //         AvatarContentType = "",
+        //         AvatarFileData = Array.Empty<byte>(),
+        //     };
+        //     try
+        //     {
+        //         var user = await userManager.FindByEmailAsync(defaultUser.Email);
+        //         if (user == null)
+        //         {
+        //             await userManager.CreateAsync(defaultUser, "Abc&123!");
+        //             await userManager.AddToRoleAsync(defaultUser, Roles.Developer.ToString());
+        //             await userManager.AddToRoleAsync(defaultUser, Roles.DemoUser.ToString());
+        //         }
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         Console.WriteLine("*************  ERROR  *************");
+        //         Console.WriteLine("Error Seeding Demo Developer1 User.");
+        //         Console.WriteLine(ex.Message);
+        //         Console.WriteLine("***********************************");
+        //         throw;
+        //     }
+        //
+        //
+        //     //Seed Demo Submitter User
+        //     defaultUser = new BTUser
+        //     {
+        //         UserName = "demosub@bugtracker.com",
+        //         Email = "demosub@bugtracker.com",
+        //         FirstName = "Demo",
+        //         LastName = "Submitter",
+        //         EmailConfirmed = true,
+        //         CompanyId = softwareHouseId,
+        //         AvatarFormName = "",
+        //         AvatarContentType = "",
+        //         AvatarFileData = Array.Empty<byte>(),
+        //     };
+        //     try
+        //     {
+        //         var user = await userManager.FindByEmailAsync(defaultUser.Email);
+        //         if (user == null)
+        //         {
+        //             await userManager.CreateAsync(defaultUser, "Abc&123!");
+        //             await userManager.AddToRoleAsync(defaultUser, Roles.Submitter.ToString());
+        //             await userManager.AddToRoleAsync(defaultUser, Roles.DemoUser.ToString());
+        //         }
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         Console.WriteLine("*************  ERROR  *************");
+        //         Console.WriteLine("Error Seeding Demo Submitter User.");
+        //         Console.WriteLine(ex.Message);
+        //         Console.WriteLine("***********************************");
+        //         throw;
+        //     }
+        //
+        //
+        //     //Seed Demo New User
+        //     defaultUser = new BTUser
+        //     {
+        //         UserName = "demonew@bugtracker.com",
+        //         Email = "demonew@bugtracker.com",
+        //         FirstName = "Demo",
+        //         LastName = "NewUser",
+        //         EmailConfirmed = true,
+        //         CompanyId = softwareHouseId,
+        //         AvatarFormName = "",
+        //         AvatarContentType = "",
+        //         AvatarFileData = Array.Empty<byte>(),
+        //     };
+        //     try
+        //     {
+        //         var user = await userManager.FindByEmailAsync(defaultUser.Email);
+        //         if (user == null)
+        //         {
+        //             await userManager.CreateAsync(defaultUser, "Abc&123!");
+        //             await userManager.AddToRoleAsync(defaultUser, Roles.Submitter.ToString());
+        //             await userManager.AddToRoleAsync(defaultUser, Roles.DemoUser.ToString());
+        //         }
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         Console.WriteLine("*************  ERROR  *************");
+        //         Console.WriteLine("Error Seeding Demo New User.");
+        //         Console.WriteLine(ex.Message);
+        //         Console.WriteLine("***********************************");
+        //         throw;
+        //     }
+        // }
+        
         private static async Task SeedDefaultTicketTypeAsync(ApplicationDbContext context)
         {
             try
             {
-                IList<TicketType> ticketTypes = new List<TicketType>()
+                IList<TicketType> ticketTypes = new List<TicketType>
                 {
-                    new TicketType()
+                    new()
                     {
                         Name = TicketTypes.NewDevelopment.ToString()
                     }, // Ticket involves development of a new, un coded solution 
-                    new TicketType()
+                    new()
                     {
                         Name = TicketTypes.WorkTask.ToString()
                     }, // Ticket involves development of the specific ticket description 
-                    new TicketType()
+                    new()
                     {
                         Name = TicketTypes.Defect.ToString()
                     }, // Ticket involves unexpected development/maintenance on a previously designed feature/functionality
-                    new TicketType()
+                    new()
                     {
                         Name = TicketTypes.ChangeRequest.ToString()
                     }, // Ticket involves modification development of a previously designed feature/functionality
-                    new TicketType()
+                    new()
                     {
                         Name = TicketTypes.Enhancement.ToString()
                     }, // Ticket involves additional development on a previously designed feature or new functionality
-                    new TicketType()
+                    new()
                     {
                         Name = TicketTypes.GeneralTask.ToString()
                     } // Ticket involves no software development but may involve tasks such as configurations, or hardware setup
@@ -844,17 +835,17 @@ namespace TheBugTracker.Data
             {
                 IList<TicketStatus> ticketStatuses = new List<TicketStatus>()
                 {
-                    new TicketStatus()
+                    new()
                         { Name = TicketStatuses.New.ToString() }, // Newly Created ticket having never been assigned
-                    new TicketStatus()
+                    new()
                     {
                         Name = TicketStatuses.Development.ToString()
                     }, // Ticket is assigned and currently being worked 
-                    new TicketStatus()
+                    new()
                     {
                         Name = TicketStatuses.Testing.ToString()
                     }, // Ticket is assigned and is currently being tested
-                    new TicketStatus()
+                    new()
                     {
                         Name = TicketStatuses.Resolved.ToString()
                     }, // Ticket remains assigned to the developer but work in now complete
@@ -879,12 +870,12 @@ namespace TheBugTracker.Data
         {
             try
             {
-                IList<TicketPriority> ticketPriorities = new List<TicketPriority>()
+                IList<TicketPriority> ticketPriorities = new List<TicketPriority>
                 {
-                    new TicketPriority() { Name = TicketPriorities.Low.ToString() },
-                    new TicketPriority() { Name = TicketPriorities.Medium.ToString() },
-                    new TicketPriority() { Name = TicketPriorities.High.ToString() },
-                    new TicketPriority() { Name = TicketPriorities.Urgent.ToString() },
+                    new() { Name = TicketPriorities.Low.ToString() },
+                    new() { Name = TicketPriorities.Medium.ToString() },
+                    new() { Name = TicketPriorities.High.ToString() },
+                    new() { Name = TicketPriorities.Urgent.ToString() },
                 };
 
                 var dbTicketPriorities = context.TicketPriorities.Select(c => c.Name).ToList();
@@ -906,11 +897,11 @@ namespace TheBugTracker.Data
         private static async Task SeedDefaultTicketsAsync(ApplicationDbContext context)
         {
             //Get project Ids
-            int portfolioId = context.Projects.FirstOrDefault(p => p.Name == "Build a Personal Porfolio").Id;
-            int blogId = context.Projects.FirstOrDefault(p => p.Name == "Build a supplemental Blog Web Application").Id;
-            int bugtrackerId = context.Projects.FirstOrDefault(p => p.Name == "Build an Issue Tracking Web Application")
+            int s4HanaId = context.Projects.FirstOrDefault(p => p.Name == "SAP S4 Hana implementation").Id;
+            int socialAppId = context.Projects.FirstOrDefault(p => p.Name == "Build a social media application").Id;
+            int yecId = context.Projects.FirstOrDefault(p => p.Name == "Year End Closing activities")
                 .Id;
-            int movieId = context.Projects.FirstOrDefault(p => p.Name == "Build a Movie Information Web Application")
+            int kpiId = context.Projects.FirstOrDefault(p => p.Name == "KPI metrics")
                 .Id;
 
             //Get ticket type Ids
@@ -945,452 +936,52 @@ namespace TheBugTracker.Data
                 IList<Ticket> tickets = new List<Ticket>()
                 {
                     //PORTFOLIO
-                    new Ticket()
+                    new()
                     {
-                        Title = "Portfolio Ticket 1", Description = "Ticket details for portfolio ticket 1",
-                        Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityLow,
-                        TicketStatusId = statusNew, TicketTypeId = typeNewDev,                     },
-                     new Ticket()
+                        Title = "S4 sandbox access request", Description = "I need access to new sandbox environment",
+                        Created = DateTimeOffset.Now, ProjectId = s4HanaId, TicketPriorityId = priorityLow,
+                        TicketStatusId = statusNew, TicketTypeId = typeChangeRequest,                     },
+                     new()
                      {
-                         Title = "Portfolio Ticket 2", Description = "Ticket details for portfolio ticket 2",
-                         Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityMedium,
-                         TicketStatusId = statusNew, TicketTypeId = typeChangeRequest,                      },
-                     new Ticket()
+                         Title = "Cost Center mapping is incorrect", Description = "Payroll cost accounts for EMEA are incorrectly mapped",
+                         Created = DateTimeOffset.Now, ProjectId = s4HanaId, TicketPriorityId = priorityMedium,
+                         TicketStatusId = statusNew, TicketTypeId = typeDefect,                      },
+                     new()
                      {
-                         Title = "Portfolio Ticket 3", Description = "Ticket details for portfolio ticket 3",
-                         Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityHigh,
+                         Title = "New feature request", Description = "Request for real time chat feature",
+                         Created = DateTimeOffset.Now, ProjectId = socialAppId, TicketPriorityId = priorityHigh,
                          TicketStatusId = statusDev, TicketTypeId = typeEnhancement,                      },
-                     new Ticket()
+                     new()
                      {
-                         Title = "Portfolio Ticket 4", Description = "Ticket details for portfolio ticket 4",
-                         Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityUrgent,
+                         Title = "Send message malfunction", Description = "I cannot send a private message to the user",
+                         Created = DateTimeOffset.Now, ProjectId = socialAppId, TicketPriorityId = priorityUrgent,
                          TicketStatusId = statusTest, TicketTypeId = typeDefect, 
                      },
-                     new Ticket()
+                     new()
                      {
-                         Title = "Portfolio Ticket 5", Description = "Ticket details for portfolio ticket 5",
-                         Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityLow,
+                         Title = "Payroll costs analysis", Description = "Payroll costs for Germany are higher than anticipated- please provide more details",
+                         Created = DateTimeOffset.Now, ProjectId = yecId, TicketPriorityId = priorityLow,
                          TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
                      },
-                     new Ticket()
+                     new()
                      {
-                         Title = "Portfolio Ticket 6", Description = "Ticket details for portfolio ticket 6",
-                         Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityMedium,
+                         Title = "YEC schedule", Description = "Provide schedule for french YES activities",
+                         Created = DateTimeOffset.Now, ProjectId = yecId, TicketPriorityId = priorityMedium,
                          TicketStatusId = statusNew, TicketTypeId = typeChangeRequest, 
                      },
                      new Ticket()
                      {
-                         Title = "Portfolio Ticket 7", Description = "Ticket details for portfolio ticket 7",
-                         Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityHigh,
+                         Title = "KPI bad results", Description = "KPI results are lower than anticipated",
+                         Created = DateTimeOffset.Now, ProjectId = kpiId, TicketPriorityId = priorityHigh,
                          TicketStatusId = statusDev, TicketTypeId = typeEnhancement, 
                      },
                      new Ticket()
                      {
-                         Title = "Portfolio Ticket 8", Description = "Ticket details for portfolio ticket 8",
-                         Created = DateTimeOffset.Now, ProjectId = portfolioId, TicketPriorityId = priorityUrgent,
+                         Title = "Feedback request for next milestone", Description = "Next milestone for social media app is approaching",
+                         Created = DateTimeOffset.Now, ProjectId = kpiId, TicketPriorityId = priorityUrgent,
                          TicketStatusId = statusTest, TicketTypeId = typeDefect, 
-                     },
-                    // BLOG
-                     new Ticket()
-                     {
-                         Title = "Blog Ticket 1", Description = "Ticket details for blog ticket 1",
-                         Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityLow,
-                         TicketStatusId = statusNew, TicketTypeId = typeDefect, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Blog Ticket 2", Description = "Ticket details for blog ticket 2",
-                         Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityMedium,
-                         TicketStatusId = statusDev, TicketTypeId = typeEnhancement, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Blog Ticket 3", Description = "Ticket details for blog ticket 3",
-                         Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeChangeRequest, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Blog Ticket 4", Description = "Ticket details for blog ticket 4",
-                         Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityUrgent,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Blog Ticket 5", Description = "Ticket details for blog ticket 5",
-                         Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityLow,
-                         TicketStatusId = statusDev, TicketTypeId = typeDefect, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Blog Ticket 6", Description = "Ticket details for blog ticket 6",
-                         Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityMedium,
-                         TicketStatusId = statusNew, TicketTypeId = typeEnhancement,                      },
-                     new Ticket()
-                     {
-                         Title = "Blog Ticket 7", Description = "Ticket details for blog ticket 7",
-                         Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeChangeRequest, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Blog Ticket 8", Description = "Ticket details for blog ticket 8",
-                         Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityUrgent,
-                         TicketStatusId = statusDev, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Blog Ticket 9", Description = "Ticket details for blog ticket 9",
-                         Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityLow,
-                         TicketStatusId = statusNew, TicketTypeId = typeDefect, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Blog Ticket 10", Description = "Ticket details for blog ticket 10",
-                         Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityMedium,
-                         TicketStatusId = statusNew, TicketTypeId = typeEnhancement, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Blog Ticket 11", Description = "Ticket details for blog ticket 11",
-                         Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusDev, TicketTypeId = typeChangeRequest, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Blog Ticket 12", Description = "Ticket details for blog ticket 12",
-                         Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityUrgent,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Blog Ticket 13", Description = "Ticket details for blog ticket 13",
-                         Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityLow,
-                         TicketStatusId = statusNew, TicketTypeId = typeDefect,                      },
-                     new Ticket()
-                     {
-                         Title = "Blog Ticket 14", Description = "Ticket details for blog ticket 14",
-                         Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityMedium,
-                         TicketStatusId = statusDev, TicketTypeId = typeEnhancement, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Blog Ticket 15", Description = "Ticket details for blog ticket 15",
-                         Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeChangeRequest, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Blog Ticket 16", Description = "Ticket details for blog ticket 16",
-                         Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityUrgent,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Blog Ticket 17", Description = "Ticket details for blog ticket 17",
-                         Created = DateTimeOffset.Now, ProjectId = blogId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusDev, TicketTypeId = typeNewDev, 
-                     },
-                    // BUGTRACKER                                                                                                                         
-                     new Ticket()
-                     {
-                         Title = "Bug Tracker Ticket 1", Description = "Ticket details for bug tracker ticket 1",
-                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Bug Tracker Ticket 2", Description = "Ticket details for bug tracker ticket 2",
-                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Bug Tracker Ticket 3", Description = "Ticket details for bug tracker ticket 3",
-                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Bug Tracker Ticket 4", Description = "Ticket details for bug tracker ticket 4",
-                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev,                      },
-                     new Ticket()
-                     {
-                         Title = "Bug Tracker Ticket 5", Description = "Ticket details for bug tracker ticket 5",
-                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Bug Tracker Ticket 6", Description = "Ticket details for bug tracker ticket 6",
-                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Bug Tracker Ticket 7", Description = "Ticket details for bug tracker ticket 7",
-                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Bug Tracker Ticket 8", Description = "Ticket details for bug tracker ticket 8",
-                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Bug Tracker Ticket 9", Description = "Ticket details for bug tracker ticket 9",
-                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Bug Tracker Ticket 10", Description = "Ticket details for bug tracker 10",
-                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Bug Tracker Ticket 11", Description = "Ticket details for bug tracker 11",
-                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Bug Tracker Ticket 12", Description = "Ticket details for bug tracker 12",
-                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Bug Tracker Ticket 13", Description = "Ticket details for bug tracker 13",
-                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Bug Tracker Ticket 14", Description = "Ticket details for bug tracker 14",
-                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Bug Tracker Ticket 15", Description = "Ticket details for bug tracker 15",
-                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Bug Tracker Ticket 16", Description = "Ticket details for bug tracker 16",
-                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Bug Tracker Ticket 17", Description = "Ticket details for bug tracker 17",
-                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Bug Tracker Ticket 18", Description = "Ticket details for bug tracker 18",
-                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev,                      },
-                     new Ticket()
-                     {
-                         Title = "Bug Tracker Ticket 19", Description = "Ticket details for bug tracker 19",
-                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Bug Tracker Ticket 20", Description = "Ticket details for bug tracker 20",
-                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Bug Tracker Ticket 21", Description = "Ticket details for bug tracker 21",
-                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Bug Tracker Ticket 22", Description = "Ticket details for bug tracker 22",
-                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Bug Tracker Ticket 23", Description = "Ticket details for bug tracker 23",
-                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Bug Tracker Ticket 24", Description = "Ticket details for bug tracker 24",
-                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Bug Tracker Ticket 25", Description = "Ticket details for bug tracker 25",
-                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Bug Tracker Ticket 26", Description = "Ticket details for bug tracker 26",
-                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Bug Tracker Ticket 27", Description = "Ticket details for bug tracker 27",
-                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Bug Tracker Ticket 28", Description = "Ticket details for bug tracker 28",
-                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Bug Tracker Ticket 29", Description = "Ticket details for bug tracker 29",
-                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Bug Tracker Ticket 30", Description = "Ticket details for bug tracker 30",
-                         Created = DateTimeOffset.Now, ProjectId = bugtrackerId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
-                     },
-                    // MOVIE
-                     new Ticket()
-                     {
-                         Title = "Movie Ticket 1", Description = "Ticket details for movie ticket 1",
-                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityLow,
-                         TicketStatusId = statusNew, TicketTypeId = typeDefect,                      },
-                     new Ticket()
-                     {
-                         Title = "Movie Ticket 2", Description = "Ticket details for movie ticket 2",
-                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityMedium,
-                         TicketStatusId = statusDev, TicketTypeId = typeEnhancement,                      },
-                     new Ticket()
-                     {
-                         Title = "Movie Ticket 3", Description = "Ticket details for movie ticket 3",
-                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeChangeRequest, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Movie Ticket 4", Description = "Ticket details for movie ticket 4",
-                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityUrgent,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Movie Ticket 5", Description = "Ticket details for movie ticket 5",
-                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityLow,
-                         TicketStatusId = statusDev, TicketTypeId = typeDefect, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Movie Ticket 6", Description = "Ticket details for movie ticket 6",
-                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityMedium,
-                         TicketStatusId = statusNew, TicketTypeId = typeEnhancement, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Movie Ticket 7", Description = "Ticket details for movie ticket 7",
-                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeChangeRequest, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Movie Ticket 8", Description = "Ticket details for movie ticket 8",
-                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityUrgent,
-                         TicketStatusId = statusDev, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Movie Ticket 9", Description = "Ticket details for movie ticket 9",
-                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityLow,
-                         TicketStatusId = statusNew, TicketTypeId = typeDefect, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Movie Ticket 10", Description = "Ticket details for movie ticket 10",
-                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityMedium,
-                         TicketStatusId = statusNew, TicketTypeId = typeEnhancement, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Movie Ticket 11", Description = "Ticket details for movie ticket 11",
-                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusDev, TicketTypeId = typeChangeRequest, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Movie Ticket 12", Description = "Ticket details for movie ticket 12",
-                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityUrgent,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Movie Ticket 13", Description = "Ticket details for movie ticket 13",
-                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityLow,
-                         TicketStatusId = statusNew, TicketTypeId = typeDefect, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Movie Ticket 14", Description = "Ticket details for movie ticket 14",
-                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityMedium,
-                         TicketStatusId = statusDev, TicketTypeId = typeEnhancement, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Movie Ticket 15", Description = "Ticket details for movie ticket 15",
-                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeChangeRequest, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Movie Ticket 16", Description = "Ticket details for movie ticket 16",
-                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityUrgent,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Movie Ticket 17", Description = "Ticket details for movie ticket 17",
-                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusDev, TicketTypeId = typeNewDev, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Movie Ticket 18", Description = "Ticket details for movie ticket 18",
-                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityMedium,
-                         TicketStatusId = statusDev, TicketTypeId = typeEnhancement, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Movie Ticket 19", Description = "Ticket details for movie ticket 19",
-                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityHigh,
-                         TicketStatusId = statusNew, TicketTypeId = typeChangeRequest, 
-                     },
-                     new Ticket()
-                     {
-                         Title = "Movie Ticket 20", Description = "Ticket details for movie ticket 20",
-                         Created = DateTimeOffset.Now, ProjectId = movieId, TicketPriorityId = priorityUrgent,
-                         TicketStatusId = statusNew, TicketTypeId = typeNewDev, 
                      },
                 };
-
 
                 var dbTickets = context.Tickets.Select(c => c.Title).ToList();
                 await context.Tickets.AddRangeAsync(tickets.Where(c => !dbTickets.Contains(c.Title)));
