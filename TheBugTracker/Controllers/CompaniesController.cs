@@ -3,14 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TheBugTracker.Data;
 using TheBugTracker.Models;
+using TheBugTracker.Models.Enums;
 
 namespace TheBugTracker.Controllers
 {
+    [Authorize(Roles = nameof(Roles.Admin))]
     public sealed class CompaniesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -34,8 +37,7 @@ namespace TheBugTracker.Controllers
                 return NotFound();
             }
 
-            var company = await _context.Companies
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var company = await _context.Companies.FirstOrDefaultAsync(m => m.Id == id);
             if (company == null)
             {
                 return NotFound();
@@ -125,8 +127,7 @@ namespace TheBugTracker.Controllers
                 return NotFound();
             }
 
-            var company = await _context.Companies
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var company = await _context.Companies.FirstOrDefaultAsync(m => m.Id == id);
             if (company == null)
             {
                 return NotFound();
