@@ -218,16 +218,6 @@ namespace TheBugTracker.Services
         {
             try
             {
-                // return await _context.TicketHistories
-                //     .Where(th => th.Ticket.Project.CompanyId == companyId)
-                //     .Include(th => th.User)
-                //     .Include(th => th.Ticket.History)
-                //     .Include(th => th.Ticket)
-                //     .Include(th => th.Ticket.Project)
-                //     .ToListAsync();
-
-                //TODO compare the below and above implementations and see if we have same results - one is going down from Companies, another is going up from TicketHistory
-
                 List<Project> projects = (await _context.Companies
                     .Include(c => c.Projects)
                     .ThenInclude(p => p.Tickets)
