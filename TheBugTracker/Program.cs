@@ -9,8 +9,6 @@ using TheBugTracker.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 // TODO store all passwords and emails in the secrets.json! Pass iConfiguration to SeedDeaultUsersAsync method
-// TODO implement notifications mechanism during new Ticket creation
-// TODO add filters to tables so user can filter tickets by priority etc.
 // TODO Add Index page where user can login as Demo Admin / Demo PM/ Demo Developer/ Demo User
 // TODO Should Company list be visible for all users?
 // TODO Change Priority tags colors based on Priority Name
