@@ -11,7 +11,8 @@ namespace TheBugTracker.Services.Interfaces
         Task SendEmailNotificationsByRoleAsync(Notification notification, int companyId, string role);
         Task SendMembersEmailNotificationsAsync(Notification notification, List<BTUser> members);
         Task<bool> SendEmailNotificationAsync(Notification notification, string emailSubject);
-        Task<Notification> CreateNotification(Ticket ticket);
+        Notification CreateNotification(Ticket ticket, string title, string message, BTUser sender,
+            BTUser recipient);
         void SoftDelete(Notification notification, BTUser user);
         void HardDelete(Notification notification);
     }
