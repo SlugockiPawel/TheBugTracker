@@ -160,46 +160,29 @@ namespace TheBugTracker.Services
             }
         }
 
-        public async Task<Notification> CreateNotification(Ticket ticket)
+        public Notification CreateNotification(Ticket? ticket, string title, string message, BTUser sender, BTUser recipient)
         {
-            var projectManager = await _projectService.GetProjectManagerAsync(ticket.ProjectId);
 
             Notification notification =
                 new()
                 {
                     Created = DateTimeOffset.UtcNow,
-                    Message = "New ticket created",
-                    Sender = ticket.OwnerUser,
+                    Message = message,
+                    Sender = sender,
                     Ticket = ticket,
-                    Title = ticket.Title,
-                    SenderId = ticket.OwnerUserId,
+                    Title = title,
+                    SenderId = sender.Id,
                     Viewed = false,
-                    TicketId = ticket.Id
+                    TicketId = ticket?.Id,
+                    Recipient = recipient,
+                    RecipientId = recipient.Id
                 };
 
-            if (projectManager is not null)
-            {
-                notification.Recipient = projectManager;
-                notification.RecipientId = projectManager.Id;
-            }
-            else
-            {
-                var admin = (
-                    await _projectService.GetProjectMembersByRoleAsync(
-                        ticket.ProjectId,
-                        nameof(Roles.Admin)
-                    )
-                ).FirstOrDefault();
-
-                if (admin is not null)
-                {
-                    notification.Recipient = admin;
-                    notification.RecipientId = admin.Id;
-                }
-            }
+            
 
             return notification;
         }
+        
 
         public void SoftDelete(Notification notification, BTUser user)
         {
