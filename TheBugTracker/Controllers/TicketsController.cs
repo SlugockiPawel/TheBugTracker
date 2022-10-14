@@ -243,7 +243,17 @@ namespace TheBugTracker.Controllers
                     await _ticketHistoryService.AddHistoryAsync(null, newTicket, user.Id);
 
                     // Add Notification
-                    var notification = await _notificationService.CreateNotification(ticket);
+
+                    var recipient = await _projectService.GetProjectManagerAsync(ticket.ProjectId) ?? (await _projectService.GetProjectMembersByRoleAsync(
+                                ticket.ProjectId,
+                                nameof(Roles.Admin)
+                            )
+                        ).FirstOrDefault();
+
+                    var notification = _notificationService.CreateNotification(ticket, 
+                        "Ticket Creation", 
+                        $"New ticket for ticket titled: {ticket.Title} was created. For further details, please visit your user panel.", 
+                         ticket.OwnerUser, recipient);
 
                     if (
                         notification.RecipientId is not null
