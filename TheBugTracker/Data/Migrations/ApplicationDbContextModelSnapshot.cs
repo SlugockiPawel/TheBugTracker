@@ -357,7 +357,7 @@ namespace TheBugTracker.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("TicketId")
+                    b.Property<int?>("TicketId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Title")
@@ -784,9 +784,7 @@ namespace TheBugTracker.Data.Migrations
 
                     b.HasOne("TheBugTracker.Models.Ticket", "Ticket")
                         .WithMany("Notifications")
-                        .HasForeignKey("TicketId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TicketId");
 
                     b.Navigation("Recipient");
 

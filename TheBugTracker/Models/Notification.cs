@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿#nullable enable
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace TheBugTracker.Models
@@ -8,13 +9,13 @@ namespace TheBugTracker.Models
         public int Id { get; set; }
 
         [DisplayName("Ticket")]
-        public int TicketId { get; set; }
+        public int? TicketId { get; set; }
 
         [Required]
         public string Title { get; set; } = default!;
 
         [Required]
-        public string Message { get; set; }
+        public string Message { get; set; } = string.Empty;
 
         [DataType(DataType.Date)]
         [DisplayName("Date")]
@@ -34,7 +35,7 @@ namespace TheBugTracker.Models
         public bool DeletedBySender { get; set; }
         public bool DeletedByRecipient { get; set; }
         // NP
-        public Ticket Ticket { get; set; } = default!;
+        public Ticket? Ticket { get; set; }
         public BTUser Recipient { get; set; } = default!;
         public BTUser Sender { get; set; } = default!;
     }
