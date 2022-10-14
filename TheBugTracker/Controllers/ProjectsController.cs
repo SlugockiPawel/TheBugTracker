@@ -28,10 +28,17 @@ namespace TheBugTracker.Controllers
         private readonly IProjectService _projectService;
         private readonly UserManager<BTUser> _userManager;
         private readonly ICompanyInfoService _companyInfoService;
+        private readonly INotificationService _notificationService;
 
-        public ProjectsController(IRolesService rolesService,
-            ILookupService lookupsService, IFileService fileService, IProjectService projectService,
-            UserManager<BTUser> userManager, ICompanyInfoService companyInfoService)
+        public ProjectsController(
+            IRolesService rolesService,
+            ILookupService lookupsService,
+            IFileService fileService,
+            IProjectService projectService,
+            UserManager<BTUser> userManager,
+            ICompanyInfoService companyInfoService,
+            INotificationService notificationService
+        )
         {
             _rolesService = rolesService;
             _lookupsService = lookupsService;
@@ -39,6 +46,7 @@ namespace TheBugTracker.Controllers
             _projectService = projectService;
             _userManager = userManager;
             _companyInfoService = companyInfoService;
+            _notificationService = notificationService;
         }
 
         // GET: MyProjects
@@ -67,7 +75,9 @@ namespace TheBugTracker.Controllers
         public async Task<IActionResult> ArchivedProjects()
         {
             int companyId = User.Identity.GetCompanyId().Value;
-            List<Project> projects = await _projectService.GetArchivedProjectsByCompanyAsync(companyId);
+            List<Project> projects = await _projectService.GetArchivedProjectsByCompanyAsync(
+                companyId
+            );
 
             return View(projects);
         }
@@ -87,12 +97,19 @@ namespace TheBugTracker.Controllers
         public async Task<IActionResult> AssignPM(int id)
         {
             int companyId = User.Identity.GetCompanyId().Value;
-            AssignPMViewModel model = new()
-            {
-                Project = await _projectService.GetProjectByIdAsync(id, companyId),
-                PMList = new SelectList(await _rolesService
-                    .GetUsersInRoleAsync(nameof(Roles.ProjectManager), companyId), "Id", "FullName")
-            };
+            AssignPMViewModel model =
+                new()
+                {
+                    Project = await _projectService.GetProjectByIdAsync(id, companyId),
+                    PMList = new SelectList(
+                        await _rolesService.GetUsersInRoleAsync(
+                            nameof(Roles.ProjectManager),
+                            companyId
+                        ),
+                        "Id",
+                        "FullName"
+                    )
+                };
 
             return View(model);
         }
@@ -105,6 +122,22 @@ namespace TheBugTracker.Controllers
             if (!string.IsNullOrWhiteSpace(model.PMID))
             {
                 await _projectService.AddProjectManagerAsync(model.PMID, model.Project.Id);
+
+                // Add Notification
+
+                var notification = _notificationService.CreateNotification(
+                    null,
+                    "Project assignment",
+                    $"You have been assigned to new project",
+                    await _userManager.GetUserAsync(User),
+                    await _userManager.FindByIdAsync(model.PMID)
+                );
+
+                if (notification.SenderId != notification.RecipientId)
+                {
+                    await _notificationService.AddNotificationAsync(notification);
+                    // TODO send email
+                }
 
                 return RedirectToAction("Details", new { id = model.Project.Id });
             }
@@ -122,8 +155,14 @@ namespace TheBugTracker.Controllers
 
             model.Project = await _projectService.GetProjectByIdAsync(id, companyId);
 
-            List<BTUser> developers = await _rolesService.GetUsersInRoleAsync(nameof(Roles.Developer), companyId);
-            List<BTUser> submitters = await _rolesService.GetUsersInRoleAsync(nameof(Roles.Submitter), companyId);
+            List<BTUser> developers = await _rolesService.GetUsersInRoleAsync(
+                nameof(Roles.Developer),
+                companyId
+            );
+            List<BTUser> submitters = await _rolesService.GetUsersInRoleAsync(
+                nameof(Roles.Submitter),
+                companyId
+            );
             List<BTUser> companyMembers = developers.Concat(submitters).ToList();
 
             List<string> currentMembers = model.Project.Members.Select(m => m.Id).ToList();
@@ -139,7 +178,9 @@ namespace TheBugTracker.Controllers
         {
             if (model.SelectedUsersIds is not null)
             {
-                List<string> membersIds = (await _projectService.GetAllProjectMembersExceptPMAsync(model.Project.Id))
+                List<string> membersIds = (
+                    await _projectService.GetAllProjectMembersExceptPMAsync(model.Project.Id)
+                )
                     .Select(m => m.Id)
                     .ToList();
 
@@ -190,11 +231,17 @@ namespace TheBugTracker.Controllers
             AddProjectWithPMViewModel model = new();
 
             // Load model SelectLists with data
-            model.PMList =
-                new SelectList(await _rolesService.GetUsersInRoleAsync(Roles.ProjectManager.ToString(), companyId),
-                    "Id", "FullName");
+            model.PMList = new SelectList(
+                await _rolesService.GetUsersInRoleAsync(Roles.ProjectManager.ToString(), companyId),
+                "Id",
+                "FullName"
+            );
 
-            model.PriorityList = new SelectList(await _lookupsService.GetProjectPrioritiesAsync(), "Id", "Name");
+            model.PriorityList = new SelectList(
+                await _lookupsService.GetProjectPrioritiesAsync(),
+                "Id",
+                "Name"
+            );
 
             return View(model);
         }
@@ -215,7 +262,9 @@ namespace TheBugTracker.Controllers
                 {
                     if (model.Project.FormFile is not null)
                     {
-                        model.Project.FileData = await _fileService.ConvertFileToByteArrayAsync(model.Project.FormFile);
+                        model.Project.FileData = await _fileService.ConvertFileToByteArrayAsync(
+                            model.Project.FormFile
+                        );
                         model.Project.FileName = model.Project.FormFile.FileName;
                         model.Project.FileContentType = model.Project.FormFile.ContentType;
                     }
@@ -254,11 +303,17 @@ namespace TheBugTracker.Controllers
             model.Project = await _projectService.GetProjectByIdAsync(id.Value, companyId);
 
             // Load model SelectLists with data
-            model.PMList =
-                new SelectList(await _rolesService.GetUsersInRoleAsync(Roles.ProjectManager.ToString(), companyId),
-                    "Id", "FullName");
+            model.PMList = new SelectList(
+                await _rolesService.GetUsersInRoleAsync(Roles.ProjectManager.ToString(), companyId),
+                "Id",
+                "FullName"
+            );
 
-            model.PriorityList = new SelectList(await _lookupsService.GetProjectPrioritiesAsync(), "Id", "Name");
+            model.PriorityList = new SelectList(
+                await _lookupsService.GetProjectPrioritiesAsync(),
+                "Id",
+                "Name"
+            );
 
             return View(model);
         }
@@ -277,7 +332,9 @@ namespace TheBugTracker.Controllers
                 {
                     if (model.Project.FormFile is not null)
                     {
-                        model.Project.FileData = await _fileService.ConvertFileToByteArrayAsync(model.Project.FormFile);
+                        model.Project.FileData = await _fileService.ConvertFileToByteArrayAsync(
+                            model.Project.FormFile
+                        );
                         model.Project.FileName = model.Project.FormFile.FileName;
                         model.Project.FileContentType = model.Project.FormFile.ContentType;
                     }
@@ -318,7 +375,6 @@ namespace TheBugTracker.Controllers
             int companyId = User.Identity.GetCompanyId().Value;
             Project project = await _projectService.GetProjectByIdAsync(id.Value, companyId);
 
-
             if (project is null)
             {
                 return NotFound();
@@ -352,7 +408,6 @@ namespace TheBugTracker.Controllers
             int companyId = User.Identity.GetCompanyId().Value;
             Project project = await _projectService.GetProjectByIdAsync(id.Value, companyId);
 
-
             if (project is null)
             {
                 return NotFound();
@@ -378,7 +433,9 @@ namespace TheBugTracker.Controllers
         {
             int companyId = User.Identity.GetCompanyId().Value;
 
-            return (await _projectService.GetAllProjectsByCompanyAsync(companyId)).Any(p => p.Id == id);
+            return (await _projectService.GetAllProjectsByCompanyAsync(companyId)).Any(
+                p => p.Id == id
+            );
         }
     }
 }

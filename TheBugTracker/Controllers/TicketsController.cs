@@ -144,6 +144,8 @@ namespace TheBugTracker.Controllers
                 try
                 {
                     await _ticketService.AssignTicketAsync(model.Ticket.Id, model.DeveloperId);
+                    // await _notificationService.CreateNotification(model.Ticket, TODO, TODO, TODO, TODO);
+
                 }
                 catch (Exception e)
                 {
@@ -255,10 +257,7 @@ namespace TheBugTracker.Controllers
                         $"New ticket for ticket titled: {ticket.Title} was created. For further details, please visit your user panel.", 
                          ticket.OwnerUser, recipient);
 
-                    if (
-                        notification.RecipientId is not null
-                        && notification.SenderId != notification.RecipientId
-                    )
+                    if (notification.SenderId != notification.RecipientId)
                     {
                         await _notificationService.AddNotificationAsync(notification);
                         // TODO send email
