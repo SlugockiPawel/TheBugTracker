@@ -178,22 +178,49 @@ namespace TheBugTracker.Controllers
         {
             if (model.SelectedUsersIds is not null)
             {
-                List<string> membersIds = (
-                    await _projectService.GetAllProjectMembersExceptPMAsync(model.Project.Id)
-                )
-                    .Select(m => m.Id)
-                    .ToList();
+                List<BTUser> members = await _projectService.GetAllProjectMembersExceptPMAsync(
+                    model.Project.Id
+                );
 
                 // Remove current members
-                foreach (string memberId in membersIds)
+                foreach (BTUser member in members)
                 {
-                    await _projectService.RemoveUserFromProjectAsync(memberId, model.Project.Id);
+                    if (model.SelectedUsersIds.Contains(member.Id)) continue;
+                    
+                    await _projectService.RemoveUserFromProjectAsync(member.Id, model.Project.Id);
+
+                    var notification = _notificationService.CreateNotification(
+                        null,
+                        "Project member removal",
+                        "You have been removed from the project",
+                        await _userManager.GetUserAsync(User),
+                        member
+                    );
+                        
+                    if (notification.RecipientId != notification.SenderId)
+                    {
+                        await _notificationService.AddNotificationAsync(notification);
+                    }
                 }
 
-                // Add selected members
-                foreach (string selectedUsersId in model.SelectedUsersIds)
+                foreach (var userId in model.SelectedUsersIds)
                 {
-                    await _projectService.AddUserToProjectAsync(selectedUsersId, model.Project.Id);
+                    if (members.Contains(await _userManager.FindByIdAsync(userId))) continue;
+                    
+                    await _projectService.AddUserToProjectAsync(userId, model.Project.Id);
+
+                    var notification = _notificationService.CreateNotification(
+                        null,
+                        "Project member added",
+                        "You have been added to the project",
+                        await _userManager.GetUserAsync(User),
+                        await _userManager.FindByIdAsync(userId)
+                    );
+                        
+                    if (notification.RecipientId != notification.SenderId)
+                    {
+                        await _notificationService.AddNotificationAsync(notification);
+                    }
                 }
 
                 return RedirectToAction("Details", "Projects", new { id = model.Project.Id });
