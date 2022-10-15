@@ -3,219 +3,219 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using TheBugTracker.Data;
 using TheBugTracker.Models;
-using TheBugTracker.Models.Enums;
 using TheBugTracker.Services.Interfaces;
 
-namespace TheBugTracker.Services
+namespace TheBugTracker.Services;
+
+public sealed class NotificationService : INotificationService
 {
-    public sealed class NotificationService : INotificationService
+    private readonly ApplicationDbContext _context;
+    private readonly IEmailSender _emailSender;
+    private readonly IProjectService _projectService;
+    private readonly IRolesService _rolesService;
+
+    public NotificationService(
+        ApplicationDbContext context,
+        IEmailSender emailSender,
+        IRolesService rolesService,
+        IProjectService projectService
+    )
     {
-        private readonly ApplicationDbContext _context;
-        private readonly IEmailSender _emailSender;
-        private readonly IRolesService _rolesService;
-        private readonly IProjectService _projectService;
+        _context = context;
+        _emailSender = emailSender;
+        _rolesService = rolesService;
+        _projectService = projectService;
+    }
 
-        public NotificationService(
-            ApplicationDbContext context,
-            IEmailSender emailSender,
-            IRolesService rolesService,
-            IProjectService projectService
-        )
+    public async Task AddNotificationAsync(Notification notification)
+    {
+        try
         {
-            _context = context;
-            _emailSender = emailSender;
-            _rolesService = rolesService;
-            _projectService = projectService;
+            await _context.Notifications.AddAsync(notification);
+            await _context.SaveChangesAsync();
         }
-
-        public async Task AddNotificationAsync(Notification notification)
+        catch (Exception e)
         {
-            try
-            {
-                await _context.Notifications.AddAsync(notification);
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                throw;
-            }
+            Console.WriteLine(e.Message);
+            throw;
         }
+    }
 
-        public async Task<Notification> GetNotificationByIdAsync(int? id)
+    public async Task<Notification> GetNotificationByIdAsync(int? id)
+    {
+        try
         {
-            try
-            {
-                return await _context.Notifications.FirstOrDefaultAsync(n => n.Id == id);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                throw;
-            }
+            return await _context.Notifications.FirstOrDefaultAsync(n => n.Id == id);
         }
-
-        public async Task<List<Notification>> GetSentNotificationsAsync(string userId)
+        catch (Exception e)
         {
-            try
-            {
-                return await _context.Notifications
-                    .Include(n => n.Recipient)
-                    .Include(n => n.Sender)
-                    .Include(n => n.Ticket)
-                    .ThenInclude(t => t.Project)
-                    .Where(n => n.SenderId == userId && !n.DeletedBySender)
-                    .ToListAsync();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                throw;
-            }
+            Console.WriteLine(e.Message);
+            throw;
         }
+    }
 
-        public async Task<List<Notification>> GetReceivedNotificationsAsync(string userId)
+    public async Task<List<Notification>> GetSentNotificationsAsync(string userId)
+    {
+        try
         {
-            try
-            {
-                return await _context.Notifications
-                    .Include(n => n.Recipient)
-                    .Include(n => n.Sender)
-                    .Include(n => n.Ticket)
-                    .ThenInclude(t => t.Project)
-                    .Where(n => n.RecipientId == userId && !n.DeletedByRecipient)
-                    .ToListAsync();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                throw;
-            }
+            return await _context.Notifications
+                .Include(n => n.Recipient)
+                .Include(n => n.Sender)
+                .Include(n => n.Ticket)
+                .ThenInclude(t => t.Project)
+                .Where(n => n.SenderId == userId && !n.DeletedBySender)
+                .ToListAsync();
         }
-
-        public async Task SendEmailNotificationsByRoleAsync(
-            Notification notification,
-            int companyId,
-            string role
-        )
+        catch (Exception e)
         {
-            try
-            {
-                List<BTUser> members = await _rolesService.GetUsersInRoleAsync(role, companyId);
+            Console.WriteLine(e.Message);
+            throw;
+        }
+    }
 
-                foreach (BTUser member in members)
-                {
-                    notification.RecipientId = member.Id;
-                    await SendEmailNotificationAsync(notification, notification.Title);
-                }
-            }
-            catch (Exception e)
+    public async Task<List<Notification>> GetReceivedNotificationsAsync(string userId)
+    {
+        try
+        {
+            return await _context.Notifications
+                .Include(n => n.Recipient)
+                .Include(n => n.Sender)
+                .Include(n => n.Ticket)
+                .ThenInclude(t => t.Project)
+                .Where(n => n.RecipientId == userId && !n.DeletedByRecipient)
+                .ToListAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            throw;
+        }
+    }
+
+    public async Task SendEmailNotificationsByRoleAsync(
+        Notification notification,
+        int companyId,
+        string role
+    )
+    {
+        try
+        {
+            List<BTUser> members = await _rolesService.GetUsersInRoleAsync(role, companyId);
+
+            foreach (var member in members)
             {
-                Console.WriteLine(e.Message);
-                throw;
+                notification.RecipientId = member.Id;
+                await SendEmailNotificationAsync(notification, notification.Title);
             }
         }
-
-        public async Task SendMembersEmailNotificationsAsync(
-            Notification notification,
-            List<BTUser> members
-        )
+        catch (Exception e)
         {
-            try
+            Console.WriteLine(e.Message);
+            throw;
+        }
+    }
+
+    public async Task SendMembersEmailNotificationsAsync(
+        Notification notification,
+        List<BTUser> members
+    )
+    {
+        try
+        {
+            foreach (var member in members)
             {
-                foreach (BTUser member in members)
-                {
-                    notification.RecipientId = member.Id;
-                    await SendEmailNotificationAsync(notification, notification.Title);
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                throw;
+                notification.RecipientId = member.Id;
+                await SendEmailNotificationAsync(notification, notification.Title);
             }
         }
-
-        public async Task<bool> SendEmailNotificationAsync(
-            Notification notification,
-            string emailSubject
-        )
+        catch (Exception e)
         {
-            BTUser? user = await _context.Users.FirstOrDefaultAsync(
-                u => u.Id == notification.RecipientId
-            );
+            Console.WriteLine(e.Message);
+            throw;
+        }
+    }
 
-            if (user is null)
-                return false;
+    public async Task<bool> SendEmailNotificationAsync(
+        Notification notification,
+        string emailSubject
+    )
+    {
+        var user = await _context.Users.FirstOrDefaultAsync(
+            u => u.Id == notification.RecipientId
+        );
 
-            try
+        if (user is null)
+            return false;
+
+        try
+        {
+            await _emailSender.SendEmailAsync(user.Email, emailSubject, notification.Message);
+            return true;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            throw;
+        }
+    }
+
+    public Notification CreateNotification(
+        Ticket? ticket,
+        string title,
+        string message,
+        BTUser sender,
+        BTUser recipient
+    )
+    {
+        Notification notification =
+            new()
             {
-                await _emailSender.SendEmailAsync(user.Email, emailSubject, notification.Message);
-                return true;
+                Created = DateTimeOffset.UtcNow,
+                Message = message,
+                Sender = sender,
+                Ticket = ticket,
+                Title = title,
+                SenderId = sender.Id,
+                Viewed = false,
+                TicketId = ticket?.Id,
+                Recipient = recipient,
+                RecipientId = recipient.Id
+            };
+
+        return notification;
+    }
+
+    public void SoftDelete(Notification notification, BTUser user)
+    {
+        try
+        {
+            if (notification.SenderId == user.Id)
+            {
+                notification.DeletedBySender = true;
             }
-            catch (Exception e)
+
+            if (notification.RecipientId == user.Id)
             {
-                Console.WriteLine(e.Message);
-                throw;
+                notification.DeletedByRecipient = true;
             }
         }
-
-        public Notification CreateNotification(Ticket? ticket, string title, string message, BTUser sender, BTUser recipient)
+        catch (Exception e)
         {
-
-            Notification notification =
-                new()
-                {
-                    Created = DateTimeOffset.UtcNow,
-                    Message = message,
-                    Sender = sender,
-                    Ticket = ticket,
-                    Title = title,
-                    SenderId = sender.Id,
-                    Viewed = false,
-                    TicketId = ticket?.Id,
-                    Recipient = recipient,
-                    RecipientId = recipient.Id
-                };
-
-            
-
-            return notification;
+            Console.WriteLine(e.Message);
+            throw;
         }
-        
+    }
 
-        public void SoftDelete(Notification notification, BTUser user)
+    public void HardDelete(Notification notification)
+    {
+        try
         {
-            try
-            {
-                if (notification.SenderId == user.Id)
-                {
-                    notification.DeletedBySender = true;
-                }
-
-                if (notification.RecipientId == user.Id)
-                {
-                    notification.DeletedByRecipient = true;
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                throw;
-            }
+            _context.Notifications.Remove(notification);
         }
-
-        public void HardDelete(Notification notification)
+        catch (Exception e)
         {
-            try
-            {
-                _context.Notifications.Remove(notification);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+            Console.WriteLine(e);
+            throw;
         }
     }
 }
