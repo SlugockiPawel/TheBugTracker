@@ -144,17 +144,25 @@ namespace TheBugTracker.Controllers
                 try
                 {
                     await _ticketService.AssignTicketAsync(model.Ticket.Id, model.DeveloperId);
-                    // await _notificationService.CreateNotification(model.Ticket, TODO, TODO, TODO, TODO);
+                    
+                    Ticket newTicket = await _ticketService.GetTicketAsNoTrackingAsync(model.Ticket.Id);
+                    await _ticketHistoryService.AddHistoryAsync(oldTicket, newTicket, user.Id);
 
+                    var notification = _notificationService.CreateNotification(newTicket, 
+                        "New ticket assignment", "You have been assigned to a new ticket- please login for a further details",
+                        user, 
+                        await _userManager.FindByIdAsync(model.DeveloperId));
+
+                    if (notification.RecipientId != notification.SenderId)
+                    {
+                        await _notificationService.AddNotificationAsync(notification);
+                    }
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e.Message);
                     throw;
                 }
-
-                Ticket newTicket = await _ticketService.GetTicketAsNoTrackingAsync(model.Ticket.Id);
-                await _ticketHistoryService.AddHistoryAsync(oldTicket, newTicket, user.Id);
 
                 return RedirectToAction(nameof(Details), new { id = model.Ticket.Id });
             }

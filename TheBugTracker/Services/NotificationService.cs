@@ -172,13 +172,10 @@ public sealed class NotificationService : INotificationService
             {
                 Created = DateTimeOffset.UtcNow,
                 Message = message,
-                Sender = sender,
-                Ticket = ticket,
                 Title = title,
                 SenderId = sender.Id,
                 Viewed = false,
                 TicketId = ticket?.Id,
-                Recipient = recipient,
                 RecipientId = recipient.Id
             };
 
