@@ -6,7 +6,7 @@ using TheBugTracker.Extensions;
 
 namespace TheBugTracker.Models
 {
-    public sealed class TicketAttachment
+    public class TicketAttachment
     {
         public int Id { get; set; }
 
@@ -32,7 +32,7 @@ namespace TheBugTracker.Models
 
 
         // Navigation Properties
-        public Ticket Ticket { get; set; } = default!;
-        public BTUser User { get; set; } = default!;
+        public virtual Ticket Ticket { get; set; } = default!;
+        public virtual BTUser User { get; set; } = default!;
     }
 }

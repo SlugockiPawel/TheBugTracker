@@ -2,7 +2,7 @@
 
 namespace TheBugTracker.Models
 {
-    public sealed class Invite
+    public class Invite
     {
         // PK
         public int Id { get; set; }
@@ -22,9 +22,9 @@ namespace TheBugTracker.Models
         public bool IsValid { get; set; }
 
         // NP
-        public Company Company { get; set; } = default!;
-        public Project Project { get; set; } = default!;
-        public BTUser Invitor { get; set; } = default!;
-        public BTUser Invitee { get; set; } = default!;
+        public virtual Company Company { get; set; } = default!;
+        public virtual Project Project { get; set; } = default!;
+        public virtual BTUser Invitor { get; set; } = default!;
+        public virtual BTUser Invitee { get; set; } = default!;
     }
 }

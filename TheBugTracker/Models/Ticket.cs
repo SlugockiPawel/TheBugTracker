@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TheBugTracker.Models
 {
-    public sealed class Ticket
+    public class Ticket
     {
         // Primary Key
         public int Id { get; set; }
@@ -33,16 +33,15 @@ namespace TheBugTracker.Models
         [DisplayName("Ticket Developer")] public string DeveloperUserId { get; set; } = default!;
 
         // Navigation Properties
-        public Project Project { get; set; } = default!;
-        public TicketType TicketType { get; set; } = default!;
-        public TicketPriority TicketPriority { get; set; } = default!;
-        public TicketStatus TicketStatus { get; set; } = default!;
-        public BTUser OwnerUser { get; set; } = default!;
-        public BTUser DeveloperUser { get; set; } = default!;
-
-        public ICollection<TicketComment> Comments { get; set; } = new HashSet<TicketComment>();
-        public ICollection<TicketAttachment> TicketAttachments { get; set; } = new HashSet<TicketAttachment>();
-        public ICollection<Notification> Notifications { get; set; } = new HashSet<Notification>();
-        public ICollection<TicketHistory> History { get; set; } = new HashSet<TicketHistory>();
+        public virtual Project Project { get; set; } = default!;
+        public virtual TicketType TicketType { get; set; } = default!;
+        public virtual TicketPriority TicketPriority { get; set; } = default!;
+        public virtual TicketStatus TicketStatus { get; set; } = default!;
+        public virtual BTUser OwnerUser { get; set; } = default!;
+        public virtual BTUser DeveloperUser { get; set; } = default!;
+        public virtual ICollection<TicketComment> Comments { get; set; } = new HashSet<TicketComment>();
+        public virtual ICollection<TicketAttachment> TicketAttachments { get; set; } = new HashSet<TicketAttachment>();
+        public virtual ICollection<Notification> Notifications { get; set; } = new HashSet<Notification>();
+        public virtual ICollection<TicketHistory> History { get; set; } = new HashSet<TicketHistory>();
     }
 }

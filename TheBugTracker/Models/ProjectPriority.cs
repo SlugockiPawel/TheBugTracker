@@ -2,7 +2,7 @@
 
 namespace TheBugTracker.Models
 {
-    public sealed class ProjectPriority
+    public class ProjectPriority
     {
         public int Id { get; set; }
 

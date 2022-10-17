@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TheBugTracker.Models
 {
-    public sealed class TicketComment
+    public class TicketComment
     {
         public int Id { get; set; }
 
@@ -18,7 +18,7 @@ namespace TheBugTracker.Models
         [DisplayName("Team Member")] public string UserId { get; set; } = default!;
 
         // Navigation properties
-        public Ticket Ticket { get; set; } = default!;
-        public BTUser User { get; set; } = default!;
+        public virtual Ticket Ticket { get; set; } = default!;
+        public virtual BTUser User { get; set; } = default!;
     }
 }

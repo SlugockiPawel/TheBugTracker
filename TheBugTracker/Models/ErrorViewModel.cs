@@ -1,7 +1,7 @@
 #nullable enable
 namespace TheBugTracker.Models
 {
-    public sealed class ErrorViewModel
+    public class ErrorViewModel
     {
         public string? RequestId { get; set; }
 

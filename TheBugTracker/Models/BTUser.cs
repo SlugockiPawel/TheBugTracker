@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace TheBugTracker.Models
 {
-    public sealed class BTUser : IdentityUser
+    public class BTUser : IdentityUser
     {
         [Required]
         [Display(Name = "First Name")]
@@ -32,9 +32,9 @@ namespace TheBugTracker.Models
         public int CompanyId { get; set; }
 
         // NP
-        public Company Company { get; set; } = default!;
+        public virtual Company Company { get; set; } = default!;
 
-        public ICollection<Project> Projects { get; set; } = new HashSet<Project>();
+        public virtual ICollection<Project> Projects { get; set; } = new HashSet<Project>();
 
     }
 }

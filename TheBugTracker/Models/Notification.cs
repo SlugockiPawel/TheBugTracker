@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TheBugTracker.Models
 {
-    public sealed class Notification
+    public class Notification
     {
         public int Id { get; set; }
 
@@ -35,8 +35,8 @@ namespace TheBugTracker.Models
         public bool DeletedBySender { get; set; }
         public bool DeletedByRecipient { get; set; }
         // NP
-        public Ticket? Ticket { get; set; }
-        public BTUser Recipient { get; set; } = default!;
-        public BTUser Sender { get; set; } = default!;
+        public virtual Ticket? Ticket { get; set; }
+        public virtual BTUser Recipient { get; set; } = default!;
+        public virtual BTUser Sender { get; set; } = default!;
     }
 }
