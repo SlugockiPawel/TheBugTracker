@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using TheBugTracker.Data;
 using TheBugTracker.Extensions;
@@ -375,6 +376,34 @@ namespace TheBugTracker.Controllers
                 {
                     ticket.Updated = DateTimeOffset.Now;
                     await _ticketService.UpdateTicketAsync(ticket);
+                    
+                    Ticket newTicket = await _ticketService.GetTicketAsNoTrackingAsync(ticket.Id);
+                    await _ticketHistoryService.AddHistoryAsync(oldTicket, newTicket, user.Id);
+                    
+                    // Add Notification
+                    var recipient = await _userManager.FindByIdAsync(ticket.OwnerUserId);
+
+                    if (user.Id == ticket.OwnerUserId)
+                    {
+                        recipient = await _userManager.FindByIdAsync(ticket.DeveloperUserId) ??
+                                    await _projectService.GetProjectManagerAsync(ticket.ProjectId) ??
+                                    (await _projectService.GetProjectMembersByRoleAsync(
+                                            ticket.ProjectId,
+                                            nameof(Roles.Admin)
+                                        )
+                                    ).FirstOrDefault();
+                    }
+                    
+                    
+                    var notification = _notificationService.CreateNotification(newTicket, 
+                        "Ticket edit", $"The ticket titled: {ticket.Title} was edited. Log in for further details.",
+                        user, 
+                        recipient);
+
+                    if (notification.RecipientId != notification.SenderId)
+                    {
+                        await _notificationService.AddNotificationAsync(notification);
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -382,14 +411,9 @@ namespace TheBugTracker.Controllers
                     {
                         return NotFound();
                     }
-                    else
-                    {
-                        throw;
-                    }
+                    
+                    throw;
                 }
-
-                Ticket newTicket = await _ticketService.GetTicketAsNoTrackingAsync(ticket.Id);
-                await _ticketHistoryService.AddHistoryAsync(oldTicket, newTicket, user.Id);
 
                 return RedirectToAction(nameof(AllTickets));
             }
