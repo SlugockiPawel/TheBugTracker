@@ -1,14 +1,13 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using TheBugTracker.Models.Enums
-@using TheBugTracker.Services
 @using TheBugTracker.Services.Interfaces
+@using TheBugTracker.Models.Enums
 @model DashboardViewModel
 @inject UserManager<BTUser> UserManager
 @inject IRolesService RolesService
 
 @{
     ViewData["Title"] = "Dashboard";
-    BTUser user = await UserManager.GetUserAsync(User);
+    var user = await UserManager.GetUserAsync(User);
 }
 
 <!-- Styles -->
@@ -25,7 +24,7 @@
 </style>
 
 <h1>Dashboard</h1>
-<a href="javascript:void(0);">
+<a href="javascript:void 0;">
 
     @if (user?.AvatarFileData is not null)
     {
@@ -68,7 +67,7 @@
                     <div class="body">
                         <div class="p-15 text-light">
 
-                            <h3>@Model.Tickets.Count()</h3>
+                            <h3>@Model.Tickets.Count</h3>
                             <span>Total Tickets</span>
                         </div>
                     </div>
@@ -76,14 +75,33 @@
             </a>
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6">
-            <div class="card text-center bg-warning">
-                <div class="body">
-                    <div class="p-15 text-light">
-                        <h3>@Model.Tickets.Count(t => string.IsNullOrEmpty(t.DeveloperUserId))</h3>
-                        <span>Unassigned Tickets</span>
+            @if (await UserManager.IsInRoleAsync(user, nameof(Roles.Admin))
+                 ||
+                 await UserManager.IsInRoleAsync(user, nameof(Roles.ProjectManager)))
+            {
+                <a asp-controller="Tickets" asp-action="UnassignedTickets" style="text-decoration: none">
+                    <div class="card text-center bg-warning">
+                        <div class="body">
+                            <div class="p-15 text-light">
+
+                                <h3>@Model.Tickets.Count(t => string.IsNullOrEmpty(t.DeveloperUserId))</h3>
+                                <span>Unassigned Tickets</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            }
+            else
+            {
+                <div class="card text-center bg-warning">
+                    <div class="body">
+                        <div class="p-15 text-light">
+                            <h3>@Model.Tickets.Count(t => string.IsNullOrEmpty(t.DeveloperUserId))</h3>
+                            <span>Unassigned Tickets</span>
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
         </div>
         <div class="col-lg-3 col-md-6 col-sm-6">
             <div class="card text-center bg-dark">
@@ -91,9 +109,9 @@
                     <div class="p-15 text-light">
                         <h3>
                             @(
-        Model.Projects.Count()
-        + Model.Tickets.Count()
-        + Model.Members.Count()
+        Model.Projects.Count
+        + Model.Tickets.Count
+        + Model.Members.Count
                                 )
                         </h3>
                         <span>Total Data</span>
@@ -332,7 +350,7 @@
                     </div>
                     <div class="card-body" style="overflow-y: auto; height: 600px; background-color: antiquewhite">
 
-                        @foreach (BTUser member in Model.Members)
+                        @foreach (var member in Model.Members)
                         {
                             <div class="">
 
@@ -367,7 +385,7 @@
                 data: '{}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: function(result) {
+                success (result){
                     var data = google.visualization.arrayToDataTable(result);
 
                     //3D Pie
@@ -382,10 +400,10 @@
                     var chart = new google.visualization.PieChart($("#chart3D")[0]);
                     chart.draw(data, options);
                 },
-                failure: function(result) {
+                failure (result){
                     alert(result.d);
                 },
-                error: function(result) {
+                error (result){
                     alert(result.d);
                 }
             });
@@ -402,7 +420,7 @@
                 data: '{}',
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
-                success: function(result) {
+                success (result){
                     var data = google.visualization.arrayToDataTable(result);
 
                     //Donut
@@ -415,10 +433,10 @@
                     var chart = new google.visualization.PieChart($("#donut")[0]);
                     chart.draw(data, options);
                 },
-                failure: function(rresult) {
+                failure (rresult){
                     alert(result.d);
                 },
-                error: function(result) {
+                error (result){
                     alert(result.d);
                 }
             });
@@ -467,7 +485,7 @@
                     .css('margin', '10px');
                 $('#legend').append(legendItem)
             });
-        };
+        }
     </script>
 
     <!-- *** Begin Chart JS Pie/Donut *** -->
@@ -535,7 +553,7 @@
             data: '{}',
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function(result) {
+            success (result){
                 am4core.ready(function() {
 
                     // Themes begin
@@ -593,10 +611,10 @@
 
 
             },
-            failure: function(result) {
+            failure (result){
                 alert(result.d);
             },
-            error: function(result) {
+            error (result){
                 alert(result.d);
             }
         });
@@ -606,7 +624,7 @@
 
     <!--  Plotly Charts  -->
     <!-- Load plotly.js into the DOM -->
-    <script src='https://cdn.plot.ly/plotly-2.4.2.min.js'></script>
+    <script src="https://cdn.plot.ly/plotly-2.4.2.min.js"></script>
     <script>
         $.ajax({
             type: "POST",
@@ -614,17 +632,17 @@
             data: '{}',
             contentType: "application/json; charset=utf-8",
             dataType: "json",
-            success: function(result) {
+            success (result){
                 var data = result;
 
                 var layout = { barmode: 'group' };
 
                 Plotly.newPlot('plotlyChart', data, layout);
             },
-            failure: function(result) {
+            failure (result){
                 alert(result.d);
             },
-            error: function(result) {
+            error (result){
                 alert(result.d);
             }
         });
