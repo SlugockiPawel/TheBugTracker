@@ -40,6 +40,11 @@ namespace TheBugTracker.Controllers
             model.Tickets = model.Projects.SelectMany(p => p.Tickets)
                 .Where(t=>t.Archived == false)
                 .ToList();
+    [Authorize]
+    public async Task<IActionResult> Dashboard()
+    {
+        DashboardViewModel model = new();
+        var companyId = User.Identity.GetCompanyId().Value;
 
             model.Members = model.Company.Members.ToList();
 
