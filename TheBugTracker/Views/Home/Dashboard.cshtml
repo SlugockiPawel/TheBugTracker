@@ -8,6 +8,7 @@
 @{
     ViewData["Title"] = "Dashboard";
     var user = await UserManager.GetUserAsync(User);
+    var AVATAR_SRC = "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png";
 }
 
 <!-- Styles -->
@@ -32,7 +33,7 @@
     }
     else
     {
-        <img class="media-object" src="https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png" alt="default avatar" style="width: 30px; height: 30px;"/>
+        <img class="media-object" src=@AVATAR_SRC alt="default avatar" style="width: 30px; height: 30px;"/>
     }
 
 </a>
@@ -49,7 +50,7 @@
 
     <!-- Info Pills -->
     <div class="row mt-2">
-        <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-1">
             <a asp-action="AllProjects" asp-controller="Projects" style="text-decoration: none">
                 <div class="card text-center bg-info">
                     <div class="body">
@@ -61,7 +62,7 @@
                 </div>
             </a>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-1">
             <a asp-action="AllTickets" asp-controller="Tickets" style="text-decoration: none">
                 <div class="card text-center bg-secondary">
                     <div class="body">
@@ -74,7 +75,7 @@
                 </div>
             </a>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-1">
             @if (await UserManager.IsInRoleAsync(user, nameof(Roles.Admin))
                  ||
                  await UserManager.IsInRoleAsync(user, nameof(Roles.ProjectManager)))
@@ -103,7 +104,7 @@
                 </div>
             }
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="col-lg-3 col-md-6 col-sm-6 mb-1">
             <div class="card text-center bg-dark">
                 <div class="body">
                     <div class="p-15 text-light">
@@ -128,7 +129,7 @@
 
             <div class="row  mt-5 bg-secondary">
 
-                <div class="card col-6 border border-5 border-secondary p-2">
+                <div class="card col-12 col-lg-6 border border-5 border-secondary p-2">
                     <div class="card-body">
                         <h5>Projects by Priority</h5>
                         <p>[Google Charts]</p>
@@ -137,7 +138,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card col-6 border border-5 border-secondary p-2">
+                <div class="card col-12 col-lg-6 border border-5 border-secondary p-2">
                     <div class="card-body">
                         <h5>Project Tickets Count (%)</h5>
                         <p>[Google Charts]</p>
@@ -148,7 +149,7 @@
                 </div>
 
 
-                <div class="card col-6 border border-5 border-secondary p-2">
+                <div class="card col-12 col-lg-6 border border-5 border-secondary p-2">
                     <div class="card-body">
                         <h5>Tickets by Priority</h5>
                         <p>[Morris Charts]</p>
@@ -161,7 +162,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card col-6 border border-5 border-secondary p-2">
+                <div class="card col-12 col-lg-6 border border-5 border-secondary p-2">
                     <div class="card-body">
                         <h5>Tickets by Status</h5>
                         <p>[ChartJS]</p>
@@ -195,7 +196,7 @@
     <div class="row gy-2">
         <div class="col bg-secondary">
             <div class="card col m-1 p-2">
-                <div class="card-body" style="height: 600px; overflow-y: auto;">
+                <div class="card-body" style="height: 450px; overflow-y: auto;">
                     <h5>Project: Tickets vs Developers</h5>
                     <p>[Plotly]</p>
                     <!-- HTML -->
@@ -208,7 +209,7 @@
 </div>
 <hr/>
 <div class="">
-    <div class="row">
+    <div class="row" >
         @* Projects Table *@
         <div class="col">
             <div class="bg-secondary">
@@ -217,7 +218,7 @@
                         <h2>Projects</h2>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive" style="overflow-y: auto; height: 600px;">
+                        <div class="table-responsive" style="overflow-y: auto; height: 450px;">
                             <table class="table table-hover">
                                 <thead class="">
                                 <tr>
@@ -260,8 +261,6 @@
                             </table>
                         </div>
                     </div>
-                    <div class="card-footer">
-                    </div>
                 </div>
             </div>
         </div>
@@ -274,7 +273,7 @@
                     </div>
                     <div class="card-body">
 
-                        <div class="table-responsive" style="overflow-y: auto; height: 600px;">
+                        <div class="table-responsive" style="overflow-y: auto; height: 450px;">
                             <table class="table table-hover">
                                 <thead class="">
                                 <tr>
@@ -336,19 +335,17 @@
                             </table>
                         </div>
                     </div>
-                    <div class="card-footer">
-                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-2 ">
-            <div class="bg-dark">
+        @* Members table *@
+        <div class="col-12">
+            <div class="bg-secondary">
                 <div class="card m-1 p-2">
                     <div class="card-header">
                         <h2>Members</h2>
-                        <hr/>
                     </div>
-                    <div class="card-body" style="overflow-y: auto; height: 600px; background-color: antiquewhite">
+                    <div class="card-body" style="overflow-y: auto; height: 450px; background-color: antiquewhite">
 
                         @foreach (var member in Model.Members)
                         {
@@ -433,7 +430,7 @@
                     var chart = new google.visualization.PieChart($("#donut")[0]);
                     chart.draw(data, options);
                 },
-                failure (rresult){
+                failure (result){
                     alert(result.d);
                 },
                 error (result){
