@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TheBugTracker.Extensions;
 using TheBugTracker.Models;
@@ -15,13 +16,46 @@ public sealed class HomeController : Controller
     private readonly ICompanyInfoService _companyInfoService;
     private readonly ILogger<HomeController> _logger;
     private readonly IProjectService _projectService;
+    private readonly SignInManager<BTUser> _signInManager;
+    private readonly UserManager<BTUser> _userManager;
 
     public HomeController(ILogger<HomeController> logger, ICompanyInfoService companyInfoService,
-        IProjectService projectService)
+        IProjectService projectService, SignInManager<BTUser> signInManager, UserManager<BTUser> userManager)
     {
         _logger = logger;
         _companyInfoService = companyInfoService;
         _projectService = projectService;
+        _signInManager = signInManager;
+        _userManager = userManager;
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DemoLogin(string userName)
+    {
+        if (User.Identity.IsAuthenticated)
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index");
+        }
+
+        var user = userName switch
+        {
+            "John" => await _userManager.FindByEmailAsync("JohnAdmin@bugtracker.com"),
+            "Monica" => await _userManager.FindByEmailAsync("MonicaPM@bugtracker.com"),
+            "Dave" => await _userManager.FindByEmailAsync("DaveDev@bugtracker.com"),
+            "Diana" => await _userManager.FindByEmailAsync("DianaSub@bugtracker.com"),
+            _ => null
+        };
+
+        if (user is not null)
+        {
+            await _signInManager.SignInAsync(user, true);
+            return RedirectToAction("Dashboard");
+        }
+
+        // something went wrong- redisplay the page
+        return RedirectToAction("Index");
     }
 
     public IActionResult Index()
