@@ -4,14 +4,11 @@
 
 @{
     ViewData["Title"] = "Index";
-    BTUser user = await UserManager.GetUserAsync(User);
+    var user = await UserManager.GetUserAsync(User);
 }
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 
 <div class="row">
     <div class="col-12">
