@@ -8,10 +8,6 @@ using TheBugTracker.Services.Factories;
 using TheBugTracker.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
-// TODO store all passwords and emails in the secrets.json! Pass iConfiguration to SeedDeaultUsersAsync method
-// TODO Add Index page where user can login as Demo Admin / Demo PM/ Demo Developer/ Demo User
-// TODO Should Company list be visible for all users?
-// TODO Change Priority tags colors based on Priority Name
 
 // Add services to the container.
 var connectionString = DataUtility.GetConnectionString(builder);

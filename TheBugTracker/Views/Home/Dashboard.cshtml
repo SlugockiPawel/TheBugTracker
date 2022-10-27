@@ -54,7 +54,8 @@
                 <div class="card text-center bg-info">
                     <div class="body">
                         <div class="p-15 text-light">
-                            <h3>@Model.Projects.Count(p => p.StartDate < DateTimeOffset.Now && p.EndDate > DateTimeOffset.Now)</h3>
+                            <h3>@Model.Projects.Count(p => p.StartDate < DateTimeOffset.Now 
+                                                           && p.EndDate > DateTimeOffset.Now)</h3>
                             <span>Active Projects</span>
                         </div>
                     </div>
