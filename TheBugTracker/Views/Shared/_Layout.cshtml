@@ -3,19 +3,20 @@
 @inject SignInManager<BTUser> SignInManager
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-100">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewData["Title"] - TheBugTracker</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="icon" type="image/png" href="~/img/logo/logo2-biale.svg"/>
 </head>
-<body>
-<div class="container-fluid overflow-hidden">
-    <div class="row vh-100 overflow-auto">
+<body class="h-100">
+<div class="container-fluid h-100  overflow-hidden">
+    <div class="row h-100 overflow-auto">
         <div class="col-12 col-md-3  col-lg-2 px-md-2 px-0 bg-dark d-flex sticky-top">
-            <div class="d-flex flex-md-column flex-row flex-grow-1 align-items-center align-items-md-start px-3 pt-2 text-white">
+            <div class="d-flex flex-md-column flex-row flex-grow-1 align-items-center align-items-md-start px-3 pt-2 text-white" style="max-height: 70px;">
                 <a asp-action="Dashboard" asp-controller="Home" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                     <span class="fs-5">
                         <span class="d-none d-md-inline">BugTracker</span>
@@ -118,14 +119,18 @@
                 }
             </div>
         </div>
-        <div class="col-12 col-md-9 col-lg-10 d-flex flex-column h-100">
+        <div class="col-12 col-md-9 col-lg-10 d-flex flex-column">
             <main>
                 @RenderBody()
             </main>
-            <footer class="row bg-light py-4 mt-auto">
-                <div class="container">
-                    &copy; 2021 - TheBugTracker - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <footer class="row bg-light py-4 mt-auto d-flex">
+                <div class="col-12 col-md-4 order-2 order-md-1 d-flex justify-content-center justify-content-md-start">
+                        <span class="d-flex align-self-center"> &copy; @DateTime.Today.Year - slugocki.pawel@gmail.com</span>
                 </div>
+                <div class="col-12 col-md-4 mb-3 mb-md-auto order-1 order-md-2 d-flex justify-content-center align-content-center">
+                    <img src="/img/logo/logo1.svg" style="height: 70px;"/>
+                </div>
+                <div class="col-12 col-md-4 order-last"></div>
             </footer>
         </div>
     </div>
