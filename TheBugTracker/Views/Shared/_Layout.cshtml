@@ -3,7 +3,7 @@
 @inject SignInManager<BTUser> SignInManager
 
 <!DOCTYPE html>
-<html lang="en" class="h-100">
+<html lang="en">
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -13,9 +13,9 @@
     <link rel="stylesheet" href="/css/site.css">
     <link rel="icon" href="img/logo/logo2-biale.svg"/>
 </head>
-<body class="h-100">
-<div class="container-fluid h-100  overflow-hidden">
-    <div class="row h-100 overflow-auto">
+<body>
+<div class="container-fluid  overflow-hidden">
+    <div class="row vh-100 overflow-auto">
         <div class="col-12 col-md-3  col-lg-2 px-md-2 px-0 bg-dark d-flex sticky-top">
             <div class="d-flex my-2 flex-md-column flex-row justify-content-between  flex-grow-1 align-items-center align-items-md-start px-3 text-white">
                 <div class="d-flex  d-md-inline align-items-center justify-content-end">
@@ -124,7 +124,7 @@
                 <img class="my-md-5 align-self-center logo" src="/img/logo/logo1-biale.svg" alt="logo"/>
             </div>
         </div>
-        <div class="col-12 col-md-9 col-lg-10 d-flex flex-column">
+        <div class="col-12 col-md-9 col-lg-10 d-flex flex-column h-100">
             <main>
                 @RenderBody()
             </main>
